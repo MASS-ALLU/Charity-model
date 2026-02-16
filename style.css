@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background: #f4f7fa;
     color: #333;
     text-align: center;
@@ -10,7 +10,7 @@ nav {
     display: flex;
     justify-content: space-between;
     padding: 20px 50px;
-    background: #2e8b57;
+    background: #1e3d59;
     color: white;
 }
 
@@ -19,61 +19,77 @@ nav button {
     padding: 8px 15px;
     border: none;
     background: white;
-    color: #2e8b57;
+    color: #1e3d59;
     border-radius: 20px;
     cursor: pointer;
 }
 
 .hero {
     padding: 100px 20px;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-    url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c');
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url('https://images.unsplash.com/photo-1492724441997-5dc865305da7');
     background-size: cover;
     color: white;
 }
 
 .main-btn {
-    padding: 15px 35px;
-    font-size: 18px;
+    padding: 12px 30px;
+    font-size: 16px;
     border: none;
-    background: #ff5733;
+    background: #ff6b35;
     color: white;
-    border-radius: 30px;
+    border-radius: 25px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
-.about, .children, .programs, .donation {
+.about, .children, .programs, .donation, .customer {
     padding: 60px 20px;
+}
+
+.note {
+    color: red;
+    font-size: 14px;
 }
 
 .gallery {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .gallery img {
-    width: 250px;
+    width: 150px;   /* Smaller photos */
+    height: 150px;
+    object-fit: cover;
     border-radius: 10px;
 }
 
 .cards {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .card {
     background: white;
-    padding: 25px;
+    padding: 20px;
     border-radius: 10px;
-    width: 250px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 220px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+input {
+    padding: 10px;
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 footer {
-    padding: 20px;
-    background: #222;
+    background: #1e3d59;
     color: white;
+    padding: 20px;
 }
