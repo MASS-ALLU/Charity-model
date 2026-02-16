@@ -1,92 +1,29 @@
-// Login System
-function signup() {
-    let user = prompt("Create Username:");
-    let pass = prompt("Create Password:");
-    localStorage.setItem("user", user);
-    localStorage.setItem("pass", pass);
-    alert("Account Created!");
-}
+function handleCredentialResponse(response) {
 
-function login() {
-    let user = prompt("Enter Username:");
-    let pass = prompt("Enter Password:");
-    if(user === localStorage.getItem("user") &&
-       pass === localStorage.getItem("pass")) {
-        localStorage.setItem("loggedIn", "true");
-        document.getElementById("logoutBtn").style.display = "inline";
-        alert("Login Successful!");
-    } else {
-        alert("Invalid Credentials");
-    }
+    const responsePayload = parseJwt(response.credential);
+
+    document.getElementById("userInfo").innerHTML =
+        "Welcome, " + responsePayload.name;
+
+    document.getElementById("logoutBtn").style.display = "inline";
+
+    localStorage.setItem("userLoggedIn", "true");
+    localStorage.setItem("userName", responsePayload.name);
 }
 
 function logout() {
-    localStorage.removeItem("loggedIn");
+    google.accounts.id.disableAutoSelect();
+    document.getElementById("userInfo").innerHTML = "";
     document.getElementById("logoutBtn").style.display = "none";
-    alert("Logged Out");
+    localStorage.clear();
 }
 
-// Animated Counters
-function animateValue(id, start, end, duration) {
-    let range = end - start;
-    let current = start;
-    let increment = end > start ? 1 : -1;
-    let stepTime = Math.abs(Math.floor(duration / range));
-    let obj = document.getElementById(id);
-    let timer = setInterval(function() {
-        current += increment;
-        obj.textContent = current + "+";
-        if (current == end) clearInterval(timer);
-    }, stepTime);
-}
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
 
-animateValue("donationCount", 0, 500, 2000);
-animateValue("childrenCount", 0, 3000, 2000);
-animateValue("volunteerCount", 0, 120, 2000);
-
-// Scroll
-function scrollToDonate() {
-    document.getElementById("donateSection").scrollIntoView();
-}
-
-// Donation + PDF Receipt
-function processPayment() {
-
-    if(localStorage.getItem("loggedIn") !== "true") {
-        alert("Please login first.");
-        return;
-    }
-
-    let name = document.getElementById("donorName").value;
-    let amount = document.getElementById("amount").value;
-
-    if(name === "" || amount <= 0) {
-        alert("Enter valid details.");
-        return;
-    }
-
-    alert("Payment Successful (Demo Mode)");
-
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    doc.text("Bright Future Foundation", 20, 20);
-    doc.text("Donation Receipt", 20, 30);
-    doc.text("Donor Name: " + name, 20, 50);
-    doc.text("Amount Donated: ₹" + amount, 20, 60);
-    doc.text("Thank you for supporting our mission!", 20, 80);
-
-    doc.save("Donation_Receipt.pdf");
-}
-
-// Complaint
-function submitComplaint() {
-    let name = document.getElementById("complaintName").value;
-    let text = document.getElementById("complaintText").value;
-
-    if(name === "" || text === "") {
-        alert("Please fill all fields.");
-    } else {
-        alert("Complaint submitted successfully!");
-    }
+    return JSON.parse(jsonPayload);
 }
