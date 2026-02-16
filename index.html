@@ -4,21 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bright Future Foundation</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
---primary:#6C63FF;
---secondary:#00C9A7;
+--primary:#7C5CFF;
+--secondary:#00D4FF;
 --bg:#f4f6ff;
 --text:#222;
 }
 
 body.dark{
---bg:#121212;
+--bg:#0f0f14;
 --text:#fff;
---primary:#9B5DE5;
+--primary:#9D4EDD;
 --secondary:#00F5D4;
 }
 
@@ -47,6 +46,8 @@ border:none;
 border-radius:20px;
 cursor:pointer;
 font-weight:600;
+background:white;
+color:black;
 }
 
 .hero{
@@ -54,12 +55,6 @@ text-align:center;
 padding:100px 20px;
 background:linear-gradient(45deg,var(--primary),var(--secondary));
 color:white;
-animation:fade 1.5s ease-in-out;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(30px);}
-to{opacity:1;transform:translateY(0);}
 }
 
 .section{
@@ -67,43 +62,26 @@ padding:60px 10%;
 text-align:center;
 }
 
-.children{
-display:flex;
-justify-content:center;
-gap:20px;
-flex-wrap:wrap;
-}
-
-.children img{
-width:130px;
-height:130px;
-object-fit:cover;
-border-radius:15px;
-box-shadow:0 10px 20px rgba(0,0,0,.2);
-transition:.4s;
-}
-
-.children img:hover{
-transform:scale(1.1);
-}
-
 .card{
-background:white;
+background:rgba(255,255,255,.7);
+backdrop-filter:blur(15px);
 padding:30px;
 border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,.1);
 max-width:500px;
 margin:20px auto;
+box-shadow:0 20px 40px rgba(0,0,0,.15);
 }
 
-body.dark .card{background:#1e1e1e;}
+body.dark .card{
+background:rgba(30,30,30,.6);
+}
 
 input{
 width:100%;
 padding:12px;
 margin:10px 0;
 border-radius:10px;
-border:1px solid #ccc;
+border:none;
 }
 
 button.primary{
@@ -114,50 +92,52 @@ padding:12px;
 border:none;
 border-radius:10px;
 cursor:pointer;
+transition:.3s;
 }
 
-button.primary:hover{opacity:.85;}
+button.primary:hover{
+transform:scale(1.05);
+}
 
-.modal{
-display:none;
+/* Toast */
+.toast{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,.6);
-justify-content:center;
-align-items:center;
-}
-
-.modal-content{
-background:white;
-padding:30px;
-border-radius:20px;
-width:350px;
-animation:fade .5s;
-}
-
-.loader{
-border:6px solid #eee;
-border-top:6px solid var(--primary);
-border-radius:50%;
-width:50px;height:50px;
-margin:20px auto;
-animation:spin 1s linear infinite;
-display:none;
-}
-
-@keyframes spin{
-100%{transform:rotate(360deg);}
-}
-
-.success{
-display:none;
-background:#00C853;
+bottom:20px;
+right:20px;
+background:#111;
 color:white;
-padding:15px;
+padding:15px 20px;
 border-radius:10px;
-margin-top:10px;
-animation:fade .5s;
+opacity:0;
+transform:translateY(20px);
+transition:.4s;
+}
+
+.toast.show{
+opacity:1;
+transform:translateY(0);
+}
+
+/* Profile Panel */
+.profile-panel{
+position:fixed;
+right:-400px;
+top:0;
+width:350px;
+height:100%;
+background:white;
+box-shadow:-10px 0 30px rgba(0,0,0,.2);
+padding:20px;
+transition:.4s;
+overflow:auto;
+}
+
+body.dark .profile-panel{
+background:#1a1a1a;
+}
+
+.profile-panel.open{
+right:0;
 }
 
 .profile-img{
@@ -181,9 +161,9 @@ margin-top:50px;
 <h2>Bright Future Foundation</h2>
 <div>
 <button onclick="toggleMode()">🌙</button>
-<button onclick="openModal('signup')">Sign Up</button>
-<button onclick="openModal('login')">Login</button>
-<button onclick="showAdmin()">Admin</button>
+<button onclick="signup()">Sign Up</button>
+<button onclick="login()">Login</button>
+<button onclick="openProfile()">Profile</button>
 </div>
 </header>
 
@@ -193,144 +173,99 @@ margin-top:50px;
 </section>
 
 <section class="section">
-<h2>Our Mission</h2>
-<div class="children">
-<img src="https://images.unsplash.com/photo-1603570419981-8d1e16c4df8f">
-<img src="https://images.unsplash.com/photo-1516589091380-5d8e87df6995">
-<img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9">
-<img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7">
-</div>
-</section>
-
-<section class="section">
 <div class="card">
 <h2>Donate</h2>
 <input type="number" id="amount" placeholder="Enter Amount ₹">
-<button class="primary" onclick="simulatePayment()">Donate Now</button>
-<div class="loader" id="loader"></div>
-<div class="success" id="successMsg"></div>
+<button class="primary" onclick="donate()">Donate Now</button>
 </div>
 </section>
 
-<!-- LOGIN / SIGNUP MODAL -->
-<div class="modal" id="modal">
-<div class="modal-content" id="modalContent"></div>
+<div class="profile-panel" id="profilePanel">
+<h2>Your Profile</h2>
+<div id="profileContent"></div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <footer>
-Customer Care: mohammedallu031@gmail.com
+Demo Website • No Real Money
 </footer>
 
 <script>
 let users=[];
 let currentUser=null;
 
+function showToast(msg){
+let toast=document.getElementById("toast");
+toast.innerText=msg;
+toast.classList.add("show");
+setTimeout(()=>toast.classList.remove("show"),3000);
+}
+
 function toggleMode(){
 document.body.classList.toggle("dark");
 }
 
-function openModal(type){
-let modal=document.getElementById("modal");
-let content=document.getElementById("modalContent");
-modal.style.display="flex";
-
-if(type==="signup"){
-content.innerHTML=`
-<h3>Sign Up</h3>
-<input id="suName" placeholder="Name">
-<input id="suEmail" placeholder="Email">
-<input id="suPass" type="password" placeholder="Password">
-<input type="file" id="profileUpload">
-<button class="primary" onclick="signup()">Create Account</button>
-`;
-}
-
-if(type==="login"){
-content.innerHTML=`
-<h3>Login</h3>
-<input id="liEmail" placeholder="Email">
-<input id="liPass" type="password" placeholder="Password">
-<button class="primary" onclick="login()">Login</button>
-`;
-}
-}
-
 function signup(){
-let name=suName.value;
-let email=suEmail.value;
-let pass=suPass.value;
-let file=profileUpload.files[0];
-let reader=new FileReader();
-reader.onload=function(){
-users.push({name,email,pass,donated:0,photo:reader.result});
-alert("Account Created");
-document.getElementById("modal").style.display="none";
-};
-if(file) reader.readAsDataURL(file);
+let name=prompt("Enter Name");
+let email=prompt("Enter Email");
+let pass=prompt("Enter Password");
+users.push({name,email,pass,donated:0,history:[]});
+showToast("Account Created 🎉");
 }
 
 function login(){
-let email=liEmail.value;
-let pass=liPass.value;
+let email=prompt("Email");
+let pass=prompt("Password");
 let user=users.find(u=>u.email===email && u.pass===pass);
 if(user){
 currentUser=user;
-alert("Login Successful");
-document.getElementById("modal").style.display="none";
+showToast("Welcome back "+user.name);
 }else{
-alert("Invalid credentials");
+showToast("Invalid Login ❌");
 }
 }
 
-function simulatePayment(){
-if(!currentUser){alert("Login first");return;}
+function donate(){
+if(!currentUser){
+showToast("Please login first ⚠️");
+return;
+}
 let amt=document.getElementById("amount").value;
-if(!amt){alert("Enter amount");return;}
-
-let loader=document.getElementById("loader");
-let success=document.getElementById("successMsg");
-
-loader.style.display="block";
-success.style.display="none";
-
-setTimeout(()=>{
-loader.style.display="none";
-let txn="TXN"+Math.floor(Math.random()*1000000000);
+if(!amt){
+showToast("Enter amount");
+return;
+}
+let txn="TXN"+Math.floor(Math.random()*9999999);
 currentUser.donated+=parseInt(amt);
-
-success.innerHTML=`Payment Successful ✅<br>
-Transaction ID: ${txn}<br>
-Amount: ₹${amt}<br>
-<button onclick="downloadReceipt('${txn}',${amt})">Download Receipt</button>`;
-success.style.display="block";
-},2000);
+currentUser.history.push({amt,txn});
+showToast("Donation Successful ✅");
 }
 
-function downloadReceipt(txn,amt){
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
-doc.setFontSize(18);
-doc.text("Bright Future Foundation",20,20);
-doc.setFontSize(14);
-doc.text("Donation Receipt",20,35);
-doc.text("Name: "+currentUser.name,20,50);
-doc.text("Transaction ID: "+txn,20,60);
-doc.text("Amount: ₹"+amt,20,70);
-doc.text("Status: Successful",20,80);
-doc.text("This is a demo receipt.",20,100);
-doc.save("Receipt.pdf");
+function openProfile(){
+if(!currentUser){
+showToast("Login to view profile ⚠️");
+return;
 }
+let panel=document.getElementById("profilePanel");
+panel.classList.add("open");
 
-function showAdmin(){
-let panel=`
-Admin Panel (Demo)
-Total Users: ${users.length}
+let historyHTML=currentUser.history.map(h=>`
+<p>₹${h.amt} — ${h.txn}</p>
+`).join("");
+
+document.getElementById("profileContent").innerHTML=`
+<p><strong>Name:</strong> ${currentUser.name}</p>
+<p><strong>Total Donated:</strong> ₹${currentUser.donated}</p>
+<h4>Donation History:</h4>
+${historyHTML || "No donations yet"}
+<br><br>
+<button class="primary" onclick="closeProfile()">Close</button>
 `;
-alert(panel);
 }
 
-window.onclick=function(e){
-if(e.target==modal) modal.style.display="none";
+function closeProfile(){
+document.getElementById("profilePanel").classList.remove("open");
 }
 </script>
 
