@@ -1,40 +1,25 @@
 function openLogin() {
-    document.getElementById("loginModal").style.display = "block";
-}
-
-function openSignup() {
-    document.getElementById("signupModal").style.display = "block";
-}
-
-function closeModal() {
-    document.getElementById("loginModal").style.display = "none";
-    document.getElementById("signupModal").style.display = "none";
-}
-
-function signup() {
-    let user = document.getElementById("signupUser").value;
-    let pass = document.getElementById("signupPass").value;
-
-    localStorage.setItem("username", user);
-    localStorage.setItem("password", pass);
-
-    alert("Account Created Successfully!");
-    closeModal();
-}
-
-function login() {
-    let user = document.getElementById("loginUser").value;
-    let pass = document.getElementById("loginPass").value;
+    let user = prompt("Enter Username:");
+    let pass = prompt("Enter Password:");
 
     if(user === localStorage.getItem("username") &&
        pass === localStorage.getItem("password")) {
         alert("Login Successful!");
         localStorage.setItem("loggedIn", "true");
         document.getElementById("logoutBtn").style.display = "inline";
-        closeModal();
     } else {
         alert("Invalid Credentials");
     }
+}
+
+function openSignup() {
+    let user = prompt("Create Username:");
+    let pass = prompt("Create Password:");
+
+    localStorage.setItem("username", user);
+    localStorage.setItem("password", pass);
+
+    alert("Account Created Successfully!");
 }
 
 function logout() {
@@ -45,8 +30,24 @@ function logout() {
 
 function donate() {
     if(localStorage.getItem("loggedIn") === "true") {
-        alert("Redirecting to payment gateway...");
+        alert("Proceed to payment section below.");
     } else {
-        alert("Please login first to donate.");
+        alert("Please login first.");
+    }
+}
+
+function processPayment() {
+    let amount = document.getElementById("donationAmount").value;
+
+    if(localStorage.getItem("loggedIn") !== "true") {
+        alert("Please login before donating.");
+        return;
+    }
+
+    if(amount > 0) {
+        alert("Processing payment of ₹" + amount + " (Demo Mode)");
+        alert("Payment Successful! Thank you for your donation ❤️");
+    } else {
+        alert("Please enter valid amount.");
     }
 }
