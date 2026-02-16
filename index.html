@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FundFlow Global | Humanitarian Infrastructure</title>
+<title>FundFlow Global Foundation | Transparent Human Impact</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:#0a0f1c;color:white;overflow-x:hidden}
+body{background:#0c111b;color:white;overflow-x:hidden}
 
 /* NAV */
 nav{
@@ -20,22 +20,19 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 80px;
-background:rgba(10,15,28,0.9);
-backdrop-filter:blur(20px);
-z-index:1000;
+background:rgba(12,17,27,0.95);
 border-bottom:1px solid rgba(255,255,255,0.05);
+z-index:1000;
 }
 .logo{
 font-weight:900;
 font-size:22px;
-background:linear-gradient(90deg,#22d3ee,#4ade80);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+color:#22d3ee;
 }
 nav button{
 background:#22d3ee;
 border:none;
-padding:10px 20px;
+padding:10px 22px;
 border-radius:10px;
 font-weight:600;
 cursor:pointer;
@@ -50,28 +47,27 @@ justify-content:center;
 align-items:center;
 text-align:center;
 padding:20px;
-background:radial-gradient(circle at center,#111827,#0a0f1c);
+background:linear-gradient(to bottom,#0c111b,#111827);
 }
 .hero h1{
-font-size:70px;
+font-size:64px;
 font-weight:900;
-background:linear-gradient(90deg,#fff,#22d3ee);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+margin-bottom:20px;
 }
 .hero p{
 max-width:750px;
-margin:20px 0 40px;
 opacity:0.7;
 font-size:20px;
+margin-bottom:40px;
 }
 .hero button{
 padding:16px 40px;
 border-radius:14px;
 border:none;
-background:linear-gradient(90deg,#22d3ee,#4ade80);
+background:#4ade80;
 font-weight:700;
 cursor:pointer;
+font-size:18px;
 }
 
 /* IMPACT SECTION */
@@ -80,7 +76,7 @@ padding:120px 80px;
 text-align:center;
 }
 .section h2{
-font-size:42px;
+font-size:40px;
 margin-bottom:20px;
 }
 .section p{
@@ -101,68 +97,40 @@ padding:30px;
 border-radius:20px;
 }
 .metric h3{
-color:#4ade80;
 font-size:28px;
+color:#4ade80;
 margin-bottom:10px;
+}
+
+/* DONATION BOX */
+.donation-box{
+margin-top:60px;
+background:#111827;
+padding:40px;
+border-radius:20px;
+display:inline-block;
+}
+.donation-box button{
+margin:10px;
+padding:12px 24px;
+border:none;
+border-radius:12px;
+font-weight:600;
+cursor:pointer;
+background:#22d3ee;
 }
 
 /* DASHBOARD */
 .dashboard{
 display:none;
 margin-top:90px;
-display:flex;
-height:calc(100vh - 90px);
-}
-.sidebar{
-width:260px;
-background:#0f172a;
-padding:40px 20px;
-}
-.sidebar a{
-display:block;
-margin:20px 0;
-opacity:0.7;
-cursor:pointer;
-}
-.sidebar a:hover{opacity:1}
-
-.main{
-flex:1;
-padding:40px;
-overflow:auto;
+padding:40px 80px;
 }
 .card{
 background:#111827;
 padding:30px;
 border-radius:20px;
 margin-bottom:30px;
-}
-
-/* MODAL */
-.modal{
-display:none;
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.85);
-justify-content:center;
-align-items:center;
-}
-.modal-box{
-background:#111827;
-padding:40px;
-border-radius:20px;
-width:350px;
-text-align:center;
-}
-.modal-box input{
-width:100%;
-padding:12px;
-margin:12px 0;
-border-radius:10px;
-border:none;
-background:#1f2937;
-color:white;
 }
 
 /* SUCCESS */
@@ -195,19 +163,19 @@ animation:spin 1s linear infinite;
 <body>
 
 <nav>
-<div class="logo">FundFlow Global</div>
-<button onclick="openLogin()">Admin Access</button>
+<div class="logo">FundFlow Global Foundation</div>
+<button onclick="openDashboard()">Transparency</button>
 </nav>
 
 <section class="hero">
-<h1>Global Infrastructure for Humanitarian Impact</h1>
-<p>Transparent. Scalable. Accountable. Empowering communities through technology-driven charitable funding worldwide.</p>
-<button onclick="openLogin()">View Transparency Dashboard</button>
+<h1>Every Donation Changes a Life</h1>
+<p>We build technology-driven humanitarian infrastructure to deliver clean water, food security, healthcare, and education to vulnerable communities worldwide.</p>
+<button onclick="simulateDonation(100)">Donate $100</button>
 </section>
 
 <section class="section">
-<h2>Our Global Impact</h2>
-<p>Every contribution is tracked, verified, and transparently allocated to maximize humanitarian outcomes.</p>
+<h2>Global Impact & Accountability</h2>
+<p>Every contribution is traceable, measurable, and publicly reported. We believe in radical transparency and responsible capital deployment.</p>
 
 <div class="metrics">
 <div class="metric">
@@ -220,52 +188,33 @@ animation:spin 1s linear infinite;
 </div>
 <div class="metric">
 <h3>48</h3>
-<p>Countries Supported</p>
+<p>Countries Served</p>
 </div>
 <div class="metric">
 <h3>99.2%</h3>
-<p>Transparency Score</p>
+<p>Transparency Rating</p>
 </div>
+</div>
+
+<div class="donation-box">
+<h3>Support Our Mission</h3>
+<button onclick="simulateDonation(50)">$50</button>
+<button onclick="simulateDonation(250)">$250</button>
+<button onclick="simulateDonation(1000)">$1000</button>
 </div>
 </section>
 
-<!-- LOGIN -->
-<div class="modal" id="loginModal">
-<div class="modal-box">
-<h2>Secure Access</h2>
-<input placeholder="Email">
-<input type="password" placeholder="Password">
-<button onclick="login()" style="padding:12px 20px;border:none;border-radius:10px;background:#22d3ee;color:white;font-weight:600">Enter Dashboard</button>
-</div>
-</div>
-
-<!-- DASHBOARD -->
 <section class="dashboard" id="dashboard">
-
-<div class="sidebar">
-<a onclick="showOverview()">Overview</a>
-<a onclick="logout()">Logout</a>
-</div>
-
-<div class="main">
-<div id="overview">
+<h2>Transparency Dashboard</h2>
 
 <div class="card">
-<h3>Total Donations</h3>
+<h3>Total Donations Received</h3>
 <h2>$<span id="total">0</span></h2>
 </div>
 
 <div class="card">
 <canvas id="chart"></canvas>
 </div>
-
-<button onclick="simulateDonation()" style="padding:14px 30px;border:none;border-radius:12px;background:#4ade80;font-weight:700;cursor:pointer">
-Simulate $10,000 Donation
-</button>
-
-</div>
-</div>
-
 </section>
 
 <div class="success" id="successBox"></div>
@@ -274,33 +223,25 @@ Simulate $10,000 Donation
 let total=0;
 let chart;
 
-function openLogin(){
-document.getElementById('loginModal').style.display='flex';
-}
-
-function login(){
-document.querySelectorAll('.hero,.section').forEach(e=>e.style.display='none');
-document.getElementById('loginModal').style.display='none';
-document.getElementById('dashboard').style.display='flex';
+function openDashboard(){
+document.getElementById('dashboard').style.display='block';
+window.scrollTo(0,document.body.scrollHeight);
 initChart();
 }
 
-function logout(){
-location.reload();
-}
-
-function simulateDonation(){
+function simulateDonation(amount){
 let box=document.getElementById('successBox');
 box.style.display='block';
 box.innerHTML="<h3>Processing Donation...</h3><div class='loader'></div>";
 
 setTimeout(()=>{
-let txn="GLB"+Math.floor(Math.random()*999999999);
-total+=10000;
+let txn="FND"+Math.floor(Math.random()*999999999);
+total+=amount;
 document.getElementById('total').innerText=total;
+if(chart){
 chart.data.datasets[0].data.push(total);
 chart.update();
-
+}
 box.innerHTML=`<h3>Donation Confirmed 🌍</h3>
 <p>Transaction ID: ${txn}</p>
 <p>Thank you for your generosity ❤️</p>`;
