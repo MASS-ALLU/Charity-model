@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,26 +9,26 @@
 
 <style>
 :root{
---primary:#4e73df;
---secondary:#1cc88a;
---accent:#f6c23e;
---bg:#f8f9fc;
---text:#2e2e2e;
+--primary:#6C63FF;
+--secondary:#00C9A7;
+--bg:#f4f6ff;
+--text:#222;
 }
 
 body.dark{
 --bg:#121212;
---text:#ffffff;
---primary:#6f42c1;
---secondary:#20c997;
+--text:#fff;
+--primary:#9B5DE5;
+--secondary:#00F5D4;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
 
 body{
 background:var(--bg);
 color:var(--text);
 transition:.4s;
+overflow-x:hidden;
 }
 
 header{
@@ -36,16 +36,13 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 40px;
-background:linear-gradient(45deg,var(--primary),var(--secondary));
+background:linear-gradient(90deg,var(--primary),var(--secondary));
 color:white;
-position:sticky;
-top:0;
-z-index:1000;
 }
 
-nav button{
+header button{
 margin-left:10px;
-padding:8px 15px;
+padding:8px 14px;
 border:none;
 border-radius:20px;
 cursor:pointer;
@@ -54,17 +51,14 @@ font-weight:600;
 
 .hero{
 text-align:center;
-padding:80px 20px;
-background:linear-gradient(45deg,#4e73df,#1cc88a);
+padding:100px 20px;
+background:linear-gradient(45deg,var(--primary),var(--secondary));
 color:white;
-animation:fade 2s ease-in-out;
+animation:fade 1.5s ease-in-out;
 }
 
-.hero h1{font-size:40px;}
-.hero p{margin-top:10px;font-size:18px;}
-
 @keyframes fade{
-from{opacity:0;transform:translateY(20px);}
+from{opacity:0;transform:translateY(30px);}
 to{opacity:1;transform:translateY(0);}
 }
 
@@ -81,88 +75,116 @@ flex-wrap:wrap;
 }
 
 .children img{
-width:150px;
-height:150px;
+width:130px;
+height:130px;
 object-fit:cover;
 border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,.2);
-transition:.3s;
+box-shadow:0 10px 20px rgba(0,0,0,.2);
+transition:.4s;
 }
 
 .children img:hover{
-transform:scale(1.05);
-}
-
-.counter{
-display:flex;
-justify-content:center;
-gap:50px;
-margin-top:40px;
-}
-
-.counter div{
-font-size:28px;
-font-weight:700;
-}
-
-input,button{
-padding:10px;
-margin:5px;
-border-radius:8px;
-border:1px solid #ccc;
-}
-
-button{
-background:var(--primary);
-color:white;
-border:none;
-cursor:pointer;
-}
-
-button:hover{
-opacity:.8;
+transform:scale(1.1);
 }
 
 .card{
 background:white;
-padding:20px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,.1);
-margin:20px auto;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
 max-width:500px;
+margin:20px auto;
 }
 
-body.dark .card{
-background:#1e1e1e;
+body.dark .card{background:#1e1e1e;}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:1px solid #ccc;
 }
 
-.leaderboard{
-max-width:600px;
-margin:auto;
-text-align:left;
+button.primary{
+background:var(--primary);
+color:white;
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+button.primary:hover{opacity:.85;}
+
+.modal{
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.6);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:white;
+padding:30px;
+border-radius:20px;
+width:350px;
+animation:fade .5s;
+}
+
+.loader{
+border:6px solid #eee;
+border-top:6px solid var(--primary);
+border-radius:50%;
+width:50px;height:50px;
+margin:20px auto;
+animation:spin 1s linear infinite;
+display:none;
+}
+
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
+
+.success{
+display:none;
+background:#00C853;
+color:white;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+animation:fade .5s;
+}
+
+.profile-img{
+width:80px;height:80px;
+border-radius:50%;
+object-fit:cover;
 }
 
 footer{
 text-align:center;
 padding:20px;
-background:#222;
+background:#111;
 color:white;
 margin-top:50px;
 }
 </style>
 </head>
-
 <body>
 
 <header>
 <h2>Bright Future Foundation</h2>
-<nav>
-<button onclick="toggleMode()">🌙/☀️</button>
-<button onclick="showSignup()">Sign Up</button>
-<button onclick="showLogin()">Login</button>
-<button onclick="showProfile()">Profile</button>
-<button onclick="logout()">Logout</button>
-</nav>
+<div>
+<button onclick="toggleMode()">🌙</button>
+<button onclick="openModal('signup')">Sign Up</button>
+<button onclick="openModal('login')">Login</button>
+<button onclick="showAdmin()">Admin</button>
+</div>
 </header>
 
 <section class="hero">
@@ -172,124 +194,143 @@ margin-top:50px;
 
 <section class="section">
 <h2>Our Mission</h2>
-<p>We support underprivileged children with education, healthcare and basic needs.</p>
-
 <div class="children">
-<img src="https://images.unsplash.com/photo-1603570419981-8d1e16c4df8f" />
-<img src="https://images.unsplash.com/photo-1516589091380-5d8e87df6995" />
-<img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9" />
-<img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7" />
-</div>
-
-<div class="counter">
-<div>₹<span id="money">0</span><br>Raised</div>
-<div><span id="donors">0</span><br>Donors</div>
-<div><span>120</span><br>Children Helped</div>
+<img src="https://images.unsplash.com/photo-1603570419981-8d1e16c4df8f">
+<img src="https://images.unsplash.com/photo-1516589091380-5d8e87df6995">
+<img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9">
+<img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7">
 </div>
 </section>
 
 <section class="section">
+<div class="card">
 <h2>Donate</h2>
 <input type="number" id="amount" placeholder="Enter Amount ₹">
-<button onclick="donate()">Donate Now</button>
+<button class="primary" onclick="simulatePayment()">Donate Now</button>
+<div class="loader" id="loader"></div>
+<div class="success" id="successMsg"></div>
+</div>
 </section>
 
-<section class="section">
-<h2>🏆 Donation Leaderboard</h2>
-<div class="leaderboard" id="leaderboard"></div>
-</section>
-
-<section class="section">
-<h2>Complaint / Feedback</h2>
-<form action="https://formsubmit.co/mohammedallu031@gmail.com" method="POST">
-<input type="text" name="name" placeholder="Your Name" required><br>
-<input type="email" name="email" placeholder="Your Email" required><br>
-<textarea name="message" placeholder="Your Complaint / Feedback" required></textarea><br>
-<button type="submit">Send</button>
-</form>
-</section>
+<!-- LOGIN / SIGNUP MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content" id="modalContent"></div>
+</div>
 
 <footer>
 Customer Care: mohammedallu031@gmail.com
 </footer>
 
 <script>
+let users=[];
 let currentUser=null;
-let donations=[];
-let totalMoney=0;
-let totalDonors=0;
 
 function toggleMode(){
 document.body.classList.toggle("dark");
 }
 
-function showSignup(){
-let name=prompt("Enter Name");
-let email=prompt("Enter Email");
-let pass=prompt("Enter Password");
-localStorage.setItem(email,JSON.stringify({name,email,pass,donated:0}));
-alert("Signup Successful");
+function openModal(type){
+let modal=document.getElementById("modal");
+let content=document.getElementById("modalContent");
+modal.style.display="flex";
+
+if(type==="signup"){
+content.innerHTML=`
+<h3>Sign Up</h3>
+<input id="suName" placeholder="Name">
+<input id="suEmail" placeholder="Email">
+<input id="suPass" type="password" placeholder="Password">
+<input type="file" id="profileUpload">
+<button class="primary" onclick="signup()">Create Account</button>
+`;
 }
 
-function showLogin(){
-let email=prompt("Email");
-let pass=prompt("Password");
-let user=JSON.parse(localStorage.getItem(email));
-if(user && user.pass===pass){
+if(type==="login"){
+content.innerHTML=`
+<h3>Login</h3>
+<input id="liEmail" placeholder="Email">
+<input id="liPass" type="password" placeholder="Password">
+<button class="primary" onclick="login()">Login</button>
+`;
+}
+}
+
+function signup(){
+let name=suName.value;
+let email=suEmail.value;
+let pass=suPass.value;
+let file=profileUpload.files[0];
+let reader=new FileReader();
+reader.onload=function(){
+users.push({name,email,pass,donated:0,photo:reader.result});
+alert("Account Created");
+document.getElementById("modal").style.display="none";
+};
+if(file) reader.readAsDataURL(file);
+}
+
+function login(){
+let email=liEmail.value;
+let pass=liPass.value;
+let user=users.find(u=>u.email===email && u.pass===pass);
+if(user){
 currentUser=user;
 alert("Login Successful");
+document.getElementById("modal").style.display="none";
 }else{
-alert("Wrong credentials");
+alert("Invalid credentials");
 }
 }
 
-function logout(){
-currentUser=null;
-alert("Logged Out");
+function simulatePayment(){
+if(!currentUser){alert("Login first");return;}
+let amt=document.getElementById("amount").value;
+if(!amt){alert("Enter amount");return;}
+
+let loader=document.getElementById("loader");
+let success=document.getElementById("successMsg");
+
+loader.style.display="block";
+success.style.display="none";
+
+setTimeout(()=>{
+loader.style.display="none";
+let txn="TXN"+Math.floor(Math.random()*1000000000);
+currentUser.donated+=parseInt(amt);
+
+success.innerHTML=`Payment Successful ✅<br>
+Transaction ID: ${txn}<br>
+Amount: ₹${amt}<br>
+<button onclick="downloadReceipt('${txn}',${amt})">Download Receipt</button>`;
+success.style.display="block";
+},2000);
 }
 
-function showProfile(){
-if(!currentUser){alert("Login First");return;}
-alert("Name: "+currentUser.name+"\nTotal Donated: ₹"+currentUser.donated);
-}
-
-function donate(){
-if(!currentUser){alert("Login Required");return;}
-let amt=parseInt(document.getElementById("amount").value);
-if(!amt)return alert("Enter amount");
-currentUser.donated+=amt;
-totalMoney+=amt;
-totalDonors++;
-donations.push({name:currentUser.name,amount:amt});
-localStorage.setItem(currentUser.email,JSON.stringify(currentUser));
-updateLeaderboard();
-updateCounters();
-generateReceipt(amt);
-}
-
-function updateCounters(){
-document.getElementById("money").innerText=totalMoney;
-document.getElementById("donors").innerText=totalDonors;
-}
-
-function updateLeaderboard(){
-let board=document.getElementById("leaderboard");
-board.innerHTML="";
-donations.sort((a,b)=>b.amount-a.amount);
-donations.forEach(d=>{
-board.innerHTML+=`<p>${d.name} - ₹${d.amount}</p>`;
-});
-}
-
-function generateReceipt(amount){
+function downloadReceipt(txn,amt){
 const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
+doc.setFontSize(18);
 doc.text("Bright Future Foundation",20,20);
-doc.text("Donation Receipt",20,30);
-doc.text("Name: "+currentUser.name,20,40);
-doc.text("Amount: ₹"+amount,20,50);
-doc.text("Thank you for your support!",20,60);
-doc.save("DonationReceipt.pdf");
+doc.setFontSize(14);
+doc.text("Donation Receipt",20,35);
+doc.text("Name: "+currentUser.name,20,50);
+doc.text("Transaction ID: "+txn,20,60);
+doc.text("Amount: ₹"+amt,20,70);
+doc.text("Status: Successful",20,80);
+doc.text("This is a demo receipt.",20,100);
+doc.save("Receipt.pdf");
+}
+
+function showAdmin(){
+let panel=`
+Admin Panel (Demo)
+Total Users: ${users.length}
+`;
+alert(panel);
+}
+
+window.onclick=function(e){
+if(e.target==modal) modal.style.display="none";
 }
 </script>
 
