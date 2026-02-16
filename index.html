@@ -1,82 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Bright Future Foundation</title>
 <link rel="stylesheet" href="style.css">
 
-<!-- PDF Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
 <nav>
-    <h2 class="logo">Bright Future Foundation</h2>
-    <div>
-        <button onclick="signup()">Sign Up</button>
-        <button onclick="login()">Login</button>
-        <button onclick="logout()" id="logoutBtn" style="display:none;">Logout</button>
-    </div>
+    <h2>Bright Future Foundation</h2>
+    <div id="userInfo"></div>
+    <button onclick="logout()" id="logoutBtn" style="display:none;">Logout</button>
 </nav>
 
 <header class="hero">
-    <h1>Changing Lives Through Education</h1>
-    <p>Together we can build a better future for every child.</p>
-    <button onclick="scrollToDonate()" class="main-btn">Donate Now</button>
+    <h1>Support Underprivileged Children</h1>
+    <p>Education • Health • Hope</p>
 </header>
 
-<!-- Animated Counters -->
-<section class="stats">
-    <div class="stat">
-        <h2 id="donationCount">0</h2>
-        <p>Donations Received</p>
-    </div>
-    <div class="stat">
-        <h2 id="childrenCount">0</h2>
-        <p>Children Supported</p>
-    </div>
-    <div class="stat">
-        <h2 id="volunteerCount">0</h2>
-        <p>Active Volunteers</p>
-    </div>
-</section>
+<section class="login-section">
+    <h2>Login with Google</h2>
 
-<!-- Small Images -->
-<section class="children">
-    <h2>Children We Support</h2>
-    <div class="gallery">
-        <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d">
-        <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7">
-        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac">
-        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c">
+    <div id="g_id_onload"
+         data-client_id="230846727279-utq1pct6odfroatekbdrt0usp6rof9pb.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false">
     </div>
-</section>
 
-<!-- Donation Section -->
-<section class="donation" id="donateSection">
-    <h2>Make a Donation</h2>
-    <input type="text" id="donorName" placeholder="Your Name">
-    <input type="number" id="amount" placeholder="Enter Amount (₹)">
-    <button onclick="processPayment()" class="main-btn">Donate & Get Receipt</button>
-</section>
-
-<!-- Complaint Section -->
-<section class="complaint">
-    <h2>Complaint / Feedback</h2>
-    <input type="text" id="complaintName" placeholder="Your Name">
-    <textarea id="complaintText" placeholder="Write your complaint or feedback"></textarea>
-    <button onclick="submitComplaint()">Submit</button>
-</section>
-
-<!-- Customer Care -->
-<section class="contact">
-    <h2>Customer Care</h2>
-    <p>Email: mohammedallu031@gmail.com</p>
-    <p>Response Time: Within 24 Hours</p>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular">
+    </div>
 </section>
 
 <footer>
-    <p>© 2026 Bright Future Foundation | Educational Project</p>
+    <p>Customer Care: mohammedallu031@gmail.com</p>
 </footer>
 
 <script src="script.js"></script>
