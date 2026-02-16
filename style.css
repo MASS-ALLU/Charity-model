@@ -1,7 +1,15 @@
 body {
-    font-family: Arial;
+    margin: 0;
+    font-family: Arial, sans-serif;
     text-align: center;
+    transition: 0.4s;
     background: #f5f7fa;
+    color: #222;
+}
+
+.dark {
+    background: #121212;
+    color: white;
 }
 
 nav {
@@ -18,11 +26,16 @@ button {
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
 }
 
 .hero {
-    padding: 50px;
-    background: #457b9d;
+    padding: 60px;
+    background: linear-gradient(to right, #457b9d, #1d3557);
     color: white;
 }
 
@@ -32,8 +45,8 @@ input {
 }
 
 .profile-pic {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
 }
 
@@ -43,4 +56,14 @@ input {
 
 ul {
     list-style: none;
+    padding: 0;
+}
+
+.fade-in {
+    animation: fadeIn 1.2s ease-in;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
 }
