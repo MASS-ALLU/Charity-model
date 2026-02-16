@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bright Future Foundation</title>
+    <title>Bright Future NGO</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <nav>
-    <h2 class="logo">Bright Future Foundation</h2>
+    <h2 class="logo">Bright Future NGO</h2>
     <div>
         <button onclick="openLogin()">Login</button>
         <button onclick="openSignup()">Sign Up</button>
@@ -17,27 +17,31 @@
 </nav>
 
 <header class="hero">
-    <h1>Every Child Deserves a Future</h1>
-    <p>Providing education, food, and healthcare for underprivileged children in India.</p>
+    <h1>Supporting Underprivileged Children</h1>
+    <p>Education • Food • Healthcare • Hope</p>
     <button onclick="donate()" class="main-btn">Donate Now</button>
 </header>
 
 <section class="about">
-    <h2>About Us</h2>
+    <h2>About Our Organization</h2>
     <p>
-        Bright Future Foundation is a non-profit organization working to provide 
-        free education, nutritious meals, and medical support to children from 
-        low-income families. Since 2018, we have helped over 3,000 children 
-        continue their schooling and live healthier lives.
+        Bright Future NGO is a non-profit organization working to provide 
+        quality education, nutritious meals, and medical assistance to children 
+        from low-income families across India. 
+        Since 2018, we have supported over 3,000 children.
+    </p>
+    <p class="note">
+        *This website is created for educational purposes only.*
     </p>
 </section>
 
 <section class="children">
     <h2>Children We Support</h2>
     <div class="gallery">
-        <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d" alt="Child 1">
-        <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7" alt="Child 2">
-        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac" alt="Child 3">
+        <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d">
+        <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c">
     </div>
 </section>
 
@@ -46,28 +50,24 @@
     <div class="cards">
         <div class="card">
             <h3>📚 Education Support</h3>
-            <p>Providing school supplies, uniforms, and tuition support.</p>
+            <p>Books, uniforms, and school fee assistance.</p>
         </div>
         <div class="card">
-            <h3>🍲 Midday Meals</h3>
-            <p>Daily nutritious meals to ensure healthy growth.</p>
+            <h3>🍲 Nutrition Program</h3>
+            <p>Daily healthy meals for growing children.</p>
         </div>
         <div class="card">
-            <h3>🏥 Medical Care</h3>
-            <p>Free health checkups and emergency support.</p>
+            <h3>🏥 Health Care</h3>
+            <p>Free medical checkups and emergency aid.</p>
         </div>
     </div>
 </section>
 
 <section class="donation">
-    <h2>Make a Difference Today</h2>
-    <button onclick="donate()" class="main-btn">Donate Now</button>
+    <h2>Make a Difference</h2>
+    <input type="number" id="donationAmount" placeholder="Enter amount (₹)">
+    <button onclick="processPayment()" class="main-btn">Pay Now</button>
 </section>
 
-<footer>
-    <p>© 2026 Bright Future Foundation | Registered Non-Profit Organization</p>
-</footer>
-
-<script src="script.js"></script>
-</body>
-</html>
+<section class="customer">
+    <
