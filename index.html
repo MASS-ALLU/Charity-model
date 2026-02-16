@@ -1,87 +1,297 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bright Future Foundation</title>
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+:root{
+--primary:#4e73df;
+--secondary:#1cc88a;
+--accent:#f6c23e;
+--bg:#f8f9fc;
+--text:#2e2e2e;
+}
+
+body.dark{
+--bg:#121212;
+--text:#ffffff;
+--primary:#6f42c1;
+--secondary:#20c997;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+background:var(--bg);
+color:var(--text);
+transition:.4s;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:linear-gradient(45deg,var(--primary),var(--secondary));
+color:white;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+nav button{
+margin-left:10px;
+padding:8px 15px;
+border:none;
+border-radius:20px;
+cursor:pointer;
+font-weight:600;
+}
+
+.hero{
+text-align:center;
+padding:80px 20px;
+background:linear-gradient(45deg,#4e73df,#1cc88a);
+color:white;
+animation:fade 2s ease-in-out;
+}
+
+.hero h1{font-size:40px;}
+.hero p{margin-top:10px;font-size:18px;}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.section{
+padding:60px 10%;
+text-align:center;
+}
+
+.children{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.children img{
+width:150px;
+height:150px;
+object-fit:cover;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+transition:.3s;
+}
+
+.children img:hover{
+transform:scale(1.05);
+}
+
+.counter{
+display:flex;
+justify-content:center;
+gap:50px;
+margin-top:40px;
+}
+
+.counter div{
+font-size:28px;
+font-weight:700;
+}
+
+input,button{
+padding:10px;
+margin:5px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+background:var(--primary);
+color:white;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+opacity:.8;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+margin:20px auto;
+max-width:500px;
+}
+
+body.dark .card{
+background:#1e1e1e;
+}
+
+.leaderboard{
+max-width:600px;
+margin:auto;
+text-align:left;
+}
+
+footer{
+text-align:center;
+padding:20px;
+background:#222;
+color:white;
+margin-top:50px;
+}
+</style>
 </head>
+
 <body>
 
+<header>
+<h2>Bright Future Foundation</h2>
 <nav>
-    <div class="logo">Bright Future Foundation</div>
-    <div class="nav-buttons">
-        <button onclick="toggleMode()">🌙</button>
-        <button onclick="signup()">Sign Up</button>
-        <button onclick="login()">Login</button>
-        <button onclick="showProfile()">Profile</button>
-        <button onclick="showAdmin()">Admin</button>
-        <button onclick="logout()">Logout</button>
-    </div>
+<button onclick="toggleMode()">🌙/☀️</button>
+<button onclick="showSignup()">Sign Up</button>
+<button onclick="showLogin()">Login</button>
+<button onclick="showProfile()">Profile</button>
+<button onclick="logout()">Logout</button>
 </nav>
-
-<header class="hero">
-    <div class="hero-content">
-        <h1>Empowering Children's Future</h1>
-        <p>Education • Healthcare • Nutrition • Hope</p>
-        <button onclick="scrollDonate()">Donate Now</button>
-    </div>
 </header>
 
-<section class="stats">
-    <div class="stat-card">
-        <h2 id="count1">0</h2>
-        <p>Children Helped</p>
-    </div>
-    <div class="stat-card">
-        <h2 id="count2">0</h2>
-        <p>Meals Provided</p>
-    </div>
-    <div class="stat-card">
-        <h2 id="count3">0</h2>
-        <p>Volunteers</p>
-    </div>
+<section class="hero">
+<h1>Empowering Children's Future</h1>
+<p>Education • Health • Hope</p>
 </section>
 
-<section class="gallery">
-    <h2>Our Impact</h2>
-    <div class="image-grid">
-        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c">
-        <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d">
-        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac">
-        <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7">
-    </div>
+<section class="section">
+<h2>Our Mission</h2>
+<p>We support underprivileged children with education, healthcare and basic needs.</p>
+
+<div class="children">
+<img src="https://images.unsplash.com/photo-1603570419981-8d1e16c4df8f" />
+<img src="https://images.unsplash.com/photo-1516589091380-5d8e87df6995" />
+<img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9" />
+<img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7" />
+</div>
+
+<div class="counter">
+<div>₹<span id="money">0</span><br>Raised</div>
+<div><span id="donors">0</span><br>Donors</div>
+<div><span>120</span><br>Children Helped</div>
+</div>
 </section>
 
-<section class="donation" id="donate">
-    <h2>Make a Donation</h2>
-    <input type="number" id="amount" placeholder="Enter Amount ₹">
-    <button onclick="donate()">Donate Securely</button>
+<section class="section">
+<h2>Donate</h2>
+<input type="number" id="amount" placeholder="Enter Amount ₹">
+<button onclick="donate()">Donate Now</button>
 </section>
 
-<section class="leaderboard">
-    <h2>🏆 Top Donors</h2>
-    <ul id="leaderboardList"></ul>
+<section class="section">
+<h2>🏆 Donation Leaderboard</h2>
+<div class="leaderboard" id="leaderboard"></div>
 </section>
 
-<section id="profileSection" class="profile hidden">
-    <h2>Your Profile</h2>
-    <img id="profilePic">
-    <p id="profileName"></p>
-    <p id="profileTotal"></p>
-</section>
-
-<section id="adminSection" class="admin hidden">
-    <h2>Admin Panel</h2>
-    <ul id="adminList"></ul>
+<section class="section">
+<h2>Complaint / Feedback</h2>
+<form action="https://formsubmit.co/mohammedallu031@gmail.com" method="POST">
+<input type="text" name="name" placeholder="Your Name" required><br>
+<input type="email" name="email" placeholder="Your Email" required><br>
+<textarea name="message" placeholder="Your Complaint / Feedback" required></textarea><br>
+<button type="submit">Send</button>
+</form>
 </section>
 
 <footer>
-    <p>Customer Care: mohammedallu031@gmail.com</p>
-    <p>© 2026 Bright Future Foundation</p>
+Customer Care: mohammedallu031@gmail.com
 </footer>
 
-<script src="script.js"></script>
+<script>
+let currentUser=null;
+let donations=[];
+let totalMoney=0;
+let totalDonors=0;
+
+function toggleMode(){
+document.body.classList.toggle("dark");
+}
+
+function showSignup(){
+let name=prompt("Enter Name");
+let email=prompt("Enter Email");
+let pass=prompt("Enter Password");
+localStorage.setItem(email,JSON.stringify({name,email,pass,donated:0}));
+alert("Signup Successful");
+}
+
+function showLogin(){
+let email=prompt("Email");
+let pass=prompt("Password");
+let user=JSON.parse(localStorage.getItem(email));
+if(user && user.pass===pass){
+currentUser=user;
+alert("Login Successful");
+}else{
+alert("Wrong credentials");
+}
+}
+
+function logout(){
+currentUser=null;
+alert("Logged Out");
+}
+
+function showProfile(){
+if(!currentUser){alert("Login First");return;}
+alert("Name: "+currentUser.name+"\nTotal Donated: ₹"+currentUser.donated);
+}
+
+function donate(){
+if(!currentUser){alert("Login Required");return;}
+let amt=parseInt(document.getElementById("amount").value);
+if(!amt)return alert("Enter amount");
+currentUser.donated+=amt;
+totalMoney+=amt;
+totalDonors++;
+donations.push({name:currentUser.name,amount:amt});
+localStorage.setItem(currentUser.email,JSON.stringify(currentUser));
+updateLeaderboard();
+updateCounters();
+generateReceipt(amt);
+}
+
+function updateCounters(){
+document.getElementById("money").innerText=totalMoney;
+document.getElementById("donors").innerText=totalDonors;
+}
+
+function updateLeaderboard(){
+let board=document.getElementById("leaderboard");
+board.innerHTML="";
+donations.sort((a,b)=>b.amount-a.amount);
+donations.forEach(d=>{
+board.innerHTML+=`<p>${d.name} - ₹${d.amount}</p>`;
+});
+}
+
+function generateReceipt(amount){
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+doc.text("Bright Future Foundation",20,20);
+doc.text("Donation Receipt",20,30);
+doc.text("Name: "+currentUser.name,20,40);
+doc.text("Amount: ₹"+amount,20,50);
+doc.text("Thank you for your support!",20,60);
+doc.save("DonationReceipt.pdf");
+}
+</script>
+
 </body>
 </html>
