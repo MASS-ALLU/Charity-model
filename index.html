@@ -4,16 +4,13 @@
 <meta charset="UTF-8">
 <title>Bright Future Foundation</title>
 <link rel="stylesheet" href="style.css">
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 </head>
 <body>
 
 <nav>
     <h2>Bright Future Foundation</h2>
-    <div id="navRight">
+    <div>
+        <button onclick="toggleMode()">🌙/☀️</button>
         <button onclick="signup()">Sign Up</button>
         <button onclick="login()">Login</button>
         <button onclick="showProfile()">Profile</button>
@@ -22,33 +19,30 @@
     </div>
 </nav>
 
-<header class="hero">
-    <h1>Changing Lives Through Education</h1>
+<header class="hero fade-in">
+    <h1>Empowering Children's Future</h1>
+    <p>Education • Health • Hope</p>
 </header>
 
-<!-- DONATION (PROTECTED) -->
-<section class="donation">
+<section class="donation fade-in">
     <h2>Donate</h2>
     <input type="number" id="amount" placeholder="Enter Amount ₹">
-    <button onclick="donate()">Donate</button>
+    <button onclick="donate()">Donate Now</button>
 </section>
 
-<!-- PROFILE -->
-<section id="profileSection" class="hidden">
-    <h2>User Profile</h2>
+<section id="profileSection" class="hidden fade-in">
+    <h2>Your Profile</h2>
     <img id="profilePic" class="profile-pic">
     <p id="profileName"></p>
     <p id="totalDonation"></p>
 </section>
 
-<!-- LEADERBOARD -->
 <section>
-    <h2>Top Donors</h2>
+    <h2>🏆 Donation Leaderboard</h2>
     <ul id="leaderboard"></ul>
 </section>
 
-<!-- ADMIN PANEL -->
-<section id="adminSection" class="hidden">
+<section id="adminSection" class="hidden fade-in">
     <h2>Admin Panel</h2>
     <ul id="userList"></ul>
 </section>
