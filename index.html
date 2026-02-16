@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hope Foundation | Donate</title>
+    <title>Bright Future Foundation</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <nav>
-    <h2 class="logo">Hope Foundation</h2>
+    <h2 class="logo">Bright Future Foundation</h2>
     <div>
         <button onclick="openLogin()">Login</button>
         <button onclick="openSignup()">Sign Up</button>
@@ -16,52 +16,57 @@
     </div>
 </nav>
 
-<header>
-    <h1>Make The World Better 🌍</h1>
-    <p>Your support helps families, children, and communities in need.</p>
-    <button class="main-donate" onclick="donate()">Donate Now</button>
+<header class="hero">
+    <h1>Every Child Deserves a Future</h1>
+    <p>Providing education, food, and healthcare for underprivileged children in India.</p>
+    <button onclick="donate()" class="main-btn">Donate Now</button>
 </header>
 
-<section class="stats">
-    <div class="card">
-        <h2>₹10M+</h2>
-        <p>Funds Raised</p>
-    </div>
-    <div class="card">
-        <h2>5,000+</h2>
-        <p>Families Helped</p>
-    </div>
-    <div class="card">
-        <h2>120+</h2>
-        <p>Volunteers</p>
+<section class="about">
+    <h2>About Us</h2>
+    <p>
+        Bright Future Foundation is a non-profit organization working to provide 
+        free education, nutritious meals, and medical support to children from 
+        low-income families. Since 2018, we have helped over 3,000 children 
+        continue their schooling and live healthier lives.
+    </p>
+</section>
+
+<section class="children">
+    <h2>Children We Support</h2>
+    <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d" alt="Child 1">
+        <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7" alt="Child 2">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac" alt="Child 3">
     </div>
 </section>
 
+<section class="programs">
+    <h2>Our Programs</h2>
+    <div class="cards">
+        <div class="card">
+            <h3>📚 Education Support</h3>
+            <p>Providing school supplies, uniforms, and tuition support.</p>
+        </div>
+        <div class="card">
+            <h3>🍲 Midday Meals</h3>
+            <p>Daily nutritious meals to ensure healthy growth.</p>
+        </div>
+        <div class="card">
+            <h3>🏥 Medical Care</h3>
+            <p>Free health checkups and emergency support.</p>
+        </div>
+    </div>
+</section>
+
+<section class="donation">
+    <h2>Make a Difference Today</h2>
+    <button onclick="donate()" class="main-btn">Donate Now</button>
+</section>
+
 <footer>
-    <p>© 2026 Hope Foundation | All Rights Reserved</p>
+    <p>© 2026 Bright Future Foundation | Registered Non-Profit Organization</p>
 </footer>
-
-<!-- Login Modal -->
-<div class="modal" id="loginModal">
-    <div class="modal-content">
-        <h2>Login</h2>
-        <input type="text" id="loginUser" placeholder="Username">
-        <input type="password" id="loginPass" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <span onclick="closeModal()">Close</span>
-    </div>
-</div>
-
-<!-- Signup Modal -->
-<div class="modal" id="signupModal">
-    <div class="modal-content">
-        <h2>Sign Up</h2>
-        <input type="text" id="signupUser" placeholder="Username">
-        <input type="password" id="signupPass" placeholder="Password">
-        <button onclick="signup()">Create Account</button>
-        <span onclick="closeModal()">Close</span>
-    </div>
-</div>
 
 <script src="script.js"></script>
 </body>
