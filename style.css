@@ -1,8 +1,7 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: #f4f7fa;
-    color: #333;
+    background: #f5f7fa;
     text-align: center;
 }
 
@@ -10,7 +9,7 @@ nav {
     display: flex;
     justify-content: space-between;
     padding: 20px 50px;
-    background: #1e3d59;
+    background: #0d1b2a;
     color: white;
 }
 
@@ -18,78 +17,77 @@ nav button {
     margin-left: 10px;
     padding: 8px 15px;
     border: none;
-    background: white;
-    color: #1e3d59;
+    background: #00b4d8;
+    color: white;
     border-radius: 20px;
     cursor: pointer;
 }
 
 .hero {
     padding: 100px 20px;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-    url('https://images.unsplash.com/photo-1492724441997-5dc865305da7');
-    background-size: cover;
+    background: linear-gradient(to right, #1d3557, #457b9d);
     color: white;
 }
 
 .main-btn {
     padding: 12px 30px;
-    font-size: 16px;
     border: none;
-    background: #ff6b35;
+    background: #e63946;
     color: white;
     border-radius: 25px;
     cursor: pointer;
     margin-top: 15px;
 }
 
-.about, .children, .programs, .donation, .customer {
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
     padding: 60px 20px;
 }
 
-.note {
-    color: red;
-    font-size: 14px;
+.stat {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
 .gallery {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
     flex-wrap: wrap;
+    padding: 40px;
 }
 
 .gallery img {
-    width: 150px;   /* Smaller photos */
-    height: 150px;
+    width: 100px;  /* MUCH SMALLER */
+    height: 100px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
-.cards {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+.donation, .complaint, .contact {
+    padding: 50px 20px;
 }
 
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 220px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-input {
+input, textarea {
+    display: block;
+    margin: 10px auto;
     padding: 10px;
-    width: 200px;
+    width: 250px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
 
+textarea {
+    height: 80px;
+}
+
 footer {
-    background: #1e3d59;
+    background: #0d1b2a;
     color: white;
     padding: 20px;
 }
