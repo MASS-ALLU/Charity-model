@@ -1,81 +1,55 @@
-// DEFAULT ADMIN ACCOUNT
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "admin123";
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "admin123";
 
-// DARK / LIGHT MODE
-function toggleMode() {
+function toggleMode(){
     document.body.classList.toggle("dark");
 }
 
-// SIGNUP
-function signup() {
-    let username = prompt("Create Username:");
-    let password = prompt("Create Password:");
-
+function signup(){
+    let u = prompt("Username:");
+    let p = prompt("Password:");
     let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    users.push({
-        username: username,
-        password: password,
-        total: 0,
-        role: "user",
-        profilePic: "https://i.pravatar.cc/150?u=" + username
-    });
-
+    users.push({username:u,password:p,total:0});
     localStorage.setItem("users", JSON.stringify(users));
     alert("Account Created!");
 }
 
-// LOGIN
-function login() {
-    let username = prompt("Username:");
-    let password = prompt("Password:");
+function login(){
+    let u = prompt("Username:");
+    let p = prompt("Password:");
 
-    // Admin login
-    if(username === ADMIN_USERNAME && password === ADMIN_PASSWORD){
-        localStorage.setItem("currentUser", username);
-        localStorage.setItem("role", "admin");
-        alert("Admin Login Successful!");
+    if(u===ADMIN_USER && p===ADMIN_PASS){
+        localStorage.setItem("role","admin");
+        localStorage.setItem("currentUser",u);
+        alert("Admin Logged In");
         return;
     }
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    let user = users.find(u => u.username === username && u.password === password);
-
+    let users = JSON.parse(localStorage.getItem("users"))||[];
+    let user = users.find(x=>x.username===u && x.password===p);
     if(user){
-        localStorage.setItem("currentUser", username);
-        localStorage.setItem("role", "user");
-        alert("Login Successful!");
-    } else {
-        alert("Invalid Credentials");
-    }
+        localStorage.setItem("role","user");
+        localStorage.setItem("currentUser",u);
+        alert("Login Success");
+    } else alert("Invalid");
 }
 
-// LOGOUT
 function logout(){
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("role");
+    localStorage.clear();
     alert("Logged Out");
 }
 
-// DONATION (Protected)
 function donate(){
-    let currentUser = localStorage.getItem("currentUser");
     let role = localStorage.getItem("role");
-
-    if(!currentUser || role !== "user"){
-        alert("Only logged-in users can donate.");
+    if(role!=="user"){
+        alert("Login as user to donate");
         return;
     }
 
     let amount = parseInt(document.getElementById("amount").value);
-    if(amount <= 0){
-        alert("Enter valid amount.");
-        return;
-    }
-
     let users = JSON.parse(localStorage.getItem("users"));
-    let user = users.find(u => u.username === currentUser);
+    let current = localStorage.getItem("currentUser");
+    let user = users.find(x=>x.username===current);
 
     user.total += amount;
     localStorage.setItem("users", JSON.stringify(users));
@@ -84,60 +58,63 @@ function donate(){
     updateLeaderboard();
 }
 
-// PROFILE
-function showProfile(){
-    let currentUser = localStorage.getItem("currentUser");
-    let role = localStorage.getItem("role");
+function updateLeaderboard(){
+    let users = JSON.parse(localStorage.getItem("users"))||[];
+    users.sort((a,b)=>b.total-a.total);
+    let list=document.getElementById("leaderboardList");
+    list.innerHTML="";
+    users.slice(0,5).forEach(u=>{
+        let li=document.createElement("li");
+        li.innerText=u.username+" - ₹"+u.total;
+        list.appendChild(li);
+    });
+}
+updateLeaderboard();
 
-    if(!currentUser || role !== "user"){
-        alert("Login as user first.");
+function showProfile(){
+    if(localStorage.getItem("role")!=="user"){
+        alert("Login first");
         return;
     }
-
     let users = JSON.parse(localStorage.getItem("users"));
-    let user = users.find(u => u.username === currentUser);
+    let current=localStorage.getItem("currentUser");
+    let user=users.find(x=>x.username===current);
 
     document.getElementById("profileSection").classList.remove("hidden");
-    document.getElementById("profilePic").src = user.profilePic;
-    document.getElementById("profileName").innerText = "Username: " + user.username;
-    document.getElementById("totalDonation").innerText = "Total Donated: ₹" + user.total;
+    document.getElementById("profileName").innerText="Username: "+user.username;
+    document.getElementById("profileTotal").innerText="Total Donated: ₹"+user.total;
 }
 
-// ADMIN PANEL (Protected)
 function showAdmin(){
-    let role = localStorage.getItem("role");
-
-    if(role !== "admin"){
-        alert("Access Denied! Admin Only.");
+    if(localStorage.getItem("role")!=="admin"){
+        alert("Admin only!");
         return;
     }
-
     document.getElementById("adminSection").classList.remove("hidden");
-
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    let list = document.getElementById("userList");
-    list.innerHTML = "";
-
-    users.forEach(user=>{
-        let li = document.createElement("li");
-        li.innerText = user.username + " - ₹" + user.total;
+    let users = JSON.parse(localStorage.getItem("users"))||[];
+    let list=document.getElementById("adminList");
+    list.innerHTML="";
+    users.forEach(u=>{
+        let li=document.createElement("li");
+        li.innerText=u.username+" - ₹"+u.total;
         list.appendChild(li);
     });
 }
 
-// LEADERBOARD
-function updateLeaderboard(){
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    users.sort((a,b)=> b.total - a.total);
-
-    let board = document.getElementById("leaderboard");
-    board.innerHTML = "";
-
-    users.slice(0,5).forEach(user=>{
-        let li = document.createElement("li");
-        li.innerText = user.username + " - ₹" + user.total;
-        board.appendChild(li);
-    });
+function scrollDonate(){
+    document.getElementById("donate").scrollIntoView({behavior:"smooth"});
 }
 
-updateLeaderboard();
+// Animated counters
+function animate(id, end){
+    let obj=document.getElementById(id);
+    let start=0;
+    let interval=setInterval(()=>{
+        start+=50;
+        obj.innerText=start+"+";
+        if(start>=end) clearInterval(interval);
+    },20);
+}
+animate("count1",3000);
+animate("count2",15000);
+animate("count3",120);
