@@ -4,83 +4,108 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bright Future Foundation</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
---bg:#f7f9fc;
---sidebar:#111827;
 --primary:#6366f1;
+--secondary:#06b6d4;
+--bg:#f8fafc;
+--dark:#0f172a;
 --card:#ffffff;
---text:#111827;
 }
 
 body.dark{
 --bg:#0f172a;
 --card:#1e293b;
---text:#ffffff;
+color:white;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter;}
 
 body{
-display:flex;
 background:var(--bg);
-color:var(--text);
-transition:.3s;
+transition:.4s;
+overflow-x:hidden;
 }
 
-/* SIDEBAR */
-.sidebar{
-width:230px;
-height:100vh;
-background:var(--sidebar);
-color:white;
-padding:30px 20px;
+/* NAV */
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
 position:fixed;
-}
-
-.sidebar h2{
-margin-bottom:40px;
-}
-
-.sidebar button{
-display:block;
 width:100%;
-margin-bottom:15px;
-padding:10px;
+background:rgba(255,255,255,.8);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+nav h2{
+font-weight:800;
+}
+
+nav button{
+margin-left:10px;
+padding:8px 15px;
 border:none;
 border-radius:8px;
-background:#1f2937;
+background:var(--primary);
 color:white;
 cursor:pointer;
 }
 
-.sidebar button:hover{
-background:var(--primary);
-}
-
-/* MAIN */
-.main{
-margin-left:230px;
-width:100%;
-padding:40px;
-}
-
-.topbar{
+/* HERO */
+.hero{
+height:100vh;
 display:flex;
-justify-content:space-between;
+flex-direction:column;
+justify-content:center;
 align-items:center;
+text-align:center;
+background:linear-gradient(135deg,var(--primary),var(--secondary));
+color:white;
+padding:20px;
+}
+
+.hero h1{
+font-size:48px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:18px;
+max-width:600px;
 margin-bottom:30px;
 }
 
-.card{
+/* FEATURES */
+.features{
+padding:100px 8%;
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.feature-card{
 background:var(--card);
-padding:25px;
+padding:30px;
 border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-margin-bottom:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.08);
+width:280px;
 transition:.3s;
+}
+
+.feature-card:hover{
+transform:translateY(-10px);
+}
+
+/* DASHBOARD */
+.dashboard{
+display:none;
+padding:100px 8%;
 }
 
 .stats{
@@ -89,9 +114,21 @@ gap:20px;
 flex-wrap:wrap;
 }
 
-.stat-box{
+.stat{
 flex:1;
 min-width:200px;
+background:var(--card);
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.card{
+background:var(--card);
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+margin-top:20px;
 }
 
 input{
@@ -111,8 +148,15 @@ border-radius:8px;
 cursor:pointer;
 }
 
-button.primary:active{
-transform:scale(.97);
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+padding:8px;
+border-bottom:1px solid #ddd;
 }
 
 /* MODAL */
@@ -131,12 +175,6 @@ background:white;
 padding:30px;
 border-radius:15px;
 width:350px;
-animation:fade .3s;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
 }
 
 /* TOAST */
@@ -152,63 +190,69 @@ opacity:0;
 transition:.3s;
 }
 
-.toast.show{
-opacity:1;
-}
+.toast.show{opacity:1;}
 
-.profile-img{
-width:70px;height:70px;
-border-radius:50%;
-object-fit:cover;
-margin-bottom:10px;
+footer{
+text-align:center;
+padding:40px;
+margin-top:100px;
+background:#111;
+color:white;
 }
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
-}
-
-th,td{
-padding:8px;
-border-bottom:1px solid #ddd;
-text-align:left;
-}
-
 </style>
 </head>
 <body>
 
-<div class="sidebar">
+<nav>
 <h2>BrightFuture</h2>
-<button onclick="openDashboard()">Dashboard</button>
-<button onclick="openProfile()">Profile</button>
+<div>
+<button onclick="toggleMode()">🌙</button>
 <button onclick="openModal('login')">Login</button>
 <button onclick="openModal('signup')">Sign Up</button>
 <button onclick="logout()">Logout</button>
-<button onclick="toggleMode()">🌙 Dark</button>
 </div>
+</nav>
 
-<div class="main">
+<!-- LANDING -->
+<section class="hero" id="landing">
+<h1>Empowering Children's Future</h1>
+<p>A modern platform bringing education, healthcare, and hope to underprivileged children.</p>
+<button class="primary" onclick="scrollToFeatures()">Explore Platform</button>
+</section>
 
-<div class="topbar">
+<section class="features" id="features">
+<div class="feature-card">
+<h3>Secure Donations</h3>
+<p>Simulated payment system with receipt generation.</p>
+</div>
+<div class="feature-card">
+<h3>Impact Tracking</h3>
+<p>Track your total donations and history in dashboard.</p>
+</div>
+<div class="feature-card">
+<h3>Modern SaaS UI</h3>
+<p>Startup-grade design and animations.</p>
+</div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="dashboard" id="dashboard">
 <h1>Donation Dashboard</h1>
-</div>
 
 <div class="stats">
-<div class="card stat-box">
+<div class="stat">
 <h3>Total Donated</h3>
 <h2>₹ <span id="totalAmount">0</span></h2>
 </div>
 
-<div class="card stat-box">
+<div class="stat">
 <h3>Total Transactions</h3>
 <h2 id="totalTxn">0</h2>
 </div>
 </div>
 
 <div class="card">
-<h3>Make a Donation</h3>
+<h3>Make Donation</h3>
 <input type="number" id="amount" placeholder="Enter Amount ₹">
 <button class="primary" onclick="donate()">Donate</button>
 </div>
@@ -223,7 +267,7 @@ text-align:left;
 </table>
 </div>
 
-</div>
+</section>
 
 <div class="modal" id="modal">
 <div class="modal-content" id="modalContent"></div>
@@ -231,21 +275,22 @@ text-align:left;
 
 <div class="toast" id="toast"></div>
 
+<footer>
+© 2026 Bright Future Foundation • Demo SaaS Project
+</footer>
+
 <script>
 let users=JSON.parse(localStorage.getItem("users"))||[];
 let currentUser=JSON.parse(localStorage.getItem("currentUser"));
 
-updateDashboard();
-
-function showToast(msg){
-let t=document.getElementById("toast");
-t.innerText=msg;
-t.classList.add("show");
-setTimeout(()=>t.classList.remove("show"),3000);
-}
+if(currentUser) showDashboard();
 
 function toggleMode(){
 document.body.classList.toggle("dark");
+}
+
+function scrollToFeatures(){
+window.scrollTo({top:document.getElementById("features").offsetTop-80,behavior:'smooth'});
 }
 
 function openModal(type){
@@ -270,12 +315,7 @@ modalContent.innerHTML=`
 }
 
 function signup(){
-let user={
-name:suName.value,
-email:suEmail.value,
-pass:suPass.value,
-donations:[]
-};
+let user={name:suName.value,email:suEmail.value,pass:suPass.value,donations:[]};
 users.push(user);
 localStorage.setItem("users",JSON.stringify(users));
 showToast("Account Created 🎉");
@@ -288,8 +328,8 @@ if(user){
 currentUser=user;
 localStorage.setItem("currentUser",JSON.stringify(user));
 showToast("Welcome "+user.name);
-updateDashboard();
 modal.style.display="none";
+showDashboard();
 }else{
 showToast("Invalid Login ❌");
 }
@@ -299,58 +339,40 @@ function logout(){
 currentUser=null;
 localStorage.removeItem("currentUser");
 showToast("Logged Out");
+document.getElementById("dashboard").style.display="none";
+document.getElementById("landing").style.display="flex";
+}
+
+function showDashboard(){
+document.getElementById("landing").style.display="none";
+document.getElementById("dashboard").style.display="block";
 updateDashboard();
 }
 
 function donate(){
-if(!currentUser){
-showToast("Login Required ⚠️");
-return;
-}
+if(!currentUser){showToast("Login Required");return;}
 let amt=parseInt(amount.value);
 if(!amt){showToast("Enter Amount");return;}
-
 let txn="TXN"+Math.floor(Math.random()*9999999);
 currentUser.donations.push({txn,amt});
 localStorage.setItem("currentUser",JSON.stringify(currentUser));
-
-let index=users.findIndex(u=>u.email===currentUser.email);
-users[index]=currentUser;
+users[users.findIndex(u=>u.email===currentUser.email)]=currentUser;
 localStorage.setItem("users",JSON.stringify(users));
-
 showToast("Payment Successful ✅");
 updateDashboard();
 }
 
 function updateDashboard(){
-if(!currentUser){
-totalAmount.innerText=0;
-totalTxn.innerText=0;
-historyTable.innerHTML="";
-return;
-}
-
 let total=currentUser.donations.reduce((a,b)=>a+b.amt,0);
 totalAmount.innerText=total;
 totalTxn.innerText=currentUser.donations.length;
-
-historyTable.innerHTML=currentUser.donations.map(d=>
-`<tr><td>${d.txn}</td><td>₹${d.amt}</td></tr>`
-).join("");
+historyTable.innerHTML=currentUser.donations.map(d=>`<tr><td>${d.txn}</td><td>₹${d.amt}</td></tr>`).join("");
 }
 
-function openProfile(){
-if(!currentUser){
-showToast("Login First");
-return;
-}
-modal.style.display="flex";
-modalContent.innerHTML=`
-<h3>${currentUser.name}</h3>
-<p>Email: ${currentUser.email}</p>
-<p>Total Donations: ₹${currentUser.donations.reduce((a,b)=>a+b.amt,0)}</p>
-<button class="primary" onclick="modal.style.display='none'">Close</button>
-`;
+function showToast(msg){
+toast.innerText=msg;
+toast.classList.add("show");
+setTimeout(()=>toast.classList.remove("show"),3000);
 }
 </script>
 
