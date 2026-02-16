@@ -1,48 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Hope Donation</title>
+    <meta charset="UTF-8">
+    <title>Hope Foundation | Donate</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<nav>
+    <h2 class="logo">Hope Foundation</h2>
+    <div>
+        <button onclick="openLogin()">Login</button>
+        <button onclick="openSignup()">Sign Up</button>
+        <button onclick="logout()" id="logoutBtn" style="display:none;">Logout</button>
+    </div>
+</nav>
+
 <header>
-    <h1>Hope Foundation</h1>
-    <p>Together we can make a difference ❤️</p>
+    <h1>Make The World Better 🌍</h1>
+    <p>Your support helps families, children, and communities in need.</p>
+    <button class="main-donate" onclick="donate()">Donate Now</button>
 </header>
 
-<section class="about">
-    <h2>About Our Mission</h2>
-    <p>
-        We help poor families, provide education for children, 
-        and support medical emergencies. Your small donation 
-        can create a big change in someone's life.
-    </p>
-</section>
-
-<section class="donate">
-    <h2>Make a Donation</h2>
-    
-    <div class="amounts">
-        <button>₹100</button>
-        <button>₹500</button>
-        <button>₹1000</button>
-        <button>₹5000</button>
+<section class="stats">
+    <div class="card">
+        <h2>₹10M+</h2>
+        <p>Funds Raised</p>
     </div>
-
-    <br>
-    <button class="donate-btn">Donate Now</button>
-</section>
-
-<section class="contact">
-    <h2>Contact Us</h2>
-    <p>Email: support@hopefoundation.com</p>
-    <p>Phone: +91 98765 43210</p>
+    <div class="card">
+        <h2>5,000+</h2>
+        <p>Families Helped</p>
+    </div>
+    <div class="card">
+        <h2>120+</h2>
+        <p>Volunteers</p>
+    </div>
 </section>
 
 <footer>
     <p>© 2026 Hope Foundation | All Rights Reserved</p>
 </footer>
 
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <h2>Login</h2>
+        <input type="text" id="loginUser" placeholder="Username">
+        <input type="password" id="loginPass" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <span onclick="closeModal()">Close</span>
+    </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal" id="signupModal">
+    <div class="modal-content">
+        <h2>Sign Up</h2>
+        <input type="text" id="signupUser" placeholder="Username">
+        <input type="password" id="signupPass" placeholder="Password">
+        <button onclick="signup()">Create Account</button>
+        <span onclick="closeModal()">Close</span>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
