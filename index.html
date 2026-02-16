@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bright Future Foundation</title>
+<title>Bright Future Foundation | SaaS Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
---primary:#6366f1;
---secondary:#06b6d4;
+--primary:#7C3AED;
+--secondary:#06B6D4;
 --bg:#f8fafc;
---dark:#0f172a;
 --card:#ffffff;
+--dark:#0f172a;
 }
 
 body.dark{
@@ -37,13 +37,14 @@ align-items:center;
 padding:20px 8%;
 position:fixed;
 width:100%;
-background:rgba(255,255,255,.8);
-backdrop-filter:blur(10px);
+background:rgba(255,255,255,.85);
+backdrop-filter:blur(12px);
 z-index:1000;
 }
 
 nav h2{
 font-weight:800;
+font-size:22px;
 }
 
 nav button{
@@ -51,9 +52,10 @@ margin-left:10px;
 padding:8px 15px;
 border:none;
 border-radius:8px;
-background:var(--primary);
+background:linear-gradient(45deg,var(--primary),var(--secondary));
 color:white;
 cursor:pointer;
+font-weight:600;
 }
 
 /* HERO */
@@ -70,19 +72,35 @@ padding:20px;
 }
 
 .hero h1{
-font-size:48px;
+font-size:52px;
+font-weight:800;
 margin-bottom:20px;
 }
 
 .hero p{
 font-size:18px;
-max-width:600px;
+max-width:650px;
 margin-bottom:30px;
+}
+
+.hero button{
+padding:14px 25px;
+border:none;
+border-radius:10px;
+background:white;
+color:var(--primary);
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+}
+
+.hero button:hover{
+transform:translateY(-4px);
 }
 
 /* FEATURES */
 .features{
-padding:100px 8%;
+padding:120px 8%;
 display:flex;
 gap:30px;
 flex-wrap:wrap;
@@ -92,10 +110,10 @@ justify-content:center;
 .feature-card{
 background:var(--card);
 padding:30px;
-border-radius:15px;
-box-shadow:0 15px 40px rgba(0,0,0,.08);
-width:280px;
-transition:.3s;
+border-radius:20px;
+box-shadow:0 20px 50px rgba(0,0,0,.08);
+width:300px;
+transition:.4s;
 }
 
 .feature-card:hover{
@@ -105,7 +123,7 @@ transform:translateY(-10px);
 /* DASHBOARD */
 .dashboard{
 display:none;
-padding:100px 8%;
+padding:120px 8%;
 }
 
 .stats{
@@ -116,47 +134,49 @@ flex-wrap:wrap;
 
 .stat{
 flex:1;
-min-width:200px;
+min-width:220px;
 background:var(--card);
-padding:25px;
-border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
+padding:30px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.08);
 }
 
 .card{
 background:var(--card);
-padding:25px;
-border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-margin-top:20px;
+padding:30px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.08);
+margin-top:30px;
 }
 
 input{
 width:100%;
-padding:10px;
-margin:10px 0;
-border-radius:8px;
-border:1px solid #ccc;
+padding:12px;
+margin:12px 0;
+border-radius:10px;
+border:1px solid #ddd;
 }
 
 button.primary{
-background:var(--primary);
+background:linear-gradient(45deg,var(--primary),var(--secondary));
 color:white;
 border:none;
-padding:10px 15px;
-border-radius:8px;
+padding:12px 18px;
+border-radius:10px;
 cursor:pointer;
+font-weight:600;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:10px;
+margin-top:15px;
 }
 
 th,td{
-padding:8px;
+padding:10px;
 border-bottom:1px solid #ddd;
+text-align:left;
 }
 
 /* MODAL */
@@ -172,9 +192,40 @@ align-items:center;
 
 .modal-content{
 background:white;
-padding:30px;
-border-radius:15px;
-width:350px;
+padding:35px;
+border-radius:20px;
+width:360px;
+animation:fade .3s;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+/* SUCCESS PANEL */
+.success-panel{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(.8);
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 30px 80px rgba(0,0,0,.2);
+text-align:center;
+opacity:0;
+transition:.4s;
+}
+
+.success-panel.show{
+opacity:1;
+transform:translate(-50%,-50%) scale(1);
+}
+
+.success-panel h2{
+color:green;
+margin-bottom:15px;
 }
 
 /* TOAST */
@@ -194,7 +245,7 @@ transition:.3s;
 
 footer{
 text-align:center;
-padding:40px;
+padding:50px;
 margin-top:100px;
 background:#111;
 color:white;
@@ -213,29 +264,27 @@ color:white;
 </div>
 </nav>
 
-<!-- LANDING -->
 <section class="hero" id="landing">
 <h1>Empowering Children's Future</h1>
-<p>A modern platform bringing education, healthcare, and hope to underprivileged children.</p>
-<button class="primary" onclick="scrollToFeatures()">Explore Platform</button>
+<p>A startup-style demo SaaS platform for managing donations and tracking impact.</p>
+<button onclick="scrollToFeatures()">Explore Platform</button>
 </section>
 
 <section class="features" id="features">
 <div class="feature-card">
-<h3>Secure Donations</h3>
-<p>Simulated payment system with receipt generation.</p>
+<h3>Impact Dashboard</h3>
+<p>Track donation stats with modern analytics UI.</p>
 </div>
 <div class="feature-card">
-<h3>Impact Tracking</h3>
-<p>Track your total donations and history in dashboard.</p>
+<h3>Secure Simulation</h3>
+<p>Fake payment system designed for educational portfolio.</p>
 </div>
 <div class="feature-card">
-<h3>Modern SaaS UI</h3>
-<p>Startup-grade design and animations.</p>
+<h3>Professional Design</h3>
+<p>Startup-grade UI built using pure HTML, CSS & JS.</p>
 </div>
 </section>
 
-<!-- DASHBOARD -->
 <section class="dashboard" id="dashboard">
 <h1>Donation Dashboard</h1>
 
@@ -273,10 +322,17 @@ color:white;
 <div class="modal-content" id="modalContent"></div>
 </div>
 
+<div class="success-panel" id="successPanel">
+<h2>🎉 Thank You For Your Donation ❤️</h2>
+<p>Your support makes a difference!</p>
+<br>
+<button class="primary" onclick="closeSuccess()">Close</button>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <footer>
-© 2026 Bright Future Foundation • Demo SaaS Project
+© 2026 Bright Future Foundation • Portfolio SaaS Project
 </footer>
 
 <script>
@@ -339,8 +395,7 @@ function logout(){
 currentUser=null;
 localStorage.removeItem("currentUser");
 showToast("Logged Out");
-document.getElementById("dashboard").style.display="none";
-document.getElementById("landing").style.display="flex";
+location.reload();
 }
 
 function showDashboard(){
@@ -353,13 +408,15 @@ function donate(){
 if(!currentUser){showToast("Login Required");return;}
 let amt=parseInt(amount.value);
 if(!amt){showToast("Enter Amount");return;}
+
 let txn="TXN"+Math.floor(Math.random()*9999999);
 currentUser.donations.push({txn,amt});
 localStorage.setItem("currentUser",JSON.stringify(currentUser));
 users[users.findIndex(u=>u.email===currentUser.email)]=currentUser;
 localStorage.setItem("users",JSON.stringify(users));
-showToast("Payment Successful ✅");
+
 updateDashboard();
+showSuccess();
 }
 
 function updateDashboard(){
@@ -367,6 +424,14 @@ let total=currentUser.donations.reduce((a,b)=>a+b.amt,0);
 totalAmount.innerText=total;
 totalTxn.innerText=currentUser.donations.length;
 historyTable.innerHTML=currentUser.donations.map(d=>`<tr><td>${d.txn}</td><td>₹${d.amt}</td></tr>`).join("");
+}
+
+function showSuccess(){
+successPanel.classList.add("show");
+}
+
+function closeSuccess(){
+successPanel.classList.remove("show");
 }
 
 function showToast(msg){
