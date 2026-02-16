@@ -1,37 +1,46 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     text-align: center;
-    background: #f4f7fa;
+    background: #f5f7fa;
 }
 
 nav {
-    padding: 20px;
     background: #1d3557;
     color: white;
+    padding: 15px;
 }
 
-nav button {
-    padding: 6px 15px;
+button {
+    padding: 8px 15px;
+    margin: 5px;
+    border: none;
     background: #e63946;
     color: white;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .hero {
-    padding: 80px;
+    padding: 50px;
     background: #457b9d;
     color: white;
 }
 
-.login-section {
-    padding: 50px;
+input {
+    padding: 8px;
+    margin: 10px;
 }
 
-footer {
-    background: #1d3557;
-    color: white;
-    padding: 20px;
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.hidden {
+    display: none;
+}
+
+ul {
+    list-style: none;
 }
