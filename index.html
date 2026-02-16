@@ -4,102 +4,142 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bright Future Foundation</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
---primary:#7C5CFF;
---secondary:#00D4FF;
---bg:#f4f6ff;
---text:#222;
+--bg:#f7f9fc;
+--sidebar:#111827;
+--primary:#6366f1;
+--card:#ffffff;
+--text:#111827;
 }
 
 body.dark{
---bg:#0f0f14;
---text:#fff;
---primary:#9D4EDD;
---secondary:#00F5D4;
+--bg:#0f172a;
+--card:#1e293b;
+--text:#ffffff;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter;}
 
 body{
+display:flex;
 background:var(--bg);
 color:var(--text);
-transition:.4s;
-overflow-x:hidden;
+transition:.3s;
 }
 
-header{
+/* SIDEBAR */
+.sidebar{
+width:230px;
+height:100vh;
+background:var(--sidebar);
+color:white;
+padding:30px 20px;
+position:fixed;
+}
+
+.sidebar h2{
+margin-bottom:40px;
+}
+
+.sidebar button{
+display:block;
+width:100%;
+margin-bottom:15px;
+padding:10px;
+border:none;
+border-radius:8px;
+background:#1f2937;
+color:white;
+cursor:pointer;
+}
+
+.sidebar button:hover{
+background:var(--primary);
+}
+
+/* MAIN */
+.main{
+margin-left:230px;
+width:100%;
+padding:40px;
+}
+
+.topbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 40px;
-background:linear-gradient(90deg,var(--primary),var(--secondary));
-color:white;
-}
-
-header button{
-margin-left:10px;
-padding:8px 14px;
-border:none;
-border-radius:20px;
-cursor:pointer;
-font-weight:600;
-background:white;
-color:black;
-}
-
-.hero{
-text-align:center;
-padding:100px 20px;
-background:linear-gradient(45deg,var(--primary),var(--secondary));
-color:white;
-}
-
-.section{
-padding:60px 10%;
-text-align:center;
+margin-bottom:30px;
 }
 
 .card{
-background:rgba(255,255,255,.7);
-backdrop-filter:blur(15px);
-padding:30px;
-border-radius:20px;
-max-width:500px;
-margin:20px auto;
-box-shadow:0 20px 40px rgba(0,0,0,.15);
+background:var(--card);
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+margin-bottom:20px;
+transition:.3s;
 }
 
-body.dark .card{
-background:rgba(30,30,30,.6);
+.stats{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.stat-box{
+flex:1;
+min-width:200px;
 }
 
 input{
 width:100%;
-padding:12px;
+padding:10px;
 margin:10px 0;
-border-radius:10px;
-border:none;
+border-radius:8px;
+border:1px solid #ccc;
 }
 
 button.primary{
 background:var(--primary);
 color:white;
-width:100%;
-padding:12px;
 border:none;
-border-radius:10px;
+padding:10px 15px;
+border-radius:8px;
 cursor:pointer;
-transition:.3s;
 }
 
-button.primary:hover{
-transform:scale(1.05);
+button.primary:active{
+transform:scale(.97);
 }
 
-/* Toast */
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.6);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:white;
+padding:30px;
+border-radius:15px;
+width:350px;
+animation:fade .3s;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+/* TOAST */
 .toast{
 position:fixed;
 bottom:20px;
@@ -109,163 +149,208 @@ color:white;
 padding:15px 20px;
 border-radius:10px;
 opacity:0;
-transform:translateY(20px);
-transition:.4s;
+transition:.3s;
 }
 
 .toast.show{
 opacity:1;
-transform:translateY(0);
-}
-
-/* Profile Panel */
-.profile-panel{
-position:fixed;
-right:-400px;
-top:0;
-width:350px;
-height:100%;
-background:white;
-box-shadow:-10px 0 30px rgba(0,0,0,.2);
-padding:20px;
-transition:.4s;
-overflow:auto;
-}
-
-body.dark .profile-panel{
-background:#1a1a1a;
-}
-
-.profile-panel.open{
-right:0;
 }
 
 .profile-img{
-width:80px;height:80px;
+width:70px;height:70px;
 border-radius:50%;
 object-fit:cover;
+margin-bottom:10px;
 }
 
-footer{
-text-align:center;
-padding:20px;
-background:#111;
-color:white;
-margin-top:50px;
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
 }
+
+th,td{
+padding:8px;
+border-bottom:1px solid #ddd;
+text-align:left;
+}
+
 </style>
 </head>
 <body>
 
-<header>
-<h2>Bright Future Foundation</h2>
-<div>
-<button onclick="toggleMode()">🌙</button>
-<button onclick="signup()">Sign Up</button>
-<button onclick="login()">Login</button>
+<div class="sidebar">
+<h2>BrightFuture</h2>
+<button onclick="openDashboard()">Dashboard</button>
 <button onclick="openProfile()">Profile</button>
+<button onclick="openModal('login')">Login</button>
+<button onclick="openModal('signup')">Sign Up</button>
+<button onclick="logout()">Logout</button>
+<button onclick="toggleMode()">🌙 Dark</button>
 </div>
-</header>
 
-<section class="hero">
-<h1>Empowering Children's Future</h1>
-<p>Education • Health • Hope</p>
-</section>
+<div class="main">
 
-<section class="section">
+<div class="topbar">
+<h1>Donation Dashboard</h1>
+</div>
+
+<div class="stats">
+<div class="card stat-box">
+<h3>Total Donated</h3>
+<h2>₹ <span id="totalAmount">0</span></h2>
+</div>
+
+<div class="card stat-box">
+<h3>Total Transactions</h3>
+<h2 id="totalTxn">0</h2>
+</div>
+</div>
+
 <div class="card">
-<h2>Donate</h2>
+<h3>Make a Donation</h3>
 <input type="number" id="amount" placeholder="Enter Amount ₹">
-<button class="primary" onclick="donate()">Donate Now</button>
+<button class="primary" onclick="donate()">Donate</button>
 </div>
-</section>
 
-<div class="profile-panel" id="profilePanel">
-<h2>Your Profile</h2>
-<div id="profileContent"></div>
+<div class="card">
+<h3>Donation History</h3>
+<table>
+<thead>
+<tr><th>Transaction ID</th><th>Amount</th></tr>
+</thead>
+<tbody id="historyTable"></tbody>
+</table>
+</div>
+
+</div>
+
+<div class="modal" id="modal">
+<div class="modal-content" id="modalContent"></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<footer>
-Demo Website • No Real Money
-</footer>
-
 <script>
-let users=[];
-let currentUser=null;
+let users=JSON.parse(localStorage.getItem("users"))||[];
+let currentUser=JSON.parse(localStorage.getItem("currentUser"));
+
+updateDashboard();
 
 function showToast(msg){
-let toast=document.getElementById("toast");
-toast.innerText=msg;
-toast.classList.add("show");
-setTimeout(()=>toast.classList.remove("show"),3000);
+let t=document.getElementById("toast");
+t.innerText=msg;
+t.classList.add("show");
+setTimeout(()=>t.classList.remove("show"),3000);
 }
 
 function toggleMode(){
 document.body.classList.toggle("dark");
 }
 
+function openModal(type){
+modal.style.display="flex";
+if(type==="signup"){
+modalContent.innerHTML=`
+<h3>Create Account</h3>
+<input id="suName" placeholder="Name">
+<input id="suEmail" placeholder="Email">
+<input id="suPass" type="password" placeholder="Password">
+<button class="primary" onclick="signup()">Sign Up</button>
+`;
+}
+if(type==="login"){
+modalContent.innerHTML=`
+<h3>Login</h3>
+<input id="liEmail" placeholder="Email">
+<input id="liPass" type="password" placeholder="Password">
+<button class="primary" onclick="login()">Login</button>
+`;
+}
+}
+
 function signup(){
-let name=prompt("Enter Name");
-let email=prompt("Enter Email");
-let pass=prompt("Enter Password");
-users.push({name,email,pass,donated:0,history:[]});
+let user={
+name:suName.value,
+email:suEmail.value,
+pass:suPass.value,
+donations:[]
+};
+users.push(user);
+localStorage.setItem("users",JSON.stringify(users));
 showToast("Account Created 🎉");
+modal.style.display="none";
 }
 
 function login(){
-let email=prompt("Email");
-let pass=prompt("Password");
-let user=users.find(u=>u.email===email && u.pass===pass);
+let user=users.find(u=>u.email===liEmail.value && u.pass===liPass.value);
 if(user){
 currentUser=user;
-showToast("Welcome back "+user.name);
+localStorage.setItem("currentUser",JSON.stringify(user));
+showToast("Welcome "+user.name);
+updateDashboard();
+modal.style.display="none";
 }else{
 showToast("Invalid Login ❌");
 }
 }
 
+function logout(){
+currentUser=null;
+localStorage.removeItem("currentUser");
+showToast("Logged Out");
+updateDashboard();
+}
+
 function donate(){
 if(!currentUser){
-showToast("Please login first ⚠️");
+showToast("Login Required ⚠️");
 return;
 }
-let amt=document.getElementById("amount").value;
-if(!amt){
-showToast("Enter amount");
-return;
-}
+let amt=parseInt(amount.value);
+if(!amt){showToast("Enter Amount");return;}
+
 let txn="TXN"+Math.floor(Math.random()*9999999);
-currentUser.donated+=parseInt(amt);
-currentUser.history.push({amt,txn});
-showToast("Donation Successful ✅");
+currentUser.donations.push({txn,amt});
+localStorage.setItem("currentUser",JSON.stringify(currentUser));
+
+let index=users.findIndex(u=>u.email===currentUser.email);
+users[index]=currentUser;
+localStorage.setItem("users",JSON.stringify(users));
+
+showToast("Payment Successful ✅");
+updateDashboard();
+}
+
+function updateDashboard(){
+if(!currentUser){
+totalAmount.innerText=0;
+totalTxn.innerText=0;
+historyTable.innerHTML="";
+return;
+}
+
+let total=currentUser.donations.reduce((a,b)=>a+b.amt,0);
+totalAmount.innerText=total;
+totalTxn.innerText=currentUser.donations.length;
+
+historyTable.innerHTML=currentUser.donations.map(d=>
+`<tr><td>${d.txn}</td><td>₹${d.amt}</td></tr>`
+).join("");
 }
 
 function openProfile(){
 if(!currentUser){
-showToast("Login to view profile ⚠️");
+showToast("Login First");
 return;
 }
-let panel=document.getElementById("profilePanel");
-panel.classList.add("open");
-
-let historyHTML=currentUser.history.map(h=>`
-<p>₹${h.amt} — ${h.txn}</p>
-`).join("");
-
-document.getElementById("profileContent").innerHTML=`
-<p><strong>Name:</strong> ${currentUser.name}</p>
-<p><strong>Total Donated:</strong> ₹${currentUser.donated}</p>
-<h4>Donation History:</h4>
-${historyHTML || "No donations yet"}
-<br><br>
-<button class="primary" onclick="closeProfile()">Close</button>
+modal.style.display="flex";
+modalContent.innerHTML=`
+<h3>${currentUser.name}</h3>
+<p>Email: ${currentUser.email}</p>
+<p>Total Donations: ₹${currentUser.donations.reduce((a,b)=>a+b.amt,0)}</p>
+<button class="primary" onclick="modal.style.display='none'">Close</button>
 `;
-}
-
-function closeProfile(){
-document.getElementById("profilePanel").classList.remove("open");
 }
 </script>
 
