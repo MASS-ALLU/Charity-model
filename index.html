@@ -2,59 +2,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bright Future Foundation | SaaS Demo</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
+<title>FundFlow – The Future of Creator Funding</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
---primary:#7C3AED;
---secondary:#06B6D4;
---bg:#f8fafc;
---card:#ffffff;
---dark:#0f172a;
-}
-
-body.dark{
---bg:#0f172a;
---card:#1e293b;
-color:white;
-}
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter;}
-
-body{
-background:var(--bg);
-transition:.4s;
-overflow-x:hidden;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:#0f172a;color:white}
+a{text-decoration:none;color:white}
+button{cursor:pointer}
 
 /* NAV */
 nav{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 8%;
+padding:20px 60px;
 position:fixed;
 width:100%;
-background:rgba(255,255,255,.85);
-backdrop-filter:blur(12px);
+background:rgba(15,23,42,0.8);
+backdrop-filter:blur(10px);
 z-index:1000;
 }
-
-nav h2{
-font-weight:800;
-font-size:22px;
-}
-
+nav h2{color:#38bdf8}
 nav button{
-margin-left:10px;
-padding:8px 15px;
+background:#38bdf8;
 border:none;
+padding:10px 20px;
 border-radius:8px;
-background:linear-gradient(45deg,var(--primary),var(--secondary));
-color:white;
-cursor:pointer;
 font-weight:600;
 }
 
@@ -66,378 +39,243 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-background:linear-gradient(135deg,var(--primary),var(--secondary));
-color:white;
 padding:20px;
 }
-
 .hero h1{
-font-size:52px;
-font-weight:800;
+font-size:50px;
 margin-bottom:20px;
 }
-
 .hero p{
-font-size:18px;
-max-width:650px;
+max-width:600px;
+opacity:0.7;
 margin-bottom:30px;
 }
-
 .hero button{
-padding:14px 25px;
+background:#38bdf8;
 border:none;
+padding:14px 30px;
+font-size:16px;
 border-radius:10px;
-background:white;
-color:var(--primary);
-font-weight:700;
-cursor:pointer;
-transition:.3s;
 }
 
-.hero button:hover{
-transform:translateY(-4px);
-}
-
-/* FEATURES */
-.features{
-padding:120px 8%;
+/* STATS */
+.stats{
 display:flex;
-gap:30px;
-flex-wrap:wrap;
 justify-content:center;
+gap:60px;
+padding:60px 0;
+background:#111827;
 }
-
-.feature-card{
-background:var(--card);
-padding:30px;
-border-radius:20px;
-box-shadow:0 20px 50px rgba(0,0,0,.08);
-width:300px;
-transition:.4s;
+.stat{
+text-align:center;
 }
-
-.feature-card:hover{
-transform:translateY(-10px);
+.stat h2{
+font-size:40px;
+color:#38bdf8;
 }
+.stat p{opacity:0.6}
 
 /* DASHBOARD */
 .dashboard{
 display:none;
-padding:120px 8%;
+padding:100px 40px 40px;
 }
-
-.stats{
+.cards{
 display:flex;
 gap:20px;
-flex-wrap:wrap;
+margin-bottom:30px;
 }
-
-.stat{
-flex:1;
-min-width:220px;
-background:var(--card);
-padding:30px;
-border-radius:20px;
-box-shadow:0 15px 40px rgba(0,0,0,.08);
-}
-
 .card{
-background:var(--card);
-padding:30px;
-border-radius:20px;
-box-shadow:0 15px 40px rgba(0,0,0,.08);
-margin-top:30px;
+flex:1;
+background:#1e293b;
+padding:20px;
+border-radius:12px;
 }
+.card h3{margin-bottom:10px;color:#38bdf8}
 
-input{
-width:100%;
-padding:12px;
-margin:12px 0;
-border-radius:10px;
-border:1px solid #ddd;
-}
-
-button.primary{
-background:linear-gradient(45deg,var(--primary),var(--secondary));
-color:white;
+.donate-btn{
+margin-top:20px;
+background:#22c55e;
 border:none;
-padding:12px 18px;
-border-radius:10px;
-cursor:pointer;
-font-weight:600;
-}
-
-table{
+padding:12px;
+border-radius:8px;
 width:100%;
-border-collapse:collapse;
-margin-top:15px;
-}
-
-th,td{
-padding:10px;
-border-bottom:1px solid #ddd;
-text-align:left;
+font-weight:600;
 }
 
 /* MODAL */
 .modal{
 display:none;
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,.6);
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
 justify-content:center;
 align-items:center;
 }
-
 .modal-content{
-background:white;
-padding:35px;
-border-radius:20px;
-width:360px;
-animation:fade .3s;
+background:#1e293b;
+padding:30px;
+border-radius:12px;
+width:300px;
+text-align:center;
+animation:pop 0.3s ease;
+}
+@keyframes pop{
+from{transform:scale(0.8);opacity:0}
+to{transform:scale(1);opacity:1}
+}
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:8px;
+border:none;
 }
 
-@keyframes fade{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-/* SUCCESS PANEL */
-.success-panel{
+/* SUCCESS POPUP */
+.success{
+display:none;
 position:fixed;
 top:50%;
 left:50%;
-transform:translate(-50%,-50%) scale(.8);
-background:white;
-padding:40px;
-border-radius:25px;
-box-shadow:0 30px 80px rgba(0,0,0,.2);
+transform:translate(-50%,-50%);
+background:#16a34a;
+padding:30px;
+border-radius:12px;
 text-align:center;
-opacity:0;
-transition:.4s;
+animation:pop 0.3s ease;
+}
+.loader{
+border:4px solid #ddd;
+border-top:4px solid #38bdf8;
+border-radius:50%;
+width:40px;
+height:40px;
+margin:20px auto;
+animation:spin 1s linear infinite;
+}
+@keyframes spin{
+0%{transform:rotate(0)}
+100%{transform:rotate(360deg)}
 }
 
-.success-panel.show{
-opacity:1;
-transform:translate(-50%,-50%) scale(1);
-}
-
-.success-panel h2{
-color:green;
-margin-bottom:15px;
-}
-
-/* TOAST */
-.toast{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#111;
-color:white;
-padding:15px 20px;
-border-radius:10px;
-opacity:0;
-transition:.3s;
-}
-
-.toast.show{opacity:1;}
-
+/* FOOTER */
 footer{
 text-align:center;
-padding:50px;
-margin-top:100px;
-background:#111;
-color:white;
+padding:40px;
+opacity:0.6;
 }
 </style>
 </head>
 <body>
 
 <nav>
-<h2>BrightFuture</h2>
-<div>
-<button onclick="toggleMode()">🌙</button>
-<button onclick="openModal('login')">Login</button>
-<button onclick="openModal('signup')">Sign Up</button>
-<button onclick="logout()">Logout</button>
-</div>
+<h2>FundFlow</h2>
+<button onclick="openLogin()">Login</button>
 </nav>
 
-<section class="hero" id="landing">
-<h1>Empowering Children's Future</h1>
-<p>A startup-style demo SaaS platform for managing donations and tracking impact.</p>
-<button onclick="scrollToFeatures()">Explore Platform</button>
+<section class="hero">
+<h1>Powering The Next Generation of Creators</h1>
+<p>FundFlow is a modern funding platform helping creators scale faster with community-backed growth.</p>
+<button onclick="openLogin()">Get Started</button>
 </section>
 
-<section class="features" id="features">
-<div class="feature-card">
-<h3>Impact Dashboard</h3>
-<p>Track donation stats with modern analytics UI.</p>
+<section class="stats">
+<div class="stat">
+<h2>₹12.4M+</h2>
+<p>Funds Raised</p>
 </div>
-<div class="feature-card">
-<h3>Secure Simulation</h3>
-<p>Fake payment system designed for educational portfolio.</p>
+<div class="stat">
+<h2>3,200+</h2>
+<p>Active Creators</p>
 </div>
-<div class="feature-card">
-<h3>Professional Design</h3>
-<p>Startup-grade UI built using pure HTML, CSS & JS.</p>
+<div class="stat">
+<h2>98%</h2>
+<p>Success Rate</p>
 </div>
 </section>
 
 <section class="dashboard" id="dashboard">
-<h1>Donation Dashboard</h1>
+<h2 style="margin-bottom:20px">Dashboard</h2>
 
-<div class="stats">
-<div class="stat">
-<h3>Total Donated</h3>
-<h2>₹ <span id="totalAmount">0</span></h2>
-</div>
-
-<div class="stat">
-<h3>Total Transactions</h3>
-<h2 id="totalTxn">0</h2>
-</div>
-</div>
-
+<div class="cards">
 <div class="card">
-<h3>Make Donation</h3>
-<input type="number" id="amount" placeholder="Enter Amount ₹">
-<button class="primary" onclick="donate()">Donate</button>
+<h3>Total Donations</h3>
+<p>₹<span id="total">0</span></p>
+</div>
+<div class="card">
+<h3>Transactions</h3>
+<p id="transactions">0</p>
+</div>
+<div class="card">
+<h3>Status</h3>
+<p>Active</p>
+</div>
 </div>
 
-<div class="card">
-<h3>Donation History</h3>
-<table>
-<thead>
-<tr><th>Transaction ID</th><th>Amount</th></tr>
-</thead>
-<tbody id="historyTable"></tbody>
-</table>
-</div>
+<button class="donate-btn" onclick="simulatePayment()">Donate ₹499</button>
 
 </section>
 
-<div class="modal" id="modal">
-<div class="modal-content" id="modalContent"></div>
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+<div class="modal-content">
+<h3>Login</h3>
+<input placeholder="Email">
+<input placeholder="Password" type="password">
+<button style="margin-top:10px;background:#38bdf8;border:none;padding:10px;width:100%;border-radius:8px"
+onclick="login()">Enter Dashboard</button>
+</div>
 </div>
 
-<div class="success-panel" id="successPanel">
-<h2>🎉 Thank You For Your Donation ❤️</h2>
-<p>Your support makes a difference!</p>
-<br>
-<button class="primary" onclick="closeSuccess()">Close</button>
+<!-- SUCCESS POPUP -->
+<div class="success" id="successBox">
+<h3>Processing...</h3>
+<div class="loader"></div>
 </div>
-
-<div class="toast" id="toast"></div>
 
 <footer>
-© 2026 Bright Future Foundation • Portfolio SaaS Project
+© 2026 FundFlow. YC Demo Project.
 </footer>
 
 <script>
-let users=JSON.parse(localStorage.getItem("users"))||[];
-let currentUser=JSON.parse(localStorage.getItem("currentUser"));
+let total=0;
+let count=0;
 
-if(currentUser) showDashboard();
-
-function toggleMode(){
-document.body.classList.toggle("dark");
-}
-
-function scrollToFeatures(){
-window.scrollTo({top:document.getElementById("features").offsetTop-80,behavior:'smooth'});
-}
-
-function openModal(type){
-modal.style.display="flex";
-if(type==="signup"){
-modalContent.innerHTML=`
-<h3>Create Account</h3>
-<input id="suName" placeholder="Name">
-<input id="suEmail" placeholder="Email">
-<input id="suPass" type="password" placeholder="Password">
-<button class="primary" onclick="signup()">Sign Up</button>
-`;
-}
-if(type==="login"){
-modalContent.innerHTML=`
-<h3>Login</h3>
-<input id="liEmail" placeholder="Email">
-<input id="liPass" type="password" placeholder="Password">
-<button class="primary" onclick="login()">Login</button>
-`;
-}
-}
-
-function signup(){
-let user={name:suName.value,email:suEmail.value,pass:suPass.value,donations:[]};
-users.push(user);
-localStorage.setItem("users",JSON.stringify(users));
-showToast("Account Created 🎉");
-modal.style.display="none";
+function openLogin(){
+document.getElementById('loginModal').style.display='flex';
 }
 
 function login(){
-let user=users.find(u=>u.email===liEmail.value && u.pass===liPass.value);
-if(user){
-currentUser=user;
-localStorage.setItem("currentUser",JSON.stringify(user));
-showToast("Welcome "+user.name);
-modal.style.display="none";
-showDashboard();
-}else{
-showToast("Invalid Login ❌");
-}
+document.getElementById('loginModal').style.display='none';
+document.querySelector('.hero').style.display='none';
+document.querySelector('.stats').style.display='none';
+document.getElementById('dashboard').style.display='block';
 }
 
-function logout(){
-currentUser=null;
-localStorage.removeItem("currentUser");
-showToast("Logged Out");
-location.reload();
-}
+function simulatePayment(){
+let box=document.getElementById('successBox');
+box.style.display='block';
+box.innerHTML="<h3>Processing...</h3><div class='loader'></div>";
 
-function showDashboard(){
-document.getElementById("landing").style.display="none";
-document.getElementById("dashboard").style.display="block";
-updateDashboard();
-}
+setTimeout(()=>{
+let txn="TXN"+Math.floor(Math.random()*99999999);
+total+=499;
+count++;
+document.getElementById('total').innerText=total;
+document.getElementById('transactions').innerText=count;
 
-function donate(){
-if(!currentUser){showToast("Login Required");return;}
-let amt=parseInt(amount.value);
-if(!amt){showToast("Enter Amount");return;}
+box.innerHTML=`
+<h3>Payment Successful 🎉</h3>
+<p>Transaction ID: ${txn}</p>
+<p>Thank you for your donation ❤️</p>
+`;
+setTimeout(()=>{box.style.display='none'},3000);
 
-let txn="TXN"+Math.floor(Math.random()*9999999);
-currentUser.donations.push({txn,amt});
-localStorage.setItem("currentUser",JSON.stringify(currentUser));
-users[users.findIndex(u=>u.email===currentUser.email)]=currentUser;
-localStorage.setItem("users",JSON.stringify(users));
-
-updateDashboard();
-showSuccess();
-}
-
-function updateDashboard(){
-let total=currentUser.donations.reduce((a,b)=>a+b.amt,0);
-totalAmount.innerText=total;
-totalTxn.innerText=currentUser.donations.length;
-historyTable.innerHTML=currentUser.donations.map(d=>`<tr><td>${d.txn}</td><td>₹${d.amt}</td></tr>`).join("");
-}
-
-function showSuccess(){
-successPanel.classList.add("show");
-}
-
-function closeSuccess(){
-successPanel.classList.remove("show");
-}
-
-function showToast(msg){
-toast.innerText=msg;
-toast.classList.add("show");
-setTimeout(()=>toast.classList.remove("show"),3000);
+},2000);
 }
 </script>
 
