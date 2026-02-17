@@ -3,43 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elite Global Foundation</title>
+<title>Elite Global Foundation | Charity for Children</title>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 body{margin:0;font-family:'Open Sans',sans-serif;background:#fdfaf6;color:#4e342e;}
 header{background:#5d4037;color:white;padding:20px 40px;}
+header h1{margin:0;font-size:26px;}
+nav{margin-top:10px;}
 nav a{color:#efebe9;margin-right:20px;text-decoration:none;font-weight:600;}
 nav a:hover{text-decoration:underline;}
 .hero{background:#ffffff;padding:70px 20px;text-align:center;border-bottom:3px solid #d7ccc8;}
+.hero h2{font-size:34px;margin-bottom:15px;color:#5d4037;}
+.hero p{max-width:700px;margin:auto;font-size:18px;line-height:1.6;color:#6d4c41;}
 .section{padding:60px 20px;text-align:center;}
-.beige{background:#f5e6d3;}
-footer{background:#4e342e;color:#efebe9;padding:25px;text-align:center;margin-top:40px;}
+.beige-section{background:#f5efe6;}
+.section h3{font-size:28px;margin-bottom:20px;color:#5d4037;}
+.metrics{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:30px;}
+.metric{background:#ffffff;padding:25px;border-radius:8px;width:220px;border:1px solid #d7ccc8;box-shadow:0 3px 10px rgba(93,64,55,0.1);}
+.metric h4{margin:0;font-size:24px;color:#5d4037;}
+.photo-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:30px;}
+.photo-grid img{width:220px;height:150px;object-fit:cover;border-radius:6px;border:2px solid #d7ccc8;}
+.donate-box, .report-box, .volunteer-box{background:#ffffff;padding:35px;border-radius:8px;border:1px solid #d7ccc8;box-shadow:0 3px 10px rgba(93,64,55,0.1);display:inline-block;max-width:600px;width:90%;}
+.donate-box button, .volunteer-box button{background:#6d4c41;color:white;border:none;padding:12px 22px;margin:8px;border-radius:4px;font-weight:600;cursor:pointer;}
+.donate-box button:hover, .volunteer-box button:hover{background:#4e342e;}
+.volunteer-box input, .volunteer-box textarea{width:90%;padding:10px;margin:10px 0;border:1px solid #d7ccc8;border-radius:4px;font-family:inherit;}
+footer{background:#4e342e;color:#efebe9;padding:25px;text-align:center;margin-top:50px;}
+.counter{font-weight:700;color:#5d4037;}
+hr{border:none;height:1px;background:#d7ccc8;margin:40px auto;width:80%;}
 </style>
 </head>
 <body>
+
 <header>
 <h1>Elite Global Foundation</h1>
 <nav>
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="donate.html">Donate</a>
-<a href="volunteer.html">Volunteer</a>
+<a href="#about">About</a>
+<a href="#impact">Impact</a>
+<a href="#projects">Projects</a>
+<a href="#report">Transparency</a>
+<a href="#volunteer">Volunteer</a>
+<a href="#donate">Donate</a>
 </nav>
 </header>
-<section class="hero">
+
+<section class="hero" id="about">
 <h2>Helping Children Build a Better Future</h2>
-<p>We provide education, healthcare and community support to underprivileged children.</p>
+<p>
+Elite Global Foundation is a non-profit charity organization dedicated to providing education, healthcare, and hope to underprivileged children. Every donation supports real programs that improve lives and strengthen communities.
+</p>
 </section>
-<section class="section beige">
-<h3>Our Mission</h3>
-<p>To create equal opportunities for children through sustainable charity programs.</p>
+
+<hr>
+
+<section class="section beige-section" id="impact">
+<h3>Our Impact</h3>
+<div class="metrics">
+<div class="metric">
+<h4 class="counter" id="funds">₹0</h4>
+<p>Total Funds Raised</p>
+</div>
+<div class="metric">
+<h4 class="counter" id="lives">0</h4>
+<p>Children Supported</p>
+</div>
+<div class="metric">
+<h4>48</h4>
+<p>Communities Reached</p>
+</div>
+</div>
 </section>
-<section class="section">
-<h3>Transparency Promise</h3>
-<p>We ensure responsible use of every donation with clear reporting and accountability.</p>
+
+<hr>
+
+<section class="section" id="projects">
+<h3>Our Projects</h3>
+<div class="photo-grid">
+<img src="https://images.unsplash.com/photo-1589987601337-96cf711aa9bc?auto=format&fit=crop&w=400&q=80" alt="Education Program">
+<img src="https://images.unsplash.com/photo-1597645587822-e99fa5d45d25?auto=format&fit=crop&w=400&q=80" alt="Healthcare Support">
+<img src="https://images.unsplash.com/photo-1598330850630-c28949d5a0d6?auto=format&fit=crop&w=400&q=80" alt="Community Outreach">
+</div>
 </section>
+
+<hr>
+
+<section class="section beige-section" id="report">
+<h3>Transparency & Financial Report</h3>
+<div class="report-box">
+<p><strong>Annual Funds Collected:</strong> ₹12,50,000</p>
+<p><strong>Program Expenses:</strong> ₹10,20,000</p>
+<p><strong>Administrative Costs:</strong> ₹1,30,000</p>
+<p><strong>Emergency Relief Reserve:</strong> ₹1,00,000</p>
+<p>We are committed to full transparency. Detailed audited financial reports are available upon request.</p>
+</div>
+</section>
+
+<hr>
+
+<section class="section" id="volunteer">
+<h3>Become a Volunteer</h3>
+<div class="volunteer-box">
+<form onsubmit="submitVolunteer(event)">
+<input type="text" placeholder="Full Name" required><br>
+<input type="email" placeholder="Email Address" required><br>
+<textarea rows="4" placeholder="Why do you want to volunteer?" required></textarea><br>
+<button type="submit">Submit Application</button>
+</form>
+</div>
+</section>
+
+<hr>
+
+<section class="section beige-section" id="donate">
+<h3>Make a Donation</h3>
+<div class="donate-box">
+<p>Your contribution can change a child’s life.</p>
+<button onclick="donate(100)">Donate ₹100</button>
+<button onclick="donate(500)">Donate ₹500</button>
+<button onclick="donate(1000)">Donate ₹1000</button>
+</div>
+</section>
+
 <footer>
 <p>© 2026 Elite Global Foundation | Registered Charity Organization</p>
+<p>Contact: info@eliteglobalfoundation.org</p>
 </footer>
+
+<script>
+let totalFunds = 0;
+let totalLives = 0;
+
+function donate(amount){
+totalFunds += amount;
+totalLives += Math.floor(amount / 100);
+document.getElementById('funds').innerText = '₹' + totalFunds;
+document.getElementById('lives').innerText = totalLives;
+alert('Thank you for your generous donation of ₹' + amount + '.');
+}
+
+function submitVolunteer(event){
+event.preventDefault();
+alert('Thank you for applying to volunteer. We will contact you soon.');
+}
+</script>
+
 </body>
 </html>
