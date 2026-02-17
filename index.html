@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Delivering transparent global impact. Make a secure donation and download an instant receipt.">
 <title>The Elite Global Humanity Foundation</title>
 
 <!-- jsPDF for receipt generation -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 :root {
@@ -16,6 +17,11 @@
   --soft-grey: #F4F6F8;
   --light-grey: #E6E9EE;
   --white: #FFFFFF;
+  --success: #0F766E;
+  --danger: #B42318;
+  --shadow: 0 10px 30px rgba(0,0,0,0.10);
+  --radius: 10px;
+  --max: 1080px;
 }
 
 body {
@@ -23,44 +29,95 @@ body {
   font-family: Georgia, serif;
   background-color: var(--soft-grey);
   color: var(--primary-navy);
+  line-height: 1.5;
 }
 
 header {
   background: var(--white);
-  padding: 15px 60px;
+  padding: 14px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-header nav a {
-  margin-left: 25px;
-  text-decoration: none;
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-link {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 8px 10px;
+  border-radius: 8px;
   color: var(--primary-navy);
   font-weight: 600;
   cursor:pointer;
+}
+
+.nav-link:hover {
+  background: rgba(28,46,74,0.06);
+}
+
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 10px;
+  background: var(--white);
+  color: var(--primary-navy);
+  padding: 10px 12px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+.skip-link:focus {
+  left: 10px;
 }
 
 .hero {
   background: var(--primary-navy);
   color: white;
   text-align: center;
-  padding: 90px 20px;
+  padding: 80px 20px;
 }
 
 .btn-primary {
   background: var(--accent-blue);
   color: white;
-  padding: 12px 28px;
+  padding: 12px 18px;
   border: none;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 10px;
   font-weight: 600;
   margin-top: 20px;
 }
 
-section { padding: 70px 60px; }
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--primary-navy);
+  padding: 10px 14px;
+  border: 1px solid var(--light-grey);
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+section { padding: 60px 20px; }
 .white-section { background: var(--white); }
 .beige-section { background: var(--light-grey); }
 
@@ -69,8 +126,8 @@ section { padding: 70px 60px; }
   padding: 30px;
   max-width: 500px;
   margin: auto;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   border-top: 5px solid var(--primary-navy);
 }
 
@@ -80,12 +137,48 @@ input, textarea, select {
   margin-bottom: 15px;
   border: 1px solid var(--light-grey);
   border-radius: 4px;
+  box-sizing: border-box;
 }
+
+.field label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.help {
+  margin: -10px 0 14px;
+  font-size: 13px;
+  color: rgba(28,46,74,0.8);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.notice {
+  margin-top: 14px;
+  padding: 12px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--light-grey);
+  background: rgba(244,246,248,0.7);
+}
+.notice[hidden] { display: none; }
+.notice.success { border-color: rgba(15,118,110,0.25); background: rgba(15,118,110,0.08); color: #0b4b45; }
+.notice.error { border-color: rgba(180,35,24,0.25); background: rgba(180,35,24,0.08); color: #7a1a12; }
 
 .qr-box {
   text-align: center;
   padding: 20px;
   border: 1px solid var(--light-grey);
+  border-radius: 10px;
+}
+
+.qr-box img {
+  border-radius: 10px;
 }
 
 .report-box {
@@ -99,6 +192,8 @@ input, textarea, select {
   display:flex;
   justify-content:space-around;
   text-align:center;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
 .counter h2 {
@@ -122,171 +217,497 @@ footer {
   background:rgba(0,0,0,0.5);
   justify-content:center;
   align-items:center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .modal-content {
   background:white;
-  padding:30px;
-  width:320px;
+  padding:22px;
+  width: min(420px, 100%);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
 }
 
 /* Profile */
 #profilePage {
   display:none;
 }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.icon-btn {
+  border: 1px solid var(--light-grey);
+  background: white;
+  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 3px solid rgba(46,76,115,0.35);
+  outline-offset: 2px;
+}
+
+@media (min-width: 860px) {
+  header { padding: 14px 60px; }
+  section { padding: 70px 60px; }
+  .hero { padding: 92px 20px; }
+}
+
+@media (max-width: 520px) {
+  .row { grid-template-columns: 1fr; }
+  header h2 { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+}
 </style>
 </head>
 <body>
 
-<header>
-  <h2>The Elite Global Humanity Foundation</h2>
-  <nav>
-    <a onclick="scrollToDonate()">Donate</a>
-    <a onclick="openLogin()">Login</a>
-  </nav>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header aria-label="Site header">
+  <div class="container" style="display:flex; justify-content:space-between; align-items:center; gap:14px;">
+    <h2 style="margin:0;">The Elite Global Humanity Foundation</h2>
+    <nav aria-label="Primary navigation">
+      <a class="nav-link" href="#donate">Donate</a>
+      <button class="nav-link" type="button" id="openLoginBtn">Member Login</button>
+    </nav>
+  </div>
 </header>
 
-<section class="hero">
-  <h1>BUILT ON TRUST</h1>
-  <p>Delivering Transparent Global Impact</p>
-  <button class="btn-primary" onclick="scrollToDonate()">Make a Donation</button>
-</section>
+<main id="main">
+  <section class="hero" aria-label="Hero section">
+    <div class="container">
+      <h1 style="margin:0 0 8px;">BUILT ON TRUST</h1>
+      <p style="margin:0; opacity:0.95;">Delivering Transparent Global Impact</p>
+      <a class="btn-primary" href="#donate" style="display:inline-block; text-decoration:none;">Make a Donation</a>
+      <p class="help" style="color: rgba(255,255,255,0.85); margin-top: 16px;">
+        Demo site: this page does not process real payments.
+      </p>
+    </div>
+  </section>
 
 <!-- IMPACT COUNTERS -->
 <section class="white-section">
-<h2 style="text-align:center;">Our Global Impact</h2>
-<div class="counter-box">
-  <div class="counter">
-    <h2 id="c1">0</h2>
-    <p>Families Supported</p>
+  <div class="container">
+    <h2 style="text-align:center; margin-top:0;">Our Global Impact</h2>
+    <div class="counter-box" aria-label="Impact counters">
+      <div class="counter">
+        <h2 id="c1" aria-label="Families supported">0</h2>
+        <p>Families Supported</p>
+      </div>
+      <div class="counter">
+        <h2 id="c2" aria-label="Children educated">0</h2>
+        <p>Children Educated</p>
+      </div>
+      <div class="counter">
+        <h2 id="c3" aria-label="Communities served">0</h2>
+        <p>Communities Served</p>
+      </div>
+    </div>
   </div>
-  <div class="counter">
-    <h2 id="c2">0</h2>
-    <p>Children Educated</p>
-  </div>
-  <div class="counter">
-    <h2 id="c3">0</h2>
-    <p>Communities Served</p>
-  </div>
-</div>
 </section>
 
 <!-- DONATION -->
 <section id="donate" class="beige-section">
-<h2 style="text-align:center;">Secure Donation</h2>
+  <div class="container">
+    <h2 style="text-align:center; margin-top:0;">Secure Donation</h2>
 
-<div class="payment-card">
-<input type="number" id="amount" placeholder="Enter Amount ₹">
-<select onchange="togglePayment(this.value)">
-<option value="card">Card</option>
-<option value="upi">UPI</option>
-</select>
+    <div class="payment-card" role="region" aria-label="Donation form">
+      <form id="donationForm">
+        <div class="field">
+          <label for="amount">Donation amount (INR)</label>
+          <input type="number" id="amount" name="amount" placeholder="e.g. 500" min="1" step="1" inputmode="numeric" required>
+          <p class="help">You can download an instant receipt after donating.</p>
+        </div>
 
-<div id="card-section">
-<input placeholder="Card Number">
-<input placeholder="Expiry (MM/YY)">
-<input placeholder="CVV">
-</div>
+        <div class="row">
+          <div class="field">
+            <label for="donorName">Full name (optional)</label>
+            <input id="donorName" name="donorName" autocomplete="name" placeholder="Your name">
+          </div>
+          <div class="field">
+            <label for="donorEmail">Email (optional)</label>
+            <input id="donorEmail" name="donorEmail" type="email" autocomplete="email" placeholder="name@example.com">
+          </div>
+        </div>
 
-<div id="upi-section" style="display:none;">
-<div class="qr-box">
-<p>Scan to Pay</p>
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=elitefoundation@upi">
-<p>elitefoundation@upi</p>
-</div>
-</div>
+        <div class="field">
+          <label for="paymentMethod">Payment method</label>
+          <select id="paymentMethod" name="paymentMethod">
+            <option value="card">Card</option>
+            <option value="upi">UPI</option>
+          </select>
+        </div>
 
-<button class="btn-primary" onclick="processDonation()">Donate Now</button>
-</div>
+        <div id="card-section" aria-label="Card details">
+          <div class="field">
+            <label for="cardNumber">Card number (demo)</label>
+            <input id="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" maxlength="23">
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="cardExpiry">Expiry (MM/YY)</label>
+              <input id="cardExpiry" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5">
+            </div>
+            <div class="field">
+              <label for="cardCvv">CVV</label>
+              <input id="cardCvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4">
+            </div>
+          </div>
+          <p class="help">For a real payment flow, you would integrate a payment provider.</p>
+        </div>
+
+        <div id="upi-section" style="display:none;" aria-label="UPI payment">
+          <div class="qr-box">
+            <p style="margin-top:0;"><strong>Scan to Pay</strong></p>
+            <img id="upiQr" alt="UPI QR code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=elitefoundation@upi">
+            <p style="margin-bottom: 10px;">
+              UPI ID: <code id="upiId">elitefoundation@upi</code>
+            </p>
+            <button class="btn-secondary" type="button" id="copyUpiBtn">Copy UPI ID</button>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="donateBtn" type="submit">Donate Now</button>
+        <button class="btn-secondary" id="downloadLastReceiptBtn" type="button" style="margin-left:10px; margin-top:20px;" disabled>
+          Download last receipt
+        </button>
+
+        <div id="donationNotice" class="notice" hidden></div>
+      </form>
+    </div>
+  </div>
 </section>
 
 <!-- PROFILE PAGE -->
 <section id="profilePage" class="white-section">
-<h2>Member Dashboard</h2>
-<p><strong>Name:</strong> Donor Member</p>
-<p><strong>Total Donations:</strong> ₹<span id="totalDonation">0</span></p>
-<button class="btn-primary" onclick="logout()">Logout</button>
+  <div class="container">
+    <h2 style="margin-top:0;">Member Dashboard</h2>
+    <p><strong>Name:</strong> <span id="memberName">Donor Member</span></p>
+    <p><strong>Total Donations:</strong> ₹<span id="totalDonation">0</span></p>
+    <div id="donationHistory" class="report-box" aria-label="Donation history">
+      <strong>Recent donations</strong>
+      <div id="donationHistoryList" style="margin-top:10px;"></div>
+    </div>
+    <button class="btn-primary" id="logoutBtn" type="button">Logout</button>
+  </div>
 </section>
 
 <footer>
-© 2026 The Elite Global Humanity Foundation
+  <div class="container">
+    © 2026 The Elite Global Humanity Foundation
+  </div>
 </footer>
 
 <!-- LOGIN -->
 <div class="modal" id="loginModal">
 <div class="modal-content">
-<h3>Member Login</h3>
-<input placeholder="Email">
-<input placeholder="Password" type="password">
-<button class="btn-primary" onclick="login()">Login</button>
+  <div class="modal-header">
+    <h3 id="loginTitle" style="margin:0;">Member Login</h3>
+    <button class="icon-btn" type="button" id="closeLoginBtn" aria-label="Close login dialog">✕</button>
+  </div>
+  <p class="help">Demo only. No credentials are verified or stored.</p>
+  <div class="field">
+    <label for="loginEmail">Email</label>
+    <input id="loginEmail" type="email" autocomplete="email" placeholder="name@example.com">
+  </div>
+  <div class="field">
+    <label for="loginPassword">Password</label>
+    <input id="loginPassword" placeholder="••••••••" type="password" autocomplete="current-password">
+  </div>
+  <button class="btn-primary" id="loginBtn" type="button">Login</button>
 </div>
 </div>
 
 <script>
-const { jsPDF } = window.jspdf;
-let totalDonated = 0;
+function $(id) { return document.getElementById(id); }
 
-/* Animated Counters */
-function animateCounter(id, target){
-  let count=0;
-  let interval=setInterval(()=>{
-    count+=Math.ceil(target/100);
-    if(count>=target){count=target; clearInterval(interval);}
-    document.getElementById(id).innerText=count.toLocaleString();
-  },20);
+const STORAGE_KEY = "charity_demo_v1";
+const UPI_ID = "elitefoundation@upi";
+
+const state = loadState();
+renderTotals();
+renderHistory();
+
+// Impact counters animate when visible
+setupCounters();
+
+// Donation form interactions
+$("paymentMethod").addEventListener("change", (e) => togglePayment(e.target.value));
+$("donationForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  processDonation();
+});
+$("copyUpiBtn").addEventListener("click", async () => {
+  await copyText(UPI_ID);
+  showNotice("success", "UPI ID copied to clipboard.");
+});
+$("downloadLastReceiptBtn").addEventListener("click", () => {
+  if (!state.lastReceipt) return;
+  generateReceipt(state.lastReceipt);
+});
+
+// Login modal interactions
+$("openLoginBtn").addEventListener("click", openLogin);
+$("closeLoginBtn").addEventListener("click", closeLogin);
+$("loginBtn").addEventListener("click", login);
+$("logoutBtn").addEventListener("click", logout);
+$("loginModal").addEventListener("click", (e) => {
+  if (e.target === $("loginModal")) closeLogin();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeLogin();
+});
+
+// Initialize UPI QR + payment sections
+$("upiId").innerText = UPI_ID;
+$("upiQr").src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(UPI_ID)}`;
+togglePayment($("paymentMethod").value);
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { member: null, donations: [], totalDonated: 0, lastReceipt: null };
+    const parsed = JSON.parse(raw);
+    return {
+      member: parsed.member ?? null,
+      donations: Array.isArray(parsed.donations) ? parsed.donations : [],
+      totalDonated: Number.isFinite(parsed.totalDonated) ? parsed.totalDonated : 0,
+      lastReceipt: parsed.lastReceipt ?? null
+    };
+  } catch {
+    return { member: null, donations: [], totalDonated: 0, lastReceipt: null };
+  }
 }
 
-animateCounter("c1", 12500);
-animateCounter("c2", 8400);
-animateCounter("c3", 320);
-
-/* Payment Toggle */
-function togglePayment(val){
-document.getElementById("card-section").style.display = val==="card"?"block":"none";
-document.getElementById("upi-section").style.display = val==="upi"?"block":"none";
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-function scrollToDonate(){
-document.getElementById("donate").scrollIntoView({behavior:"smooth"});
+function togglePayment(val) {
+  $("card-section").style.display = val === "card" ? "block" : "none";
+  $("upi-section").style.display = val === "upi" ? "block" : "none";
 }
 
-/* Donation Process */
-function processDonation(){
-let amount=document.getElementById("amount").value;
-if(!amount){ alert("Enter donation amount"); return;}
-
-totalDonated += parseInt(amount);
-document.getElementById("totalDonation").innerText = totalDonated;
-
-if(confirm("Donation Successful!\nDo you want to download the receipt?")){
-generateReceipt(amount);
-}
+function showNotice(kind, message) {
+  const el = $("donationNotice");
+  el.className = `notice ${kind === "error" ? "error" : "success"}`;
+  el.textContent = message;
+  el.hidden = false;
 }
 
-function generateReceipt(amount){
-const doc=new jsPDF();
-doc.setFontSize(16);
-doc.text("The Elite Global Humanity Foundation",20,20);
-doc.text("Official Donation Receipt",20,35);
-doc.text("Amount: ₹"+amount,20,50);
-doc.text("Date: "+new Date().toLocaleDateString(),20,65);
-doc.text("Thank you for your contribution.",20,80);
-doc.save("Donation_Receipt.pdf");
+function clearNotice() {
+  $("donationNotice").hidden = true;
+  $("donationNotice").textContent = "";
 }
 
-/* Login */
-function openLogin(){
-document.getElementById("loginModal").style.display="flex";
+function sanitizeMoney(amount) {
+  const n = Number(amount);
+  if (!Number.isFinite(n)) return null;
+  const i = Math.floor(n);
+  if (i <= 0) return null;
+  return i;
 }
 
-function login(){
-document.getElementById("loginModal").style.display="none";
-document.getElementById("profilePage").style.display="block";
-window.scrollTo(0,document.body.scrollHeight);
+function processDonation() {
+  clearNotice();
+
+  const amount = sanitizeMoney($("amount").value);
+  if (amount === null) {
+    showNotice("error", "Please enter a valid donation amount.");
+    $("amount").focus();
+    return;
+  }
+
+  const donorName = String($("donorName").value || "").trim();
+  const donorEmail = String($("donorEmail").value || "").trim();
+  const method = $("paymentMethod").value;
+
+  const receipt = {
+    receiptId: `EGHF-${Date.now().toString(36).toUpperCase()}`,
+    amount,
+    donorName: donorName || null,
+    donorEmail: donorEmail || null,
+    method,
+    dateISO: new Date().toISOString()
+  };
+
+  state.totalDonated += amount;
+  state.donations.unshift(receipt);
+  state.lastReceipt = receipt;
+  saveState();
+
+  renderTotals();
+  renderHistory();
+
+  $("downloadLastReceiptBtn").disabled = false;
+  showNotice("success", "Donation recorded. You can download your receipt now.");
 }
 
-function logout(){
-document.getElementById("profilePage").style.display="none";
+function renderTotals() {
+  $("totalDonation").innerText = (state.totalDonated || 0).toLocaleString();
+  $("downloadLastReceiptBtn").disabled = !state.lastReceipt;
+}
+
+function renderHistory() {
+  const list = $("donationHistoryList");
+  if (!list) return;
+  const items = state.donations.slice(0, 5);
+  if (items.length === 0) {
+    list.innerHTML = "<div>No donations yet.</div>";
+    return;
+  }
+  list.innerHTML = items.map((d) => {
+    const date = new Date(d.dateISO).toLocaleString();
+    const name = d.donorName ? ` • ${escapeHtml(d.donorName)}` : "";
+    const method = d.method ? ` • ${escapeHtml(d.method.toUpperCase())}` : "";
+    return `<div style="margin-bottom:8px;">
+      <strong>₹${Number(d.amount).toLocaleString()}</strong>${name}${method}
+      <div style="font-size:13px; opacity:0.85;">${escapeHtml(d.receiptId)} • ${escapeHtml(date)}</div>
+    </div>`;
+  }).join("");
+}
+
+function generateReceipt(receipt) {
+  const jspdf = window.jspdf;
+  if (!jspdf || !jspdf.jsPDF) {
+    showNotice("error", "Receipt generator not loaded. Please refresh the page.");
+    return;
+  }
+  const { jsPDF } = jspdf;
+  const doc = new jsPDF();
+
+  const date = new Date(receipt.dateISO);
+  doc.setFontSize(16);
+  doc.text("The Elite Global Humanity Foundation", 20, 20);
+  doc.setFontSize(12);
+  doc.text("Official Donation Receipt (Demo)", 20, 30);
+  doc.text(`Receipt ID: ${receipt.receiptId}`, 20, 40);
+  doc.text(`Amount: ₹${Number(receipt.amount).toLocaleString()}`, 20, 50);
+  doc.text(`Method: ${String(receipt.method || "").toUpperCase()}`, 20, 60);
+  doc.text(`Date: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`, 20, 70);
+  if (receipt.donorName) doc.text(`Donor: ${receipt.donorName}`, 20, 80);
+  if (receipt.donorEmail) doc.text(`Email: ${receipt.donorEmail}`, 20, 90);
+  doc.text("Thank you for your contribution.", 20, 110);
+  doc.setFontSize(10);
+  doc.text("Note: This receipt was generated by a demo web page and does not represent a processed transaction.", 20, 125, { maxWidth: 170 });
+  doc.save(`Donation_Receipt_${receipt.receiptId}.pdf`);
+}
+
+function openLogin() {
+  $("loginModal").style.display = "flex";
+  $("loginModal").setAttribute("role", "dialog");
+  $("loginModal").setAttribute("aria-modal", "true");
+  $("loginModal").setAttribute("aria-labelledby", "loginTitle");
+  $("loginEmail").focus();
+}
+
+function closeLogin() {
+  $("loginModal").style.display = "none";
+}
+
+function login() {
+  const email = String($("loginEmail").value || "").trim();
+  const nameFromEmail = email.includes("@") ? email.split("@")[0] : null;
+  state.member = { email: email || null, name: nameFromEmail ? nameFromEmail.split(".").join(" ") : "Donor Member" };
+  saveState();
+  $("memberName").innerText = state.member.name || "Donor Member";
+  $("loginModal").style.display = "none";
+  $("profilePage").style.display = "block";
+  $("profilePage").scrollIntoView({ behavior: "smooth" });
+}
+
+function logout() {
+  state.member = null;
+  saveState();
+  $("profilePage").style.display = "none";
+  showNotice("success", "Logged out.");
+}
+
+async function copyText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const el = document.createElement("textarea");
+  el.value = text;
+  el.setAttribute("readonly", "");
+  el.style.position = "absolute";
+  el.style.left = "-9999px";
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand("copy");
+  document.body.removeChild(el);
+}
+
+function setupCounters() {
+  const counters = [
+    { id: "c1", target: 12500 },
+    { id: "c2", target: 8400 },
+    { id: "c3", target: 320 }
+  ];
+
+  const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const run = () => counters.forEach((c) => animateCounter(c.id, c.target, prefersReducedMotion));
+
+  if (!("IntersectionObserver" in window)) {
+    run();
+    return;
+  }
+
+  let hasRun = false;
+  const obs = new IntersectionObserver((entries) => {
+    if (hasRun) return;
+    if (entries.some((e) => e.isIntersecting)) {
+      hasRun = true;
+      run();
+      obs.disconnect();
+    }
+  }, { threshold: 0.3 });
+
+  const first = $(counters[0].id);
+  if (first) obs.observe(first);
+}
+
+function animateCounter(id, target, prefersReducedMotion) {
+  const el = $(id);
+  if (!el) return;
+  if (prefersReducedMotion) {
+    el.innerText = Number(target).toLocaleString();
+    return;
+  }
+  let count = 0;
+  const steps = 60;
+  const inc = Math.max(1, Math.round(target / steps));
+  const interval = setInterval(() => {
+    count += inc;
+    if (count >= target) {
+      count = target;
+      clearInterval(interval);
+    }
+    el.innerText = Number(count).toLocaleString();
+  }, 18);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 </script>
 
