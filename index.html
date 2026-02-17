@@ -361,6 +361,148 @@ html[data-theme="dark"] .bar { background: rgba(255,255,255,0.10); }
   border-left: 6px solid var(--accent-blue);
 }
 
+.section-title {
+  text-align: center;
+  margin-top: 0;
+}
+
+.lead {
+  text-align: center;
+  margin: 0 auto 22px;
+  max-width: 70ch;
+  opacity: 0.9;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--light-grey);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+}
+html[data-theme="dark"] .card {
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+}
+
+.card .content {
+  padding: 16px 16px 18px;
+}
+
+.card img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+  background: rgba(28,46,74,0.06);
+}
+
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--light-grey);
+  background: rgba(244,246,248,0.65);
+}
+html[data-theme="dark"] .tag {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.card h3 {
+  margin: 12px 0 8px;
+}
+
+.card p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.stats-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.faq {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: var(--white);
+  border: 1px solid var(--light-grey);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.faq-q {
+  width: 100%;
+  text-align: left;
+  padding: 14px 14px;
+  border: 0;
+  background: transparent;
+  color: var(--primary-navy);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-weight: 800;
+}
+
+.faq-a {
+  padding: 0 14px 14px;
+  opacity: 0.92;
+}
+
+.faq-a[hidden] { display: none; }
+
+.pill-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.pill {
+  border: 1px solid var(--light-grey);
+  background: rgba(244,246,248,0.65);
+  border-radius: 999px;
+  padding: 10px 12px;
+  font-weight: 800;
+}
+html[data-theme="dark"] .pill {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.donor-feed {
+  margin-top: 14px;
+  border-top: 1px dashed rgba(28,46,74,0.25);
+  padding-top: 12px;
+}
+html[data-theme="dark"] .donor-feed {
+  border-top-color: rgba(255,255,255,0.18);
+}
+
+.donor-feed h4 { margin: 0 0 10px; }
+.donor-feed .item { font-size: 14px; margin-bottom: 6px; opacity: 0.95; }
+.donor-feed .muted { font-size: 13px; opacity: 0.75; }
+
 .counter-box {
   display:flex;
   justify-content:space-around;
@@ -433,6 +575,7 @@ footer {
   header { padding: 14px 60px; }
   section { padding: 70px 60px; }
   .hero { padding: 92px 20px; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
 }
 
 @media (max-width: 520px) {
@@ -494,6 +637,97 @@ footer {
         <h2 id="c3" aria-label="Communities served">0</h2>
         <p>Communities Served</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES / GALLERY -->
+<section class="beige-section" id="stories">
+  <div class="container">
+    <h2 class="section-title">Faces of impact</h2>
+    <p class="lead">
+      These are demo visuals. Replace `assets/story-*.svg` with your own authorized photos (recommended) or licensed stock images.
+    </p>
+
+    <div class="grid-3" aria-label="Impact stories">
+      <article class="card">
+        <img src="assets/story-1.svg" alt="Illustration: food relief distribution" loading="lazy" decoding="async">
+        <div class="content">
+          <span class="tag">Emergency Meals</span>
+          <h3>Hot meals when families need it most</h3>
+          <p>Rapid-response kits and community kitchens help stabilize households during sudden hardship.</p>
+          <div class="stats-row">
+            <span><strong>1</strong> kit = <strong>3</strong> days of meals</span>
+            <span>•</span>
+            <span>Delivered in <strong>24–48h</strong></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="assets/story-2.svg" alt="Illustration: child-friendly nutrition support" loading="lazy" decoding="async">
+        <div class="content">
+          <span class="tag">Child Nutrition</span>
+          <h3>Nutrition support for growing kids</h3>
+          <p>We prioritize essential nutrition for children through locally sourced, culturally appropriate foods.</p>
+          <div class="stats-row">
+            <span><strong>₹500</strong> helps fund a week of supplements</span>
+            <span>•</span>
+            <span>Tracked & reported</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="assets/story-3.svg" alt="Illustration: community volunteers serving meals" loading="lazy" decoding="async">
+        <div class="content">
+          <span class="tag">Community Partners</span>
+          <h3>Local partners, real transparency</h3>
+          <p>We work with vetted community groups and publish what we deliver, where, and when.</p>
+          <div class="stats-row">
+            <span>Receipts & reports</span>
+            <span>•</span>
+            <span>Auditable distribution</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="pill-row" aria-label="Highlights">
+      <div class="pill">Verified distribution</div>
+      <div class="pill">Instant receipts</div>
+      <div class="pill">Monthly giving option</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="white-section" id="programs">
+  <div class="container">
+    <h2 class="section-title">What we fund</h2>
+    <p class="lead">Clear programs, measurable outcomes, and transparent reporting.</p>
+    <div class="grid-3" aria-label="Programs">
+      <article class="card">
+        <div class="content">
+          <span class="tag">Food</span>
+          <h3>Emergency food packs</h3>
+          <p>Staples, nutrition, and hygiene essentials delivered with local partners.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="content">
+          <span class="tag">Education</span>
+          <h3>School support</h3>
+          <p>Meals at school, supplies, and support to keep children learning consistently.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="content">
+          <span class="tag">Water</span>
+          <h3>Clean water access</h3>
+          <p>Water filters and safe storage solutions to reduce preventable illness.</p>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -585,6 +819,12 @@ footer {
         </button>
 
         <div id="donationNotice" class="notice" hidden></div>
+
+        <div class="donor-feed" aria-label="Recent donors feed">
+          <h4>Recent donors (demo)</h4>
+          <div id="recentDonors"></div>
+          <div class="muted">Names are hidden for privacy.</div>
+        </div>
       </form>
     </div>
 
@@ -610,6 +850,46 @@ footer {
       <p class="help" style="margin-top: 12px;">
         Replace these demo percentages with your audited breakdown.
       </p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="white-section" id="faq">
+  <div class="container">
+    <h2 class="section-title">FAQ</h2>
+    <p class="lead">Quick answers to common questions (demo content).</p>
+
+    <div class="faq" aria-label="Frequently asked questions">
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Is this a real payment page?
+          <span aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a" hidden>
+          This is a demo UI. No real payment is processed. Use a payment provider (Stripe/Razorpay/etc.) for production.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Can I get a receipt?
+          <span aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a" hidden>
+          Yes—after donating, use “Download last receipt” to generate a PDF on your device.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          What does monthly mean here?
+          <span aria-hidden="true">+</span>
+        </button>
+        <div class="faq-a" hidden>
+          It’s a demo toggle that labels the donation as “monthly”. No subscription is created on this page.
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -667,6 +947,7 @@ const state = loadState();
 initTheme();
 renderTotals();
 renderHistory();
+renderRecentDonors();
 
 // Impact counters animate when visible
 setupCounters();
@@ -800,6 +1081,7 @@ function processDonation() {
 
   renderTotals();
   renderHistory();
+  renderRecentDonors();
 
   $("downloadLastReceiptBtn").disabled = false;
   showNotice("success", "Donation recorded. You can download your receipt now.");
@@ -809,6 +1091,21 @@ function processDonation() {
 function renderTotals() {
   $("totalDonation").innerText = (state.totalDonated || 0).toLocaleString();
   $("downloadLastReceiptBtn").disabled = !state.lastReceipt;
+}
+
+function renderRecentDonors() {
+  const host = $("recentDonors");
+  if (!host) return;
+  const items = state.donations.slice(0, 4);
+  if (items.length === 0) {
+    host.innerHTML = `<div class="item">Be the first to donate.</div>`;
+    return;
+  }
+  host.innerHTML = items.map((d) => {
+    const when = new Date(d.dateISO).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const freq = d.frequency === "monthly" ? "monthly" : "one-time";
+    return `<div class="item">₹${Number(d.amount).toLocaleString()} <span class="muted">• ${escapeHtml(freq)} • ${escapeHtml(when)}</span></div>`;
+  }).join("");
 }
 
 function renderHistory() {
@@ -946,6 +1243,20 @@ function setupReveals() {
   }, { threshold: 0.14 });
   nodes.forEach((n) => obs.observe(n));
 }
+
+// FAQ accordion
+document.querySelectorAll(".faq-q").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const item = btn.closest(".faq-item");
+    if (!item) return;
+    const answer = item.querySelector(".faq-a");
+    const expanded = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", expanded ? "false" : "true");
+    if (answer) answer.hidden = expanded;
+    const icon = btn.querySelector("span[aria-hidden='true']");
+    if (icon) icon.textContent = expanded ? "+" : "−";
+  });
+});
 
 function openLogin() {
   $("loginModal").style.display = "flex";
