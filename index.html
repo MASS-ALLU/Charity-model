@@ -46,6 +46,15 @@ opacity:0;transform:translateY(30px);transition:1s;
 .hero button{padding:16px 40px;border-radius:14px;border:none;background:#4ade80;font-weight:700;cursor:pointer;font-size:18px;transition:0.3s;}
 .hero button:hover{background:#22d3ee;color:white;}
 
+/* LEADERBOARD */
+.leaderboard{
+padding:50px 40px;text-align:center;opacity:0;transform:translateY(30px);transition:1s;}
+.leaderboard.visible{opacity:1;transform:translateY(0);}
+.leaderboard h2{font-size:36px;margin-bottom:20px;}
+.leaderboard ul{list-style:none;max-width:500px;margin:auto;padding:0;}
+.leaderboard li{background:#111827;padding:15px 20px;margin:10px 0;border-radius:12px;display:flex;justify-content:space-between;transition:0.3s;}
+.leaderboard li:hover{background:#22d3ee;color:black;}
+
 /* IMPACT SECTION */
 .section{padding:100px 40px;text-align:center;opacity:0;transform:translateY(30px);transition:1s;}
 .section.visible{opacity:1;transform:translateY(0);}
@@ -67,6 +76,12 @@ opacity:0;transform:translateY(30px);transition:1s;
 .donation-box.visible{opacity:1;transform:translateY(0);}
 .donation-box button{margin:10px;padding:12px 24px;border:none;border-radius:12px;font-weight:600;cursor:pointer;background:#22d3ee;transition:0.3s;}
 .donation-box button:hover{background:#4ade80;color:white;}
+
+/* PAYMENT SIMULATION */
+.payment-box{background:#111827;padding:30px;margin:50px auto;border-radius:20px;max-width:400px;text-align:center;opacity:0;transform:translateY(30px);transition:1s;}
+.payment-box.visible{opacity:1;transform:translateY(0);}
+.payment-box button{padding:10px 20px;margin:10px;border-radius:12px;border:none;font-weight:600;cursor:pointer;background:#22d3ee;transition:0.3s;}
+.payment-box button:hover{background:#4ade80;color:white;}
 
 /* DASHBOARD */
 .dashboard{display:none;margin-top:90px;padding:40px 40px;}
@@ -94,6 +109,16 @@ opacity:0;transform:translateY(30px);transition:1s;
 <h1 id="hero-title">Every Donation Changes a Life</h1>
 <p id="hero-text">We empower children worldwide with education, health & hope.</p>
 <button onclick="simulateDonation(100)" id="hero-btn">Donate $100</button>
+</section>
+
+<!-- LEADERBOARD -->
+<section class="leaderboard" id="leaderboard">
+<h2 id="leader-title">Live Donation Leaderboard</h2>
+<ul id="leader-list">
+<li>Rahul - ₹500</li>
+<li>Aisha - ₹250</li>
+<li>Deepak - ₹100</li>
+</ul>
 </section>
 
 <!-- IMPACT -->
@@ -136,6 +161,15 @@ opacity:0;transform:translateY(30px);transition:1s;
 <button onclick="simulateDonation(1000)" id="don-btn1000">$1000</button>
 </div>
 
+<!-- PAYMENT SIMULATION -->
+<div class="payment-box" id="payment-box">
+<h3 id="payment-title">Simulated Payment</h3>
+<p id="payment-text">Supported: UPI, Visa, MasterCard (Demo Only)</p>
+<button onclick="simulatePayment('UPI')">Pay with UPI</button>
+<button onclick="simulatePayment('Visa')">Visa</button>
+<button onclick="simulatePayment('MasterCard')">MasterCard</button>
+</div>
+
 <!-- DASHBOARD -->
 <section class="dashboard" id="dashboard">
 <h2 id="dash-title">Transparency Dashboard</h2>
@@ -162,6 +196,7 @@ en:{
 "hero-title":"Every Donation Changes a Life",
 "hero-text":"We empower children worldwide with education, health & hope.",
 "hero-btn":"Donate $100",
+"leader-title":"Live Donation Leaderboard",
 "impact-title":"Global Impact & Accountability",
 "impact-text":"All contributions are traceable and transparent.",
 "fund-text":"Funds Distributed",
@@ -173,12 +208,15 @@ en:{
 "don-btn250":"$250",
 "don-btn1000":"$1000",
 "dash-title":"Transparency Dashboard",
-"total-title":"Total Donations Received"
+"total-title":"Total Donations Received",
+"payment-title":"Simulated Payment",
+"payment-text":"Supported: UPI, Visa, MasterCard (Demo Only)"
 },
 ml:{
 "hero-title":"ഓരോ സംഭാവനയും ഒരു ജീവിതം മാറ്റുന്നു",
 "hero-text":"ഞങ്ങൾ കുട്ടികൾക്ക് വിദ്യാഭ്യാസം, ആരോഗ്യവും പ്രതീക്ഷയും നൽകുന്നു.",
 "hero-btn":"$100 ദാനം ചെയ്യുക",
+"leader-title":"ലൈവ് ഡൊനേഷൻ ലീഡർബോർഡ്",
 "impact-title":"ആഗോള സ്വാധീനം & ഉത്തരവാദിത്തം",
 "impact-text":"എല്ലാ സംഭാവനകളും പിന്തുടരാൻ കഴിയുന്നവയും പരദർശകവുമാണ്.",
 "fund-text":"വിതരിച്ച ധനം",
@@ -190,20 +228,22 @@ ml:{
 "don-btn250":"$250",
 "don-btn1000":"$1000",
 "dash-title":"പാരദർശക ഡാഷ്ബോർഡ്",
-"total-title":"മൊത്തം സംഭാവനകൾ"
+"total-title":"മൊത്തം സംഭാവനകൾ",
+"payment-title":"സിമുലേറ്റഡ് പേയ്മെന്റ്",
+"payment-text":"പിന്തുണ: UPI, Visa, MasterCard (ഡെമോ മാത്രം)"
 }
 };
 
 function toggleLanguage(){
 language = language==="en" ? "ml" : "en";
 for(let id in textContent[language]){
-document.getElementById(id).innerText=textContent[language][id];
+if(document.getElementById(id)){document.getElementById(id).innerText=textContent[language][id];}
 }
 }
 
-// smooth fade-in on scroll
+// smooth fade-in
 function revealOnScroll(){
-document.querySelectorAll('.hero,.section,.photo-grid,.donation-box').forEach(el=>{
+document.querySelectorAll('.hero,.section,.photo-grid,.donation-box,.leaderboard,.payment-box').forEach(el=>{
 let top = el.getBoundingClientRect().top;
 if(top < window.innerHeight - 100){el.classList.add('visible');}
 });
@@ -211,7 +251,7 @@ if(top < window.innerHeight - 100){el.classList.add('visible');}
 window.addEventListener('scroll',revealOnScroll);
 window.addEventListener('load',revealOnScroll);
 
-// animated donation simulation
+// donation
 function simulateDonation(amount){
 let box=document.getElementById('successBox');
 box.style.display='block';
@@ -226,11 +266,31 @@ animateCounter("total",total);
 animateCounter("fund-counter",funds);
 animateCounter("lives-counter",lives);
 
+// Add to leaderboard
+let list = document.getElementById('leader-list');
+let name = ["Rahul","Aisha","Deepak","Meera","Sanjay","Anjali"];
+let donor = name[Math.floor(Math.random()*name.length)];
+let li = document.createElement('li');
+li.innerText = donor+" - ₹"+amount;
+list.prepend(li);
+if(list.childElementCount>5){list.removeChild(list.lastChild);}
+
 if(chart){chart.data.datasets[0].data.push(total);chart.update();}
 let msg = language==="en" ? 
 `<h3>Donation Confirmed 🌍</h3><p>Transaction ID: ${txn}</p><p>Thank you for your generosity ❤️</p>` :
 `<h3>ദാനം സ്ഥിരീകരിച്ചു 🌍</h3><p>Transaction ID: ${txn}</p><p>നിങ്ങളുടെ മനോഹര സാന്നിധ്യത്തിന് നന്ദി ❤️</p>`;
 box.innerHTML=msg;
+setTimeout(()=>{box.style.display='none'},3500);
+},2000);
+}
+
+// payment simulation
+function simulatePayment(method){
+let box=document.getElementById('successBox');
+box.style.display='block';
+box.innerHTML=`<h3>Processing ${method} Payment...</h3><div class='loader'></div>`;
+setTimeout(()=>{
+box.innerHTML=`<h3>${method} Payment Successful ✅</h3><p>Transaction ID: PAY${Math.floor(Math.random()*999999999)}</p>`;
 setTimeout(()=>{box.style.display='none'},3500);
 },2000);
 }
@@ -259,8 +319,8 @@ datasets:[{label:language==="en"?"Funds Distributed":"വിതരിച്ച �
 },
 options:{plugins:{legend:{labels:{color:"white"}}},scales:{x:{ticks:{color:"white"}},y:{ticks:{color:"white"}}}}
 });
-
 }
+
 function openDashboard(){
 document.getElementById('dashboard').style.display='block';
 window.scrollTo(0,document.body.scrollHeight);
