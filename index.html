@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Elite Global Humanity Foundation</title>
 
+<!-- jsPDF for receipt generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 :root {
   --primary-navy: #1C2E4A;
@@ -22,7 +25,6 @@ body {
   color: var(--primary-navy);
 }
 
-/* HEADER */
 header {
   background: var(--white);
   padding: 15px 60px;
@@ -37,28 +39,14 @@ header nav a {
   text-decoration: none;
   color: var(--primary-navy);
   font-weight: 600;
+  cursor:pointer;
 }
 
-header nav a:hover {
-  color: var(--accent-blue);
-}
-
-/* HERO */
 .hero {
   background: var(--primary-navy);
   color: white;
   text-align: center;
   padding: 90px 20px;
-}
-
-.hero h1 {
-  font-size: 40px;
-  letter-spacing: 2px;
-}
-
-.hero p {
-  font-size: 18px;
-  opacity: 0.9;
 }
 
 .btn-primary {
@@ -72,24 +60,10 @@ header nav a:hover {
   margin-top: 20px;
 }
 
-.btn-primary:hover {
-  background: var(--dark-navy);
-}
+section { padding: 70px 60px; }
+.white-section { background: var(--white); }
+.beige-section { background: var(--light-grey); }
 
-/* SECTION */
-section {
-  padding: 70px 60px;
-}
-
-.white-section {
-  background: var(--white);
-}
-
-.beige-section {
-  background: var(--light-grey);
-}
-
-/* DONATION CARD */
 .payment-card {
   background: white;
   padding: 30px;
@@ -108,15 +82,12 @@ input, textarea, select {
   border-radius: 4px;
 }
 
-/* QR */
 .qr-box {
   text-align: center;
   padding: 20px;
   border: 1px solid var(--light-grey);
-  margin-top: 15px;
 }
 
-/* REPORT */
 .report-box {
   background: var(--white);
   padding: 25px;
@@ -124,7 +95,17 @@ input, textarea, select {
   border-left: 6px solid var(--accent-blue);
 }
 
-/* FOOTER */
+.counter-box {
+  display:flex;
+  justify-content:space-around;
+  text-align:center;
+}
+
+.counter h2 {
+  font-size: 40px;
+  margin:0;
+}
+
 footer {
   background: var(--dark-navy);
   color: white;
@@ -132,15 +113,13 @@ footer {
   padding: 30px;
 }
 
-/* SIMPLE LOGIN MODAL */
+/* Modal */
 .modal {
-  display: none;
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.5);
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.5);
   justify-content:center;
   align-items:center;
 }
@@ -148,21 +127,22 @@ footer {
 .modal-content {
   background:white;
   padding:30px;
-  width:300px;
+  width:320px;
+}
+
+/* Profile */
+#profilePage {
+  display:none;
 }
 </style>
 </head>
-
 <body>
 
 <header>
   <h2>The Elite Global Humanity Foundation</h2>
   <nav>
-    <a href="#about">About</a>
-    <a href="#donate">Donate</a>
-    <a href="#transparency">Transparency</a>
-    <a href="#volunteer">Volunteer</a>
-    <a href="#" onclick="openLogin()">Login</a>
+    <a onclick="scrollToDonate()">Donate</a>
+    <a onclick="openLogin()">Login</a>
   </nav>
 </header>
 
@@ -172,104 +152,141 @@ footer {
   <button class="btn-primary" onclick="scrollToDonate()">Make a Donation</button>
 </section>
 
-<section id="about" class="white-section">
-  <h2>About Our Foundation</h2>
-  <p>
-    We are committed to humanitarian relief, education access,
-    healthcare support and global community development.
-    Our mission is built on transparency, accountability and measurable impact.
-  </p>
+<!-- IMPACT COUNTERS -->
+<section class="white-section">
+<h2 style="text-align:center;">Our Global Impact</h2>
+<div class="counter-box">
+  <div class="counter">
+    <h2 id="c1">0</h2>
+    <p>Families Supported</p>
+  </div>
+  <div class="counter">
+    <h2 id="c2">0</h2>
+    <p>Children Educated</p>
+  </div>
+  <div class="counter">
+    <h2 id="c3">0</h2>
+    <p>Communities Served</p>
+  </div>
+</div>
 </section>
 
+<!-- DONATION -->
 <section id="donate" class="beige-section">
-  <h2 style="text-align:center;">Secure Donation</h2>
+<h2 style="text-align:center;">Secure Donation</h2>
 
-  <div class="payment-card">
-    <label>Donation Amount (₹)</label>
-    <input type="number" placeholder="Enter Amount">
+<div class="payment-card">
+<input type="number" id="amount" placeholder="Enter Amount ₹">
+<select onchange="togglePayment(this.value)">
+<option value="card">Card</option>
+<option value="upi">UPI</option>
+</select>
 
-    <label>Select Payment Method</label>
-    <select onchange="togglePayment(this.value)">
-      <option value="card">Card Payment</option>
-      <option value="upi">UPI</option>
-    </select>
+<div id="card-section">
+<input placeholder="Card Number">
+<input placeholder="Expiry (MM/YY)">
+<input placeholder="CVV">
+</div>
 
-    <div id="card-section">
-      <input type="text" placeholder="Card Number">
-      <input type="text" placeholder="Expiry Date (MM/YY)">
-      <input type="text" placeholder="CVV">
-    </div>
+<div id="upi-section" style="display:none;">
+<div class="qr-box">
+<p>Scan to Pay</p>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=elitefoundation@upi">
+<p>elitefoundation@upi</p>
+</div>
+</div>
 
-    <div id="upi-section" style="display:none;">
-      <div class="qr-box">
-        <p>Scan to Pay</p>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=elitefoundation@upi" alt="QR">
-        <p>UPI ID: elitefoundation@upi</p>
-      </div>
-    </div>
-
-    <button class="btn-primary" onclick="alert('Donation Successful! Receipt Generated.')">Donate Now</button>
-  </div>
+<button class="btn-primary" onclick="processDonation()">Donate Now</button>
+</div>
 </section>
 
-<section id="transparency" class="white-section">
-  <h2>Transparency & Reports</h2>
-
-  <div class="report-box">
-    <h4>Annual Financial Report 2025</h4>
-    <p>View breakdown of donation allocation and impact distribution.</p>
-  </div>
-
-  <div class="report-box">
-    <h4>Impact Assessment Report</h4>
-    <p>Monitoring and evaluation of funded projects globally.</p>
-  </div>
-</section>
-
-<section id="volunteer" class="beige-section">
-  <h2>Volunteer With Us</h2>
-
-  <form>
-    <input type="text" placeholder="Full Name">
-    <input type="email" placeholder="Email Address">
-    <textarea placeholder="Why do you want to volunteer?"></textarea>
-    <button type="submit" class="btn-primary">Submit Application</button>
-  </form>
+<!-- PROFILE PAGE -->
+<section id="profilePage" class="white-section">
+<h2>Member Dashboard</h2>
+<p><strong>Name:</strong> Donor Member</p>
+<p><strong>Total Donations:</strong> ₹<span id="totalDonation">0</span></p>
+<button class="btn-primary" onclick="logout()">Logout</button>
 </section>
 
 <footer>
-  <p>© 2026 The Elite Global Humanity Foundation</p>
-  <p>Registered Humanitarian Organization | Built on Trust</p>
+© 2026 The Elite Global Humanity Foundation
 </footer>
 
-<!-- LOGIN MODAL -->
+<!-- LOGIN -->
 <div class="modal" id="loginModal">
-  <div class="modal-content">
-    <h3>Member Login</h3>
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Password">
-    <button class="btn-primary" onclick="closeLogin()">Login</button>
-  </div>
+<div class="modal-content">
+<h3>Member Login</h3>
+<input placeholder="Email">
+<input placeholder="Password" type="password">
+<button class="btn-primary" onclick="login()">Login</button>
+</div>
 </div>
 
 <script>
-function togglePayment(value){
-  document.getElementById("card-section").style.display =
-    value === "card" ? "block" : "none";
-  document.getElementById("upi-section").style.display =
-    value === "upi" ? "block" : "none";
+const { jsPDF } = window.jspdf;
+let totalDonated = 0;
+
+/* Animated Counters */
+function animateCounter(id, target){
+  let count=0;
+  let interval=setInterval(()=>{
+    count+=Math.ceil(target/100);
+    if(count>=target){count=target; clearInterval(interval);}
+    document.getElementById(id).innerText=count.toLocaleString();
+  },20);
+}
+
+animateCounter("c1", 12500);
+animateCounter("c2", 8400);
+animateCounter("c3", 320);
+
+/* Payment Toggle */
+function togglePayment(val){
+document.getElementById("card-section").style.display = val==="card"?"block":"none";
+document.getElementById("upi-section").style.display = val==="upi"?"block":"none";
 }
 
 function scrollToDonate(){
-  document.getElementById("donate").scrollIntoView({behavior:"smooth"});
+document.getElementById("donate").scrollIntoView({behavior:"smooth"});
 }
 
+/* Donation Process */
+function processDonation(){
+let amount=document.getElementById("amount").value;
+if(!amount){ alert("Enter donation amount"); return;}
+
+totalDonated += parseInt(amount);
+document.getElementById("totalDonation").innerText = totalDonated;
+
+if(confirm("Donation Successful!\nDo you want to download the receipt?")){
+generateReceipt(amount);
+}
+}
+
+function generateReceipt(amount){
+const doc=new jsPDF();
+doc.setFontSize(16);
+doc.text("The Elite Global Humanity Foundation",20,20);
+doc.text("Official Donation Receipt",20,35);
+doc.text("Amount: ₹"+amount,20,50);
+doc.text("Date: "+new Date().toLocaleDateString(),20,65);
+doc.text("Thank you for your contribution.",20,80);
+doc.save("Donation_Receipt.pdf");
+}
+
+/* Login */
 function openLogin(){
-  document.getElementById("loginModal").style.display="flex";
+document.getElementById("loginModal").style.display="flex";
 }
 
-function closeLogin(){
-  document.getElementById("loginModal").style.display="none";
+function login(){
+document.getElementById("loginModal").style.display="none";
+document.getElementById("profilePage").style.display="block";
+window.scrollTo(0,document.body.scrollHeight);
+}
+
+function logout(){
+document.getElementById("profilePage").style.display="none";
 }
 </script>
 
