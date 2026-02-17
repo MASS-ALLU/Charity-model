@@ -1,120 +1,52 @@
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #0f172a;
-    color: white;
-    transition: 0.4s;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate | Elite Global Foundation</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Open Sans',sans-serif;background:#fdfaf6;color:#4e342e;}
+header{background:#5d4037;color:white;padding:20px 40px;}
+nav a{color:#efebe9;margin-right:20px;text-decoration:none;font-weight:600;}
+.section{padding:60px 20px;text-align:center;}
+.beige{background:#f5e6d3;}
+button{background:#6d4c41;color:white;border:none;padding:12px 22px;margin:8px;border-radius:4px;font-weight:600;cursor:pointer;}
+button:hover{background:#4e342e;}
+footer{background:#4e342e;color:#efebe9;padding:25px;text-align:center;margin-top:40px;}
+</style>
+</head>
+<body>
+<header>
+<h1>Elite Global Foundation</h1>
+<nav>
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="donate.html">Donate</a>
+<a href="volunteer.html">Volunteer</a>
+</nav>
+</header>
+<section class="section">
+<h2>Make a Donation</h2>
+<p>Your generosity helps children access education and healthcare.</p>
+<button onclick="donate(100)">Donate ₹100</button>
+<button onclick="donate(500)">Donate ₹500</button>
+<button onclick="donate(1000)">Donate ₹1000</button>
+<p id="thanks"></p>
+</section>
+<section class="section beige">
+<h3>Where Your Money Goes</h3>
+<p>• 60% Education Programs</p>
+<p>• 25% Healthcare Support</p>
+<p>• 15% Community Development</p>
+</section>
+<footer>
+<p>© 2026 Elite Global Foundation</p>
+</footer>
+<script>
+function donate(amount){
+document.getElementById('thanks').innerText = 'Thank you for donating ₹' + amount + '!';
 }
-
-.dark {
-    background: #f5f7fa;
-    color: #111;
-}
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 50px;
-    background: rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
-}
-
-.logo {
-    font-weight: 700;
-    font-size: 20px;
-}
-
-button {
-    padding: 8px 15px;
-    margin: 5px;
-    border-radius: 20px;
-    border: none;
-    background: linear-gradient(45deg, #ff416c, #ff4b2b);
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.1);
-}
-
-.hero {
-    height: 90vh;
-    background: url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c") center/cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.hero-content {
-    background: rgba(0,0,0,0.6);
-    padding: 40px;
-    border-radius: 15px;
-}
-
-.stats {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 50px;
-}
-
-.stat-card {
-    background: rgba(255,255,255,0.1);
-    padding: 30px;
-    border-radius: 15px;
-    width: 200px;
-}
-
-.gallery {
-    padding: 50px;
-    text-align: center;
-}
-
-.image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.image-grid img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 15px;
-    transition: 0.3s;
-}
-
-.image-grid img:hover {
-    transform: scale(1.05);
-}
-
-.donation {
-    padding: 50px;
-    text-align: center;
-}
-
-input {
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    margin: 10px;
-}
-
-.leaderboard, .profile, .admin {
-    padding: 50px;
-    text-align: center;
-}
-
-.hidden {
-    display: none;
-}
-
-footer {
-    padding: 20px;
-    text-align: center;
-    background: #111827;
-}
+</script>
+</body>
+</html>
