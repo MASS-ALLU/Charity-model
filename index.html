@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FundFlow Global Foundation | Transparent Human Impact</title>
+<title>Elite Global Foundation | Transparent Human Impact</title>
 
+<!-- Fonts & Chart.js -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -19,7 +20,7 @@ width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 80px;
+padding:20px 60px;
 background:rgba(12,17,27,0.95);
 border-bottom:1px solid rgba(255,255,255,0.05);
 z-index:1000;
@@ -50,7 +51,7 @@ padding:20px;
 background:linear-gradient(to bottom,#0c111b,#111827);
 }
 .hero h1{
-font-size:64px;
+font-size:58px;
 font-weight:900;
 margin-bottom:20px;
 }
@@ -72,19 +73,18 @@ font-size:18px;
 
 /* IMPACT SECTION */
 .section{
-padding:120px 80px;
+padding:100px 40px;
 text-align:center;
 }
 .section h2{
-font-size:40px;
+font-size:36px;
 margin-bottom:20px;
 }
 .section p{
 max-width:650px;
 margin:auto;
-opacity:0.6;
+opacity:0.7;
 }
-
 .metrics{
 display:grid;
 grid-template-columns:repeat(4,1fr);
@@ -102,6 +102,20 @@ color:#4ade80;
 margin-bottom:10px;
 }
 
+/* PHOTO GRID */
+.photo-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+margin-top:40px;
+}
+.photo-grid img{
+width:100%;
+border-radius:16px;
+height:150px;
+object-fit:cover;
+}
+
 /* DONATION BOX */
 .donation-box{
 margin-top:60px;
@@ -109,6 +123,7 @@ background:#111827;
 padding:40px;
 border-radius:20px;
 display:inline-block;
+text-align:center;
 }
 .donation-box button{
 margin:10px;
@@ -124,7 +139,7 @@ background:#22d3ee;
 .dashboard{
 display:none;
 margin-top:90px;
-padding:40px 80px;
+padding:40px 40px;
 }
 .card{
 background:#111827;
@@ -162,53 +177,66 @@ animation:spin 1s linear infinite;
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-<div class="logo">FundFlow Global Foundation</div>
+<div class="logo">Elite Global Foundation</div>
 <button onclick="openDashboard()">Transparency</button>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-<h1>Every Donation Changes a Life</h1>
-<p>We build technology-driven humanitarian infrastructure to deliver clean water, food security, healthcare, and education to vulnerable communities worldwide.</p>
-<button onclick="simulateDonation(100)">Donate $100</button>
+<h1>Every Donation Changes a Life<br>ഓരോ സംഭാവനയും ഒരു ജീവിതം മാറ്റുന്നു</h1>
+<p>We empower children worldwide with education, health & hope.<br>ഞങ്ങൾ കുട്ടികൾക്ക് വിദ്യാഭ്യാസം, ആരോഗ്യം, പ്രതീക്ഷ എന്നിവ നൽകുന്നു.</p>
+<button onclick="simulateDonation(100)">Donate $100 | $100 ദാനം ചെയ്യുക</button>
 </section>
 
+<!-- IMPACT -->
 <section class="section">
-<h2>Global Impact & Accountability</h2>
-<p>Every contribution is traceable, measurable, and publicly reported. We believe in radical transparency and responsible capital deployment.</p>
+<h2>Global Impact & Accountability<br>ആഗോള സ്വാധീനം & ഉത്തരവാദിത്തം</h2>
+<p>All contributions are traceable and transparent.<br>എല്ലാ സംഭാവനകളും പിന്തുടരാൻ കഴിയുന്നവയും പരദർശകവുമാണ്.</p>
 
 <div class="metrics">
 <div class="metric">
 <h3>$128M+</h3>
-<p>Funds Distributed</p>
+<p>Funds Distributed | വിതരണം ചെയ്ത ധനം</p>
 </div>
 <div class="metric">
 <h3>2.4M+</h3>
-<p>Lives Impacted</p>
+<p>Lives Impacted | ജീവികൾക്ക് സ്വാധീനം</p>
 </div>
 <div class="metric">
 <h3>48</h3>
-<p>Countries Served</p>
+<p>Countries Supported | രാജ്യങ്ങൾ</p>
 </div>
 <div class="metric">
 <h3>99.2%</h3>
-<p>Transparency Rating</p>
+<p>Transparency Score | പരദർശകതയുടെ സ്കോർ</p>
 </div>
 </div>
 
+<!-- PHOTO GRID -->
+<div class="photo-grid">
+<img src="https://i.ibb.co/Y3QfS7b/child1.jpg" alt="child1">
+<img src="https://i.ibb.co/7y4DF0G/child2.jpg" alt="child2">
+<img src="https://i.ibb.co/8bSjZq9/child3.jpg" alt="child3">
+<img src="https://i.ibb.co/Pr1gN1K/child4.jpg" alt="child4">
+</div>
+
+<!-- DONATION BOX -->
 <div class="donation-box">
-<h3>Support Our Mission</h3>
+<h3>Support Our Mission | നമ്മുടെ ദൗത്യം പിന്തുണയ്ക്കുക</h3>
 <button onclick="simulateDonation(50)">$50</button>
 <button onclick="simulateDonation(250)">$250</button>
 <button onclick="simulateDonation(1000)">$1000</button>
 </div>
 </section>
 
+<!-- DASHBOARD -->
 <section class="dashboard" id="dashboard">
-<h2>Transparency Dashboard</h2>
+<h2>Transparency Dashboard | പാരദർശക ഡാഷ്ബോർഡ്</h2>
 
 <div class="card">
-<h3>Total Donations Received</h3>
+<h3>Total Donations Received | മൊത്തം സംഭാവനകൾ</h3>
 <h2>$<span id="total">0</span></h2>
 </div>
 
@@ -217,6 +245,7 @@ animation:spin 1s linear infinite;
 </div>
 </section>
 
+<!-- SUCCESS -->
 <div class="success" id="successBox"></div>
 
 <script>
@@ -235,16 +264,13 @@ box.style.display='block';
 box.innerHTML="<h3>Processing Donation...</h3><div class='loader'></div>";
 
 setTimeout(()=>{
-let txn="FND"+Math.floor(Math.random()*999999999);
+let txn="EGF"+Math.floor(Math.random()*999999999);
 total+=amount;
 document.getElementById('total').innerText=total;
-if(chart){
-chart.data.datasets[0].data.push(total);
-chart.update();
-}
-box.innerHTML=`<h3>Donation Confirmed 🌍</h3>
+if(chart){chart.data.datasets[0].data.push(total);chart.update();}
+box.innerHTML=`<h3>Donation Confirmed 🌍 | ദാനം സ്ഥിരീകരിച്ചു</h3>
 <p>Transaction ID: ${txn}</p>
-<p>Thank you for your generosity ❤️</p>`;
+<p>Thank you for your generosity ❤️ | നിങ്ങളുടെ മനോഹര സാന്നിധ്യത്തിന് നന്ദി</p>`;
 setTimeout(()=>{box.style.display='none'},3500);
 },2000);
 }
@@ -255,7 +281,7 @@ type:'line',
 data:{
 labels:["Q1","Q2","Q3","Q4"],
 datasets:[{
-label:"Funds Distributed",
+label:"Funds Distributed | വിതരണം ചെയ്ത ധനം",
 data:[20000,50000,80000,total],
 borderColor:"#4ade80",
 tension:0.4
