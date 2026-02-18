@@ -122,6 +122,9 @@ html[data-theme="dark"] .nav-link:hover {
 }
 
 .hero .container { position: relative; z-index: 1; }
+.hero-content .hero-title { animation: fade-up 0.7s ease-out backwards; }
+.hero-content .hero-sub { animation: fade-up 0.7s ease-out 0.15s backwards; }
+.hero-content .hero-cta { animation: fade-up 0.7s ease-out 0.3s backwards; }
 
 .btn-primary {
   background: var(--accent-blue);
@@ -402,6 +405,41 @@ html[data-theme="dark"] .card {
   background: rgba(28,46,74,0.06);
 }
 
+.story-placeholder {
+  width: 100%;
+  height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 14px 14px 0 0;
+}
+.story-1 {
+  background: linear-gradient(135deg, #1C2E4A 0%, #2E4C73 50%, #0F766E 100%);
+  color: rgba(255,255,255,0.95);
+}
+.story-2 {
+  background: linear-gradient(135deg, #0F766E 0%, #1C2E4A 60%, #2E4C73 100%);
+  color: rgba(255,255,255,0.95);
+}
+.story-3 {
+  background: linear-gradient(135deg, #2E4C73 0%, #142338 50%, #0F766E 100%);
+  color: rgba(255,255,255,0.95);
+}
+.placeholder-icon {
+  font-size: 56px;
+  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+.placeholder-label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
 .tag {
   display: inline-block;
   font-size: 12px;
@@ -503,6 +541,65 @@ html[data-theme="dark"] .donor-feed {
 .donor-feed .item { font-size: 14px; margin-bottom: 6px; opacity: 0.95; }
 .donor-feed .muted { font-size: 13px; opacity: 0.75; }
 
+.about-blocks {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.about-block {
+  background: rgba(244,246,248,0.7);
+  border: 1px solid var(--light-grey);
+  border-radius: 14px;
+  padding: 22px 24px;
+}
+html[data-theme="dark"] .about-block {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.14);
+}
+.about-block h3 { margin: 0 0 10px; }
+.about-block p { margin: 0; opacity: 0.92; line-height: 1.6; }
+
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.step {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  background: var(--white);
+  border: 1px solid var(--light-grey);
+  border-radius: 14px;
+  padding: 20px 22px;
+}
+html[data-theme="dark"] .step {
+  border-color: rgba(255,255,255,0.14);
+}
+.step-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.step h3 { margin: 0 0 6px; }
+.step p { margin: 0; opacity: 0.9; line-height: 1.55; }
+@media (min-width: 760px) {
+  .about-blocks { grid-template-columns: 1fr 1fr 1fr; }
+  .steps { grid-template-columns: 1fr 1fr 1fr; }
+}
+
 .counter-box {
   display:flex;
   justify-content:space-around;
@@ -565,6 +662,42 @@ footer {
   cursor: pointer;
 }
 
+/* Logo in header */
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+}
+.logo-img {
+  height: 52px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  animation: logo-in 0.6s ease-out;
+}
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.logo-line1 { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.9; }
+.logo-line2 { font-size: 20px; font-weight: 800; letter-spacing: 0.02em; }
+.logo-line3 { font-size: 13px; font-weight: 600; opacity: 0.95; }
+.logo-tagline { font-size: 14px; font-weight: 800; margin-top: 4px; color: var(--accent-blue); }
+.logo-mission { font-size: 12px; font-weight: 500; opacity: 0.8; }
+@media (max-width: 700px) {
+  .logo-text { display: none; }
+  .logo-img { max-width: 140px; height: 44px; }
+}
+
 /* Focus styles */
 :focus-visible {
   outline: 3px solid rgba(46,76,115,0.35);
@@ -583,11 +716,49 @@ footer {
   header h2 { font-size: 18px; }
 }
 
+@keyframes logo-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.card {
+  animation: fade-up 0.5s ease-out backwards;
+}
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.counter { animation: fade-up 0.6s ease-out backwards; }
+.counter:nth-child(1) { animation-delay: 0.15s; }
+.counter:nth-child(2) { animation-delay: 0.25s; }
+.counter:nth-child(3) { animation-delay: 0.35s; }
+.card img,
+.story-placeholder {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.card:hover img,
+.card:hover .story-placeholder {
+  transform: scale(1.03);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+html[data-theme="dark"] .card:hover img,
+html[data-theme="dark"] .card:hover .story-placeholder {
+  box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
   .btn-primary, .btn-secondary { transition: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .confetti-piece { animation: none; }
+  .card, .counter { animation: none; }
+  .card img, .story-placeholder { transition: none; }
 }
 </style>
 </head>
@@ -596,9 +767,19 @@ footer {
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header aria-label="Site header">
-  <div class="container" style="display:flex; justify-content:space-between; align-items:center; gap:14px;">
-    <h2 style="margin:0;">The Elite Global Humanity Foundation</h2>
+  <div class="container header-inner">
+    <a href="#" class="logo-wrap" aria-label="The Elite Global Humanity Foundation home">
+      <img src="assets/logo.png" alt="" class="logo-img" width="180" height="56" onerror="this.style.display='none'">
+      <span class="logo-text">
+        <span class="logo-line1">THE</span>
+        <span class="logo-line2">ELITE GLOBAL</span>
+        <span class="logo-line3">HUMANITY FOUNDATION</span>
+        <span class="logo-tagline">BUILT ON TRUST</span>
+        <span class="logo-mission">Delivering Transparent Global Impact.</span>
+      </span>
+    </a>
     <nav aria-label="Primary navigation">
+      <a class="nav-link" href="#about">About</a>
       <a class="nav-link" href="#donate">Donate</a>
       <button class="nav-link" type="button" id="openLoginBtn">Member Login</button>
       <button class="nav-link" type="button" id="themeToggleBtn" aria-label="Toggle dark mode" title="Toggle dark mode">
@@ -610,15 +791,64 @@ footer {
 
 <main id="main">
   <section class="hero" aria-label="Hero section">
-    <div class="container">
-      <h1 style="margin:0 0 8px;">BUILT ON TRUST</h1>
-      <p style="margin:0; opacity:0.95;">Delivering Transparent Global Impact</p>
-      <a class="btn-primary" href="#donate" style="display:inline-block; text-decoration:none;">Make a Donation</a>
+    <div class="container hero-content">
+      <h1 class="hero-title" style="margin:0 0 8px;">BUILT ON TRUST</h1>
+      <p class="hero-sub" style="margin:0; opacity:0.95;">Delivering Transparent Global Impact</p>
+      <a class="btn-primary hero-cta" href="#donate" style="display:inline-block; text-decoration:none;">Make a Donation</a>
       <p class="help" style="color: rgba(255,255,255,0.85); margin-top: 16px;">
         Demo site: this page does not process real payments.
       </p>
     </div>
   </section>
+
+<!-- ABOUT -->
+<section class="white-section" id="about">
+  <div class="container">
+    <h2 class="section-title">About us</h2>
+    <p class="lead">
+      The Elite Global Humanity Foundation is a nonprofit built on trust. We believe every family deserves access to food, clean water, and the chance for their children to learn and grow.
+    </p>
+    <div class="about-blocks">
+      <div class="about-block">
+        <h3>Our mission</h3>
+        <p>We deliver transparent, measurable impact by funding emergency food packs, school support, and clean water access in partnership with vetted local organizations. Every donation is tracked; every rupee is accounted for.</p>
+      </div>
+      <div class="about-block">
+        <h3>Why transparency matters</h3>
+        <p>Donors see exactly where their money goes. We publish distribution reports, receipt IDs, and program outcomes so you can trust that your contribution reaches those who need it most.</p>
+      </div>
+      <div class="about-block">
+        <h3>How you can help</h3>
+        <p>Give once or become a monthly donor. Share our work. Ask questions. We’re here to show you the numbers and the stories behind them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="beige-section" id="how-it-works">
+  <div class="container">
+    <h2 class="section-title">How it works</h2>
+    <p class="lead">From your click to their plate: a simple, accountable path.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num" aria-hidden="true">1</span>
+        <h3>You give</h3>
+        <p>Choose an amount and pay by card or UPI. You get an instant receipt and optional PDF download.</p>
+      </div>
+      <div class="step">
+        <span class="step-num" aria-hidden="true">2</span>
+        <h3>We allocate</h3>
+        <p>Funds go to our programs: emergency food, school support, and clean water. We don’t take a cut; overhead is kept low and reported openly.</p>
+      </div>
+      <div class="step">
+        <span class="step-num" aria-hidden="true">3</span>
+        <h3>Partners deliver</h3>
+        <p>Vetted local partners distribute aid on the ground. We track deliveries and publish outcomes so you can see the impact.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- IMPACT COUNTERS -->
 <section class="white-section">
@@ -646,16 +876,19 @@ footer {
   <div class="container">
     <h2 class="section-title">Faces of impact</h2>
     <p class="lead">
-      These are demo visuals. Replace `assets/story-*.svg` with your own authorized photos (recommended) or licensed stock images.
+      Real stories from the ground. Replace the placeholders below with your own authorized photos in the <code>assets/</code> folder (see README).
     </p>
 
     <div class="grid-3" aria-label="Impact stories">
       <article class="card">
-        <img src="assets/story-1.svg" alt="Illustration: food relief distribution" loading="lazy" decoding="async">
+        <div class="story-placeholder story-1" role="img" aria-label="Food relief distribution">
+          <span class="placeholder-icon" aria-hidden="true">🍲</span>
+          <span class="placeholder-label">Food relief</span>
+        </div>
         <div class="content">
           <span class="tag">Emergency Meals</span>
           <h3>Hot meals when families need it most</h3>
-          <p>Rapid-response kits and community kitchens help stabilize households during sudden hardship.</p>
+          <p>Rapid-response kits and community kitchens help stabilize households during sudden hardship. One kit covers three days of meals and is delivered within 24–48 hours.</p>
           <div class="stats-row">
             <span><strong>1</strong> kit = <strong>3</strong> days of meals</span>
             <span>•</span>
@@ -665,11 +898,14 @@ footer {
       </article>
 
       <article class="card">
-        <img src="assets/story-2.svg" alt="Illustration: child-friendly nutrition support" loading="lazy" decoding="async">
+        <div class="story-placeholder story-2" role="img" aria-label="Child nutrition support">
+          <span class="placeholder-icon" aria-hidden="true">🥗</span>
+          <span class="placeholder-label">Child nutrition</span>
+        </div>
         <div class="content">
           <span class="tag">Child Nutrition</span>
           <h3>Nutrition support for growing kids</h3>
-          <p>We prioritize essential nutrition for children through locally sourced, culturally appropriate foods.</p>
+          <p>We prioritize essential nutrition for children through locally sourced, culturally appropriate foods. Every ₹500 helps fund a week of supplements, with full tracking and reporting.</p>
           <div class="stats-row">
             <span><strong>₹500</strong> helps fund a week of supplements</span>
             <span>•</span>
@@ -679,11 +915,14 @@ footer {
       </article>
 
       <article class="card">
-        <img src="assets/story-3.svg" alt="Illustration: community volunteers serving meals" loading="lazy" decoding="async">
+        <div class="story-placeholder story-3" role="img" aria-label="Community volunteers">
+          <span class="placeholder-icon" aria-hidden="true">🤝</span>
+          <span class="placeholder-label">Community partners</span>
+        </div>
         <div class="content">
           <span class="tag">Community Partners</span>
           <h3>Local partners, real transparency</h3>
-          <p>We work with vetted community groups and publish what we deliver, where, and when.</p>
+          <p>We work with vetted community groups and publish what we deliver, where, and when. Receipts and distribution reports are auditable and available to donors.</p>
           <div class="stats-row">
             <span>Receipts & reports</span>
             <span>•</span>
