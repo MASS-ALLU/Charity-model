@@ -120,7 +120,6 @@ html[data-theme="dark"] .nav-link:hover {
   padding: 80px 20px;
   position: relative;
   overflow: hidden;
-  transform-style: preserve-3d;
 }
 
 .hero::before {
@@ -132,29 +131,11 @@ html[data-theme="dark"] .nav-link:hover {
     radial-gradient(700px 280px at 85% 40%, rgba(46,76,115,0.28), transparent 55%),
     linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0));
   pointer-events: none;
-  transform: translateZ(-100px);
-  will-change: transform;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 120% 80% at 50% 50%, rgba(255,255,255,0.06), transparent 70%);
-  pointer-events: none;
-  transform: translateZ(-50px);
-  animation: hero-parallax 20s ease-in-out infinite;
-}
-
-@keyframes hero-parallax {
-  0%, 100% { transform: translateZ(-50px) translateY(0) scale(1); opacity: 0.6; }
-  50% { transform: translateZ(-30px) translateY(-20px) scale(1.1); opacity: 0.8; }
 }
 
 .hero .container {
   position: relative;
   z-index: 1;
-  transform-style: preserve-3d;
 }
 .hero-content .hero-title,
 .hero-content .hero-sub,
@@ -178,53 +159,11 @@ html[data-theme="dark"] .nav-link:hover {
   border-radius: 10px;
   font-weight: 600;
   margin-top: 20px;
-  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
-              filter 0.35s ease,
-              box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-  transform-style: preserve-3d;
-  position: relative;
-  box-shadow: 0 4px 16px rgba(46,76,115,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
-  overflow: hidden;
+  transition: transform 140ms ease, filter 140ms ease;
+  box-shadow: 0 6px 16px rgba(46,76,115,0.18);
 }
-.btn-primary::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 10px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.05));
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-  transform: translateZ(5px);
-}
-.btn-primary::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.3);
-  transform: translate(-50%, -50%) translateZ(0);
-  transition: width 0.6s ease, height 0.6s ease;
-  pointer-events: none;
-}
-.btn-primary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-4px) translateZ(12px) rotateX(-3deg);
-  box-shadow: 0 10px 30px rgba(46,76,115,0.5), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.3);
-}
-.btn-primary:hover::before {
-  opacity: 1;
-}
-.btn-primary:hover::after {
-  width: 300px;
-  height: 300px;
-}
-.btn-primary:active {
-  transform: translateY(-2px) translateZ(6px);
-  box-shadow: 0 6px 20px rgba(46,76,115,0.4);
+.btn-primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0px); }
 }
 
 .btn-primary:disabled {
@@ -412,77 +351,55 @@ html[data-theme="dark"] .bar { background: rgba(255,255,255,0.10); }
 
 .dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; margin-right: 8px; }
 
-/* 3D Perspective Container */
-body {
-  perspective: 1200px;
-  perspective-origin: center top;
-}
-main > section {
-  transform-style: preserve-3d;
-}
-
-/* Scroll-in animations – smooth easing with 3D effects */
+/* Scroll-in animations – clean + fast */
 .reveal {
   opacity: 0;
-  transform: translateY(28px) translateZ(-50px) rotateX(8deg);
+  transform: translateY(18px);
   transition: opacity var(--reveal-duration) var(--ease-out-expo),
               transform var(--reveal-duration) var(--ease-out-expo);
-  will-change: transform, opacity;
 }
 .reveal.is-visible {
   opacity: 1;
-  transform: translateY(0) translateZ(0) rotateX(0deg);
+  transform: translateY(0);
 }
 
 .reveal--left {
-  transform: translateX(-50px) translateY(0) translateZ(-40px) rotateY(-12deg);
+  transform: translateX(-24px);
 }
 .reveal--left.is-visible {
-  transform: translateX(0) translateY(0) translateZ(0) rotateY(0deg);
+  transform: translateX(0);
 }
 
 .reveal--right {
-  transform: translateX(50px) translateY(0) translateZ(-40px) rotateY(12deg);
+  transform: translateX(24px);
 }
 .reveal--right.is-visible {
-  transform: translateX(0) translateY(0) translateZ(0) rotateY(0deg);
+  transform: translateX(0);
 }
 
 .reveal--bottom {
-  transform: translateY(60px) translateZ(-60px) rotateX(-15deg);
-  transform-origin: center bottom;
+  transform: translateY(28px);
 }
 .reveal--bottom.is-visible {
-  transform: translateY(0) translateZ(0) rotateX(0deg);
+  transform: translateY(0);
 }
 
 .reveal--scale {
-  transform: scale(0.88) translateY(20px) translateZ(-80px) rotateX(10deg);
-  transform-origin: center top;
+  transform: scale(0.98) translateY(10px);
 }
 .reveal--scale.is-visible {
-  transform: scale(1) translateY(0) translateZ(0) rotateX(0deg);
-}
-
-.reveal--3d-flip {
-  transform: translateY(40px) translateZ(-100px) rotateX(25deg) rotateY(-8deg);
-  transform-origin: center center;
-  backface-visibility: hidden;
-}
-.reveal--3d-flip.is-visible {
-  transform: translateY(0) translateZ(0) rotateX(0deg) rotateY(0deg);
+  transform: scale(1) translateY(0);
 }
 
 .reveal-item {
   opacity: 0;
-  transform: translateY(24px) translateZ(-30px) rotateX(5deg);
+  transform: translateY(16px);
   transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform, opacity;
 }
 .reveal-item.is-visible {
   opacity: 1;
-  transform: translateY(0) translateZ(0) rotateX(0deg);
+  transform: translateY(0);
 }
 
 /* Confetti */
@@ -1091,7 +1008,7 @@ html[data-theme="dark"] .card:hover .story-placeholder {
 </section>
 
 <!-- STORIES / GALLERY -->
-<section class="beige-section reveal reveal--3d-flip" id="stories">
+<section class="beige-section reveal reveal--bottom" id="stories">
   <div class="container">
     <h2 class="section-title">Faces of impact</h2>
     <p class="lead">
@@ -1718,16 +1635,11 @@ function setupReveals() {
   const STAGGER_MS = 100;
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
-      if (!e.isIntersecting) {
-        e.target.classList.remove("is-visible");
-        e.target.querySelectorAll(".reveal-item").forEach((child) => child.classList.remove("is-visible"));
-        return;
-      }
+      if (!e.isIntersecting) return;
       e.target.classList.add("is-visible");
       const items = e.target.querySelectorAll(".reveal-item");
-      items.forEach((el, i) => {
-        setTimeout(function() { el.classList.add("is-visible"); }, i * STAGGER_MS);
-      });
+      items.forEach((el, i) => setTimeout(() => el.classList.add("is-visible"), i * STAGGER_MS));
+      obs.unobserve(e.target);
     });
   }, { threshold: 0.12, rootMargin: "0px 0px -80px 0px" });
   nodes.forEach((n) => obs.observe(n));
