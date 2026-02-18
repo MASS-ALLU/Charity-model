@@ -3,375 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Delivering transparent global impact. Make a secure donation and download an instant receipt.">
-    <title>The Elite Global Humanity Foundation</title>
-
+    <title>The Elite Global Humanity Foundation | Built on Trust</title>
+    
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         :root {
-            --primary-navy: #1C2E4A;
-            --dark-navy: #142338;
-            --accent-blue: #2E4C73;
-            --soft-grey: #F4F6F8;
-            --light-grey: #E6E9EE;
+            --navy: #1C2E4A;
+            --blue: #2E4C73;
+            --cream: #F5F5F0;
             --white: #FFFFFF;
             --success: #0F766E;
-            --danger: #B42318;
-            --shadow: 0 10px 30px rgba(0,0,0,0.10);
-            --radius: 10px;
-            --max: 1080px;
-            --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
-            --reveal-duration: 0.72s;
+            --grey: #64748b;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
-        html { color-scheme: light; }
         html[data-theme="dark"] {
-            color-scheme: dark;
-            --soft-grey: #0B1220;
-            --light-grey: rgba(255,255,255,0.12);
-            --white: #0F172A;
-            --primary-navy: #E5E7EB;
-            --dark-navy: #070C16;
-            --accent-blue: #7AA2D6;
-            --shadow: 0 12px 34px rgba(0,0,0,0.45);
+            --navy: #f1f5f9;
+            --cream: #0f172a;
+            --white: #1e293b;
+            --grey: #94a3b8;
         }
 
         body {
             margin: 0;
-            font-family: Georgia, serif;
-            background-color: var(--soft-grey);
-            color: var(--primary-navy);
-            line-height: 1.5;
-            opacity: 0;
-            transition: opacity 0.6s var(--ease-out-expo);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--cream);
+            color: var(--navy);
+            transition: all 0.3s ease;
         }
-        body.page-ready { opacity: 1; }
 
+        /* Header */
         header {
             background: var(--white);
-            padding: 14px 20px;
+            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        .container { max-width: var(--max); margin: 0 auto; width: 100%; }
-
-        .header-inner { display: flex; justify-content: space-between; align-items: center; }
-
-        .logo-img {
-            height: 60px;
-            width: auto;
-            transition: filter 0.3s ease;
+        .logo-box img {
+            height: 50px;
+            transition: filter 0.3s;
         }
-        html[data-theme="dark"] .logo-img { filter: brightness(0) invert(1); }
+        
+        html[data-theme="dark"] .logo-box img { filter: brightness(0) invert(1); }
 
-        nav { display: flex; align-items: center; gap: 15px; }
-
-        .nav-link {
-            appearance: none; border: 0; background: transparent;
-            padding: 8px 12px; border-radius: 8px; color: var(--primary-navy);
-            font-weight: 600; cursor: pointer; text-decoration: none;
-        }
-        .nav-link:hover { background: rgba(28,46,74,0.06); }
-
-        /* Hero Section */
-        .hero {
-            background: var(--dark-navy);
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-            position: relative;
-        }
-
-        .btn-primary {
-            background: var(--accent-blue);
-            color: white;
-            padding: 14px 24px;
-            border: none;
-            cursor: pointer;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: transform 0.2s;
-        }
-        .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        .btn-secondary {
+        .nav-btns button {
             background: transparent;
-            color: var(--primary-navy);
-            padding: 10px 18px;
-            border: 1px solid var(--light-grey);
-            border-radius: 10px;
-            cursor: pointer;
+            border: 1px solid transparent;
+            color: var(--navy);
             font-weight: 600;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 6px;
         }
 
-        /* Forms & Cards */
-        section { padding: 80px 20px; }
-        .beige-section { background: var(--light-grey); }
-        .white-section { background: var(--white); }
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(28, 46, 74, 0.85), rgba(28, 46, 74, 0.85)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1470&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+        }
 
-        .payment-card {
+        /* Donation Section */
+        .donate-container {
+            max-width: 600px;
+            margin: -60px auto 60px;
             background: var(--white);
-            padding: 30px;
-            max-width: 500px;
-            margin: auto;
+            padding: 40px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            border-top: 5px solid var(--accent-blue);
         }
 
-        .field { margin-bottom: 20px; }
-        .field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-        input, select {
-            width: 100%; padding: 12px; border: 1px solid var(--light-grey);
-            border-radius: 6px; background: var(--white); color: var(--primary-navy);
+        .amount-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 15px 0;
         }
 
-        .chip-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-        .chip {
-            padding: 8px 16px; border: 1px solid var(--light-grey);
-            background: var(--soft-grey); border-radius: 20px; cursor: pointer;
+        .amount-btn {
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            background: var(--cream);
+            border-radius: 8px;
             font-weight: bold;
+            cursor: pointer;
+            color: var(--navy);
         }
-        .chip[aria-pressed="true"] { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
 
-        .notice { padding: 15px; border-radius: 8px; margin-top: 20px; font-weight: 600; }
-        .notice.success { background: rgba(15, 118, 110, 0.1); color: var(--success); }
-        .notice.error { background: rgba(180, 35, 24, 0.1); color: var(--danger); }
-
-        /* Utilities */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.is-visible { opacity: 1; transform: translateY(0); }
-        .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
-        .confetti-piece { position: absolute; width: 10px; height: 10px; animation: fall 3s linear forwards; }
-        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
-
-        .modal {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-            justify-content: center; align-items: center; z-index: 100;
+        .amount-btn.active {
+            background: var(--blue);
+            color: white;
+            border-color: var(--blue);
         }
-        .modal-content { background: var(--white); padding: 30px; border-radius: 12px; width: 400px; }
 
-        @media (max-width: 600px) { .header-inner { flex-direction: column; gap: 15px; } }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--navy);
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .receipt-btn {
+            margin-top: 15px;
+            background: var(--success);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.9rem;
+            color: var(--grey);
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 480px) {
+            .amount-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="container header-inner">
-            <a href="#" class="logo-wrap">
-                <img src="ChatGPT Image Feb 17, 2026, 10_25_44 AM.png" alt="Foundation Logo" class="logo-img">
-            </a>
-            <nav>
-                <a href="#donate" class="nav-link">Donate</a>
-                <button class="nav-link" id="openLoginBtn">Member Login</button>
-                <button class="nav-link" id="themeToggleBtn">Theme</button>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1>BUILT ON TRUST</h1>
-                <p>Delivering Transparent Global Impact</p>
-                <a href="#donate" class="btn-primary" style="text-decoration:none;">Make a Donation</a>
-            </div>
-        </section>
-
-        <section id="donate" class="beige-section reveal">
-            <div class="container">
-                <h2 style="text-align:center;">Secure Donation</h2>
-                <div class="payment-card">
-                    <form id="donationForm">
-                        <div class="field">
-                            <label for="amount">Donation Amount (INR)</label>
-                            <input type="number" id="amount" placeholder="e.g. 500" required>
-                            <div class="chip-group" id="amountChips">
-                                <button type="button" class="chip" data-amount="250">₹250</button>
-                                <button type="button" class="chip" data-amount="500">₹500</button>
-                                <button type="button" class="chip" data-amount="1000">₹1,000</button>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <label for="donorName">Full Name</label>
-                            <input type="text" id="donorName" placeholder="Your Name">
-                        </div>
-
-                        <div class="field">
-                            <label for="paymentMethod">Payment Method</label>
-                            <select id="paymentMethod">
-                                <option value="card">Credit/Debit Card</option>
-                                <option value="upi">UPI / QR Code</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn-primary" style="width:100%;" id="donateBtn">Donate Now</button>
-                        <div id="donationNotice" class="notice" hidden></div>
-                        <button type="button" class="btn-secondary" id="downloadLastReceiptBtn" style="width:100%; margin-top:10px;" disabled>Download Receipt</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <section id="profilePage" class="white-section reveal" style="display:none;">
-            <div class="container">
-                <h2>Member Dashboard</h2>
-                <p>Welcome, <span id="memberName">Donor</span>!</p>
-                <p>Total Contribution: <strong>₹<span id="totalDonation">0</span></strong></p>
-                <div id="donationHistory"></div>
-                <button class="btn-secondary" id="logoutBtn" style="margin-top:20px;">Logout</button>
-            </div>
-        </section>
-    </main>
-
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <h3>Member Login</h3>
-            <div class="field"><input type="email" id="loginEmail" placeholder="Email"></div>
-            <div class="field"><input type="password" id="loginPassword" placeholder="Password"></div>
-            <button class="btn-primary" style="width:100%;" id="loginBtn">Login</button>
-            <button class="nav-link" style="width:100%; margin-top:10px;" onclick="closeLogin()">Close</button>
-        </div>
+<header>
+    <div class="logo-box">
+        <img src="logo.png" alt="EGHF Logo" onerror="this.src='https://via.placeholder.com/150x50?text=ELITE+FOUNDATION'">
     </div>
+    <div class="nav-btns">
+        <button onclick="toggleDarkMode()">🌓 Mode</button>
+        <button onclick="alert('Demo Login: GitHub Repo version')">Login</button>
+    </div>
+</header>
 
-    <div class="confetti" id="confetti" aria-hidden="true"></div>
+<main>
+    <section class="hero">
+        <h1 style="font-size: 2.5rem; margin-bottom: 10px;">BUILT ON TRUST</h1>
+        <p style="font-size: 1.2rem; opacity: 0.9;">Direct Impact. Complete Transparency. Global Reach.</p>
+    </section>
 
-    <script>
-        const $ = (id) => document.getElementById(id);
-        const STORAGE_KEY = "foundation_demo_v1";
-        let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { member: null, donations: [], totalDonated: 0, lastReceipt: null };
+    <div class="donate-container">
+        <h2 style="margin-top: 0;">Secure Donation</h2>
+        <form id="payForm">
+            <label>Choose Amount (INR)</label>
+            <div class="amount-grid">
+                <button type="button" class="amount-btn" onclick="setAmt(500, this)">₹500</button>
+                <button type="button" class="amount-btn active" onclick="setAmt(1000, this)">₹1000</button>
+                <button type="button" class="amount-btn" onclick="setAmt(5000, this)">₹5000</button>
+            </div>
+            <input type="number" id="finalAmt" value="1000" placeholder="Other Amount">
 
-        // Initialization
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add("page-ready");
-            renderState();
-            setupObservers();
-        });
+            <label>Full Name</label>
+            <input type="text" id="userName" placeholder="Your Name">
 
-        function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+            <label>Payment Method</label>
+            <select id="method" onchange="checkUPI()">
+                <option value="card">Credit/Debit Card</option>
+                <option value="upi">UPI / QR Code</option>
+            </select>
 
-        function renderState() {
-            $("totalDonation").innerText = state.totalDonated.toLocaleString();
-            $("downloadLastReceiptBtn").disabled = !state.lastReceipt;
-            if (state.member) {
-                $("profilePage").style.display = "block";
-                $("memberName").innerText = state.member.name;
-                renderHistory();
-            }
-        }
+            <div id="qrCode" class="hidden" style="text-align:center; padding: 20px; border: 1px dashed #cbd5e1; border-radius: 8px; margin-bottom: 20px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=elitefoundation@upi" alt="QR">
+                <p style="font-size: 0.8rem; margin-top: 10px;">elitefoundation@upi</p>
+            </div>
 
-        // Donation Logic
-        $("donationForm").addEventListener("submit", (e) => {
-            e.preventDefault();
-            const amount = parseInt($("amount").value);
-            const name = $("donorName").value || "Anonymous Donor";
-            
-            const receipt = {
-                id: `EGHF-${Date.now().toString(36).toUpperCase()}`,
-                amount,
-                name,
-                date: new Date().toLocaleDateString(),
-                timestamp: new Date().toISOString()
-            };
+            <button type="submit" class="submit-btn">Complete Donation</button>
+            <button type="button" id="pdfBtn" class="submit-btn receipt-btn hidden" onclick="makePDF()">Download Official Receipt</button>
+        </form>
+    </div>
+</main>
 
-            state.donations.unshift(receipt);
-            state.totalDonated += amount;
-            state.lastReceipt = receipt;
-            saveState();
-            renderState();
+<footer>
+    <p>© 2026 The Elite Global Humanity Foundation. All Rights Reserved.</p>
+    <p>Empowering communities through transparency and action.</p>
+</footer>
 
-            $("donationNotice").hidden = false;
-            $("donationNotice").className = "notice success";
-            $("donationNotice").innerText = "Success! Thank you for your support.";
-            launchConfetti();
-        });
+<script>
+    let currentReceipt = null;
 
-        // PDF Generation
-        $("downloadLastReceiptBtn").onclick = () => {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const r = state.lastReceipt;
-            
-            doc.setFontSize(18);
-            doc.text("Donation Receipt", 20, 20);
-            doc.setFontSize(12);
-            doc.text(`Foundation: The Elite Global Humanity Foundation`, 20, 40);
-            doc.text(`Receipt ID: ${r.id}`, 20, 50);
-            doc.text(`Donor: ${r.name}`, 20, 60);
-            doc.text(`Amount: INR ${r.amount.toLocaleString()}`, 20, 70);
-            doc.text(`Date: ${r.date}`, 20, 80);
-            doc.text("Status: Verified Donation", 20, 95);
-            doc.save(`Receipt_${r.id}.pdf`);
+    function setAmt(val, btn) {
+        document.getElementById('finalAmt').value = val;
+        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function checkUPI() {
+        const val = document.getElementById('method').value;
+        document.getElementById('qrCode').classList.toggle('hidden', val !== 'upi');
+    }
+
+    function toggleDarkMode() {
+        const h = document.documentElement;
+        const isDark = h.getAttribute('data-theme') === 'dark';
+        h.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    }
+
+    document.getElementById('payForm').onsubmit = function(e) {
+        e.preventDefault();
+        const name = document.getElementById('userName').value || "Valued Donor";
+        const amt = document.getElementById('finalAmt').value;
+
+        currentReceipt = {
+            id: "EGHF-" + Math.random().toString(36).substr(2, 7).toUpperCase(),
+            name: name,
+            amt: amt,
+            date: new Date().toLocaleDateString()
         };
 
-        // UI Interactions
-        $("amountChips").onclick = (e) => {
-            if (e.target.dataset.amount) {
-                $("amount").value = e.target.dataset.amount;
-                document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false'));
-                e.target.setAttribute('aria-pressed', 'true');
-            }
-        };
+        alert(`Thank you ${name}! Your contribution of ₹${amt} makes a difference.`);
+        document.getElementById('pdfBtn').classList.remove('hidden');
+    };
 
-        $("themeToggleBtn").onclick = () => {
-            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-            document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
-        };
+    function makePDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        doc.setFont("helvetica", "bold");
+        doc.text("OFFICIAL DONATION RECEIPT", 20, 30);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        doc.text("The Elite Global Humanity Foundation", 20, 40);
+        doc.line(20, 45, 190, 45);
 
-        $("openLoginBtn").onclick = () => $("loginModal").style.display = "flex";
-        window.closeLogin = () => $("loginModal").style.display = "none";
+        doc.text(`Receipt ID: ${currentReceipt.id}`, 20, 60);
+        doc.text(`Date: ${currentReceipt.date}`, 20, 70);
+        doc.text(`Donor Name: ${currentReceipt.name}`, 20, 80);
+        doc.text(`Total Amount: INR ${currentReceipt.amt}.00`, 20, 90);
 
-        $("loginBtn").onclick = () => {
-            const email = $("loginEmail").value;
-            if (email) {
-                state.member = { name: email.split('@')[0], email };
-                saveState();
-                renderState();
-                closeLogin();
-            }
-        };
+        doc.setFontSize(10);
+        doc.text("Status: Payment Verified (Demo Mode)", 20, 110);
+        doc.save(`Receipt_${currentReceipt.id}.pdf`);
+    }
+</script>
 
-        $("logoutBtn").onclick = () => {
-            state.member = null;
-            saveState();
-            location.reload();
-        };
-
-        // Effects
-        function setupObservers() {
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("is-visible"); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll(".reveal").forEach(el => obs.observe(el));
-        }
-
-        function launchConfetti() {
-            const colors = ['#2E4C73', '#0F766E', '#F59E0B'];
-            for(let i=0; i<40; i++) {
-                const p = document.createElement("div");
-                p.className = "confetti-piece";
-                p.style.left = Math.random() * 100 + "vw";
-                p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-                p.style.animationDelay = Math.random() * 2 + "s";
-                $("confetti").appendChild(p);
-                setTimeout(() => p.remove(), 3000);
-            }
-        }
-
-        function renderHistory() {
-            $("donationHistory").innerHTML = "<h3>Your History</h3>" + state.donations.map(d => 
-                `<p>₹${d.amount} on ${d.date} (${d.id})</p>`
-            ).join('');
-        }
-    </script>
 </body>
 </html>
