@@ -1,1768 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Delivering transparent global impact. Make a secure donation and download an instant receipt.">
-<title>The Elite Global Humanity Foundation</title>
-
-<!-- jsPDF for receipt generation -->
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<style>
-:root {
-  --primary-navy: #1C2E4A;
-  --dark-navy: #142338;
-  --accent-blue: #2E4C73;
-  --soft-grey: #F4F6F8;
-  --light-grey: #E6E9EE;
-  --white: #FFFFFF;
-  --success: #0F766E;
-  --danger: #B42318;
-  --shadow: 0 10px 30px rgba(0,0,0,0.10);
-  --radius: 10px;
-  --max: 1080px;
-  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
-  --reveal-duration: 0.72s;
-}
-
-/* Theme */
-html { color-scheme: light; }
-html[data-theme="dark"] { color-scheme: dark; }
-html[data-theme="dark"] {
-  --soft-grey: #0B1220;
-  --light-grey: rgba(255,255,255,0.12);
-  --white: #0F172A;
-  --primary-navy: #E5E7EB;
-  --dark-navy: #070C16;
-  --accent-blue: #7AA2D6;
-  --shadow: 0 12px 34px rgba(0,0,0,0.45);
-}
-
-body {
-  margin: 0;
-  font-family: Georgia, serif;
-  background-color: var(--soft-grey);
-  color: var(--primary-navy);
-  line-height: 1.5;
-  opacity: 0;
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-body.page-ready {
-  opacity: 1;
-}
-
-header {
-  background: var(--white);
-  padding: 14px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  transform: translateY(-100%);
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-body.page-ready header {
-  transform: translateY(0);
-}
-
-header nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.nav-link {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  padding: 8px 10px;
-  border-radius: 8px;
-  color: var(--primary-navy);
-  font-weight: 600;
-  cursor:pointer;
-}
-
-.nav-link:hover {
-  background: rgba(28,46,74,0.06);
-}
-
-html[data-theme="dark"] .nav-link:hover {
-  background: rgba(255,255,255,0.08);
-}
-
-.container {
-  max-width: var(--max);
-  margin: 0 auto;
-}
-
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: 10px;
-  background: var(--white);
-  color: var(--primary-navy);
-  padding: 10px 12px;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-}
-.skip-link:focus {
-  left: 10px;
-}
-
-.hero {
-  background: var(--primary-navy);
-  color: white;
-  text-align: center;
-  padding: 80px 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(900px 380px at 20% 20%, rgba(255,255,255,0.16), transparent 60%),
-    radial-gradient(700px 280px at 85% 40%, rgba(46,76,115,0.28), transparent 55%),
-    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0));
-  pointer-events: none;
-}
-
-.hero .container {
-  position: relative;
-  z-index: 1;
-}
-.hero-content .hero-title,
-.hero-content .hero-sub,
-.hero-content .hero-cta { opacity: 0; transform: translateY(20px); }
-.hero.animate-in .hero-content .hero-title {
-  animation: fade-up 0.75s var(--ease-out-expo) 0.1s backwards;
-}
-.hero.animate-in .hero-content .hero-sub {
-  animation: fade-up 0.75s var(--ease-out-expo) 0.28s backwards;
-}
-.hero.animate-in .hero-content .hero-cta {
-  animation: fade-up 0.75s var(--ease-out-expo) 0.45s backwards;
-}
-
-.btn-primary {
-  background: var(--accent-blue);
-  color: white;
-  padding: 12px 18px;
-  border: none;
-  cursor: pointer;
-  border-radius: 10px;
-  font-weight: 600;
-  margin-top: 20px;
-  transition: transform 140ms ease, filter 140ms ease;
-  box-shadow: 0 6px 16px rgba(46,76,115,0.18);
-}
-.btn-primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
-.btn-primary:active { transform: translateY(0px); }
-}
-
-.btn-primary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--primary-navy);
-  padding: 10px 14px;
-  border: 1px solid var(--light-grey);
-  cursor: pointer;
-  border-radius: 10px;
-  font-weight: 600;
-  transition: transform 140ms ease, background 140ms ease;
-}
-
-.btn-secondary:hover { transform: translateY(-1px); background: rgba(28,46,74,0.04); }
-html[data-theme="dark"] .btn-secondary:hover { background: rgba(255,255,255,0.06); }
-
-section { padding: 60px 20px; }
-.white-section { background: var(--white); }
-.beige-section { background: var(--light-grey); }
-
-.payment-card {
-  background: var(--white);
-  padding: 30px;
-  max-width: 500px;
-  margin: auto;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow), 0 0 0 1px rgba(46,76,115,0.08);
-  border-top: 5px solid var(--primary-navy);
-  transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-              box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative;
-  animation: depth-shift 6s ease-in-out infinite;
-}
-.payment-card::before {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  border-radius: calc(var(--radius) + 2px);
-  background: linear-gradient(135deg, rgba(46,76,115,0.15), rgba(15,118,110,0.15), rgba(46,76,115,0.1));
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: -1;
-  transform: translateZ(-15px);
-  filter: blur(8px);
-}
-.payment-card::after {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%) translateZ(-5px);
-  width: 60%;
-  height: 5px;
-  background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
-  border-radius: 0 0 10px 10px;
-  opacity: 0.6;
-}
-.payment-card:hover {
-  transform: translateY(-6px) translateZ(20px) rotateX(-1deg);
-  box-shadow: 0 24px 60px rgba(0,0,0,0.18), 0 0 0 1px rgba(46,76,115,0.15), 0 0 40px rgba(46,76,115,0.1);
-  animation: none;
-}
-.payment-card:hover::before {
-  opacity: 1;
-  transform: translateZ(-10px);
-}
-
-input, textarea, select {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid var(--light-grey);
-  border-radius: 4px;
-  box-sizing: border-box;
-  background: var(--white);
-  color: var(--primary-navy);
-}
-
-html[data-theme="dark"] input,
-html[data-theme="dark"] textarea,
-html[data-theme="dark"] select {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.14);
-}
-
-.chip-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 8px 0 14px;
-}
-
-.chip {
-  border: 1px solid var(--light-grey);
-  background: rgba(244,246,248,0.65);
-  color: var(--primary-navy);
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-html[data-theme="dark"] .chip {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.14);
-}
-
-.chip[aria-pressed="true"] {
-  border-color: rgba(46,76,115,0.55);
-  box-shadow: 0 0 0 3px rgba(46,76,115,0.18);
-}
-
-.segmented {
-  display: inline-flex;
-  border: 1px solid var(--light-grey);
-  border-radius: 12px;
-  overflow: hidden;
-  background: rgba(244,246,248,0.55);
-  margin-bottom: 15px;
-}
-html[data-theme="dark"] .segmented {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.14);
-}
-
-.segmented input { position: absolute; opacity: 0; pointer-events: none; }
-.segmented label {
-  padding: 10px 12px;
-  font-weight: 800;
-  cursor: pointer;
-  user-select: none;
-}
-.segmented input:checked + label {
-  background: rgba(46,76,115,0.14);
-}
-html[data-theme="dark"] .segmented input:checked + label {
-  background: rgba(122,162,214,0.18);
-}
-
-.breakdown {
-  margin-top: 18px;
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid var(--light-grey);
-  background: rgba(244,246,248,0.65);
-}
-html[data-theme="dark"] .breakdown {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.14);
-}
-
-.breakdown h3 { margin: 0 0 10px; }
-.bar {
-  height: 10px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(28,46,74,0.10);
-}
-html[data-theme="dark"] .bar { background: rgba(255,255,255,0.10); }
-.bar > span { display: block; height: 100%; float: left; }
-.bar .programs { background: rgba(15,118,110,0.85); width: 70%; }
-.bar .ops { background: rgba(46,76,115,0.9); width: 20%; }
-.bar .fundraising { background: rgba(180,35,24,0.75); width: 10%; }
-
-.breakdown-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.breakdown-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 14px;
-}
-
-.dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; margin-right: 8px; }
-
-/* Scroll-in animations – clean + fast */
-.reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity var(--reveal-duration) var(--ease-out-expo),
-              transform var(--reveal-duration) var(--ease-out-expo);
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal--left {
-  transform: translateX(-24px);
-}
-.reveal--left.is-visible {
-  transform: translateX(0);
-}
-
-.reveal--right {
-  transform: translateX(24px);
-}
-.reveal--right.is-visible {
-  transform: translateX(0);
-}
-
-.reveal--bottom {
-  transform: translateY(28px);
-}
-.reveal--bottom.is-visible {
-  transform: translateY(0);
-}
-
-.reveal--scale {
-  transform: scale(0.98) translateY(10px);
-}
-.reveal--scale.is-visible {
-  transform: scale(1) translateY(0);
-}
-
-.reveal-item {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.reveal-item.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Confetti */
-.confetti {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 9999;
-}
-.confetti-piece {
-  position: absolute;
-  width: 10px;
-  height: 14px;
-  opacity: 0.95;
-  transform: translateY(-10px);
-  animation: confetti-fall 1200ms linear forwards;
-}
-@keyframes confetti-fall {
-  to { transform: translateY(110vh) rotate(720deg); opacity: 1; }
-}
-
-.field label {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 6px;
-  font-weight: 600;
-}
-
-.help {
-  margin: -10px 0 14px;
-  font-size: 13px;
-  color: rgba(28,46,74,0.8);
-}
-
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.notice {
-  margin-top: 14px;
-  padding: 12px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--light-grey);
-  background: rgba(244,246,248,0.7);
-}
-.notice[hidden] { display: none; }
-.notice.success { border-color: rgba(15,118,110,0.25); background: rgba(15,118,110,0.08); color: #0b4b45; }
-.notice.error { border-color: rgba(180,35,24,0.25); background: rgba(180,35,24,0.08); color: #7a1a12; }
-
-.qr-box {
-  text-align: center;
-  padding: 20px;
-  border: 1px solid var(--light-grey);
-  border-radius: 10px;
-}
-
-.qr-box img {
-  border-radius: 10px;
-}
-
-.report-box {
-  background: var(--white);
-  padding: 25px;
-  margin-bottom: 20px;
-  border-left: 6px solid var(--accent-blue);
-}
-
-.section-title {
-  text-align: center;
-  margin-top: 0;
-}
-
-.lead {
-  text-align: center;
-  margin: 0 auto 22px;
-  max-width: 70ch;
-  opacity: 0.9;
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-.card {
-  background: var(--white);
-  border: 1px solid var(--light-grey);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.06);
-}
-html[data-theme="dark"] .card {
-  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
-}
-
-.card .content {
-  padding: 16px 16px 18px;
-}
-
-.card img {
-  width: 100%;
-  height: 190px;
-  object-fit: cover;
-  display: block;
-  background: rgba(28,46,74,0.06);
-}
-
-.story-placeholder {
-  width: 100%;
-  height: 190px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: 14px 14px 0 0;
-}
-.story-1 {
-  background: linear-gradient(135deg, #1C2E4A 0%, #2E4C73 50%, #0F766E 100%);
-  color: rgba(255,255,255,0.95);
-}
-.story-2 {
-  background: linear-gradient(135deg, #0F766E 0%, #1C2E4A 60%, #2E4C73 100%);
-  color: rgba(255,255,255,0.95);
-}
-.story-3 {
-  background: linear-gradient(135deg, #2E4C73 0%, #142338 50%, #0F766E 100%);
-  color: rgba(255,255,255,0.95);
-}
-.placeholder-icon {
-  font-size: 56px;
-  line-height: 1;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-}
-.placeholder-label {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  opacity: 0.9;
-}
-
-.tag {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--light-grey);
-  background: rgba(244,246,248,0.65);
-}
-html[data-theme="dark"] .tag {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.14);
-}
-
-.card h3 {
-  margin: 12px 0 8px;
-}
-
-.card p {
-  margin: 0;
-  opacity: 0.9;
-}
-
-.stats-row {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-  font-size: 13px;
-  opacity: 0.9;
-}
-
-.faq {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.faq-item {
-  background: var(--white);
-  border: 1px solid var(--light-grey);
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
-
-.faq-q {
-  width: 100%;
-  text-align: left;
-  padding: 14px 14px;
-  border: 0;
-  background: transparent;
-  color: var(--primary-navy);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  font-weight: 800;
-}
-
-.faq-a {
-  padding: 0 14px 14px;
-  opacity: 0.92;
-}
-
-.faq-a[hidden] { display: none; }
-
-.pill-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 18px;
-}
-
-.pill {
-  border: 1px solid var(--light-grey);
-  background: rgba(244,246,248,0.65);
-  border-radius: 999px;
-  padding: 10px 12px;
-  font-weight: 800;
-}
-html[data-theme="dark"] .pill {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.14);
-}
-
-.donor-feed {
-  margin-top: 14px;
-  border-top: 1px dashed rgba(28,46,74,0.25);
-  padding-top: 12px;
-}
-html[data-theme="dark"] .donor-feed {
-  border-top-color: rgba(255,255,255,0.18);
-}
-
-.donor-feed h4 { margin: 0 0 10px; }
-.donor-feed .item { font-size: 14px; margin-bottom: 6px; opacity: 0.95; }
-.donor-feed .muted { font-size: 13px; opacity: 0.75; }
-
-.about-blocks {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.about-block {
-  background: rgba(244,246,248,0.7);
-  border: 1px solid var(--light-grey);
-  border-radius: 14px;
-  padding: 22px 24px;
-}
-html[data-theme="dark"] .about-block {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.14);
-}
-.about-block h3 { margin: 0 0 10px; }
-.about-block p { margin: 0; opacity: 0.92; line-height: 1.6; }
-
-.steps {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  max-width: 920px;
-  margin: 0 auto;
-}
-.step {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  background: var(--white);
-  border: 1px solid var(--light-grey);
-  border-radius: 14px;
-  padding: 20px 22px;
-}
-html[data-theme="dark"] .step {
-  border-color: rgba(255,255,255,0.14);
-}
-.step-num {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--accent-blue);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 18px;
-  flex-shrink: 0;
-}
-.step h3 { margin: 0 0 6px; }
-.step p { margin: 0; opacity: 0.9; line-height: 1.55; }
-@media (min-width: 760px) {
-  .about-blocks { grid-template-columns: 1fr 1fr 1fr; }
-  .steps { grid-template-columns: 1fr 1fr 1fr; }
-}
-
-.counter-box {
-  display:flex;
-  justify-content:space-around;
-  text-align:center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
-.counter h2 {
-  font-size: 40px;
-  margin:0;
-  animation: float-slow 4s ease-in-out infinite;
-  animation-delay: calc(var(--counter-index, 0) * 0.3s);
-  transform-style: preserve-3d;
-}
-.counter:nth-child(1) { --counter-index: 0; }
-.counter:nth-child(2) { --counter-index: 1; }
-.counter:nth-child(3) { --counter-index: 2; }
-
-footer {
-  background: var(--dark-navy);
-  color: white;
-  text-align: center;
-  padding: 30px;
-}
-
-/* Modal */
-.modal {
-  display:none;
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.5);
-  justify-content:center;
-  align-items:center;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.modal-content {
-  background:white;
-  padding:22px;
-  width: min(420px, 100%);
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-}
-
-/* Profile */
-#profilePage {
-  display:none;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.icon-btn {
-  border: 1px solid var(--light-grey);
-  background: white;
-  border-radius: 10px;
-  width: 38px;
-  height: 38px;
-  cursor: pointer;
-}
-
-/* Logo in header */
-.header-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
-}
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-  color: inherit;
-}
-.logo-img {
-  height: 52px;
-  width: auto;
-  max-width: 160px;
-  object-fit: contain;
-  animation: logo-in 0.6s ease-out;
-}
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-.logo-line1 { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.9; }
-.logo-line2 { font-size: 20px; font-weight: 800; letter-spacing: 0.02em; }
-.logo-line3 { font-size: 13px; font-weight: 600; opacity: 0.95; }
-.logo-tagline { font-size: 14px; font-weight: 800; margin-top: 4px; color: var(--accent-blue); }
-.logo-mission { font-size: 12px; font-weight: 500; opacity: 0.8; }
-@media (max-width: 700px) {
-  .logo-text { display: none; }
-  .logo-img { max-width: 140px; height: 44px; }
-}
-
-/* Focus styles */
-:focus-visible {
-  outline: 3px solid rgba(46,76,115,0.35);
-  outline-offset: 2px;
-}
-
-@media (min-width: 860px) {
-  header { padding: 14px 60px; }
-  section { padding: 70px 60px; }
-  .hero { padding: 92px 20px; }
-  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-}
-
-@media (max-width: 520px) {
-  .row { grid-template-columns: 1fr; }
-  header h2 { font-size: 18px; }
-}
-
-@keyframes logo-in {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
-}
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0) translateZ(0); }
-  50% { transform: translateY(-8px) translateZ(5px); }
-}
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0) translateZ(0) rotateX(0deg); }
-  50% { transform: translateY(-12px) translateZ(8px) rotateX(2deg); }
-}
-@keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 4px 12px rgba(46,76,115,0.3), 0 0 0 rgba(46,76,115,0); }
-  50% { box-shadow: 0 8px 24px rgba(46,76,115,0.5), 0 0 20px rgba(46,76,115,0.3); }
-}
-@keyframes depth-shift {
-  0%, 100% { transform: translateZ(0px) rotateX(0deg); }
-  50% { transform: translateZ(15px) rotateX(1deg); }
-}
-.card {
-  transform-style: preserve-3d;
-  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-              box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-.card img,
-.story-placeholder {
-  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-              box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  transform-style: preserve-3d;
-}
-.card:hover {
-  transform: translateY(-8px) translateZ(20px) rotateX(2deg) rotateY(-2deg);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.05);
-}
-.card:hover img,
-.card:hover .story-placeholder {
-  transform: scale(1.05) translateZ(10px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.2);
-}
-html[data-theme="dark"] .card:hover {
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
-}
-html[data-theme="dark"] .card:hover img,
-html[data-theme="dark"] .card:hover .story-placeholder {
-  box-shadow: 0 16px 40px rgba(0,0,0,0.6);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * { scroll-behavior: auto !important; }
-  body, header { transition: none; }
-  .hero::after { animation: none; }
-  .hero .hero-content .hero-title,
-  .hero .hero-content .hero-sub,
-  .hero .hero-content .hero-cta { opacity: 1; transform: none; animation: none; }
-  .btn-primary, .btn-secondary { transition: none; }
-  .reveal { opacity: 1; transform: none !important; transition: none; }
-  .reveal--left, .reveal--right, .reveal--scale, .reveal--bottom, .reveal--3d-flip { transform: none !important; }
-  .confetti-piece { animation: none; }
-  .card, .card img, .story-placeholder { transition: none; transform: none !important; }
-  .reveal-item { opacity: 1; transform: none !important; transition: none; }
-  .payment-card { transform: none !important; }
-  .payment-card:hover { transform: none !important; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Delivering transparent global impact. Make a secure donation and download an instant receipt.">
+    <title>The Elite Global Humanity Foundation</title>
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        :root {
+            --primary-navy: #1C2E4A;
+            --dark-navy: #142338;
+            --accent-blue: #2E4C73;
+            --soft-grey: #F4F6F8;
+            --light-grey: #E6E9EE;
+            --white: #FFFFFF;
+            --success: #0F766E;
+            --danger: #B42318;
+            --shadow: 0 10px 30px rgba(0,0,0,0.10);
+            --radius: 10px;
+            --max: 1080px;
+            --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+            --reveal-duration: 0.72s;
+        }
+
+        html { color-scheme: light; }
+        html[data-theme="dark"] {
+            color-scheme: dark;
+            --soft-grey: #0B1220;
+            --light-grey: rgba(255,255,255,0.12);
+            --white: #0F172A;
+            --primary-navy: #E5E7EB;
+            --dark-navy: #070C16;
+            --accent-blue: #7AA2D6;
+            --shadow: 0 12px 34px rgba(0,0,0,0.45);
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, serif;
+            background-color: var(--soft-grey);
+            color: var(--primary-navy);
+            line-height: 1.5;
+            opacity: 0;
+            transition: opacity 0.6s var(--ease-out-expo);
+        }
+        body.page-ready { opacity: 1; }
+
+        header {
+            background: var(--white);
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .container { max-width: var(--max); margin: 0 auto; width: 100%; }
+
+        .header-inner { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo-img {
+            height: 60px;
+            width: auto;
+            transition: filter 0.3s ease;
+        }
+        html[data-theme="dark"] .logo-img { filter: brightness(0) invert(1); }
+
+        nav { display: flex; align-items: center; gap: 15px; }
+
+        .nav-link {
+            appearance: none; border: 0; background: transparent;
+            padding: 8px 12px; border-radius: 8px; color: var(--primary-navy);
+            font-weight: 600; cursor: pointer; text-decoration: none;
+        }
+        .nav-link:hover { background: rgba(28,46,74,0.06); }
+
+        /* Hero Section */
+        .hero {
+            background: var(--dark-navy);
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+            padding: 14px 24px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-navy);
+            padding: 10px 18px;
+            border: 1px solid var(--light-grey);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Forms & Cards */
+        section { padding: 80px 20px; }
+        .beige-section { background: var(--light-grey); }
+        .white-section { background: var(--white); }
+
+        .payment-card {
+            background: var(--white);
+            padding: 30px;
+            max-width: 500px;
+            margin: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--accent-blue);
+        }
+
+        .field { margin-bottom: 20px; }
+        .field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+        input, select {
+            width: 100%; padding: 12px; border: 1px solid var(--light-grey);
+            border-radius: 6px; background: var(--white); color: var(--primary-navy);
+        }
+
+        .chip-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .chip {
+            padding: 8px 16px; border: 1px solid var(--light-grey);
+            background: var(--soft-grey); border-radius: 20px; cursor: pointer;
+            font-weight: bold;
+        }
+        .chip[aria-pressed="true"] { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
+
+        .notice { padding: 15px; border-radius: 8px; margin-top: 20px; font-weight: 600; }
+        .notice.success { background: rgba(15, 118, 110, 0.1); color: var(--success); }
+        .notice.error { background: rgba(180, 35, 24, 0.1); color: var(--danger); }
+
+        /* Utilities */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.is-visible { opacity: 1; transform: translateY(0); }
+        .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+        .confetti-piece { position: absolute; width: 10px; height: 10px; animation: fall 3s linear forwards; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            justify-content: center; align-items: center; z-index: 100;
+        }
+        .modal-content { background: var(--white); padding: 30px; border-radius: 12px; width: 400px; }
+
+        @media (max-width: 600px) { .header-inner { flex-direction: column; gap: 15px; } }
+    </style>
 </head>
 <body>
 
-<a class="skip-link" href="#main">Skip to content</a>
-
-<header aria-label="Site header">
-  <div class="container header-inner">
-    <a href="#" class="logo-wrap" aria-label="The Elite Global Humanity Foundation home">
-      <img src="assets/logo.png" alt="" class="logo-img" width="180" height="56" onerror="this.style.display='none'">
-      <span class="logo-text">
-        <span class="logo-line1">THE</span>
-        <span class="logo-line2">ELITE GLOBAL</span>
-        <span class="logo-line3">HUMANITY FOUNDATION</span>
-        <span class="logo-tagline">BUILT ON TRUST</span>
-        <span class="logo-mission">Delivering Transparent Global Impact.</span>
-      </span>
-    </a>
-    <nav aria-label="Primary navigation">
-      <a class="nav-link" href="#about">About</a>
-      <a class="nav-link" href="#donate">Donate</a>
-      <button class="nav-link" type="button" id="openLoginBtn">Member Login</button>
-      <button class="nav-link" type="button" id="themeToggleBtn" aria-label="Toggle dark mode" title="Toggle dark mode">
-        Theme
-      </button>
-    </nav>
-  </div>
-</header>
-
-<main id="main">
-  <section class="hero" aria-label="Hero section">
-    <div class="container hero-content">
-      <h1 class="hero-title" style="margin:0 0 8px;">BUILT ON TRUST</h1>
-      <p class="hero-sub" style="margin:0; opacity:0.95;">Delivering Transparent Global Impact</p>
-      <a class="btn-primary hero-cta" href="#donate" style="display:inline-block; text-decoration:none;">Make a Donation</a>
-      <p class="help" style="color: rgba(255,255,255,0.85); margin-top: 16px;">
-        Demo site: this page does not process real payments.
-      </p>
-    </div>
-  </section>
-
-<!-- ABOUT -->
-<section class="white-section reveal reveal--left" id="about">
-  <div class="container">
-    <h2 class="section-title">About us</h2>
-    <p class="lead">
-      The Elite Global Humanity Foundation is a nonprofit built on trust. We believe every family deserves access to food, clean water, and the chance for their children to learn and grow.
-    </p>
-    <div class="about-blocks">
-      <div class="about-block reveal-item">
-        <h3>Our mission</h3>
-        <p>We deliver transparent, measurable impact by funding emergency food packs, school support, and clean water access in partnership with vetted local organizations. Every donation is tracked; every rupee is accounted for.</p>
-      </div>
-      <div class="about-block reveal-item">
-        <h3>Why transparency matters</h3>
-        <p>Donors see exactly where their money goes. We publish distribution reports, receipt IDs, and program outcomes so you can trust that your contribution reaches those who need it most.</p>
-      </div>
-      <div class="about-block reveal-item">
-        <h3>How you can help</h3>
-        <p>Give once or become a monthly donor. Share our work. Ask questions. We’re here to show you the numbers and the stories behind them.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="beige-section reveal reveal--right" id="how-it-works">
-  <div class="container">
-    <h2 class="section-title">How it works</h2>
-    <p class="lead">From your click to their plate: a simple, accountable path.</p>
-    <div class="steps">
-      <div class="step reveal-item">
-        <span class="step-num" aria-hidden="true">1</span>
-        <h3>You give</h3>
-        <p>Choose an amount and pay by card or UPI. You get an instant receipt and optional PDF download.</p>
-      </div>
-      <div class="step reveal-item">
-        <span class="step-num" aria-hidden="true">2</span>
-        <h3>We allocate</h3>
-        <p>Funds go to our programs: emergency food, school support, and clean water. We don’t take a cut; overhead is kept low and reported openly.</p>
-      </div>
-      <div class="step reveal-item">
-        <span class="step-num" aria-hidden="true">3</span>
-        <h3>Partners deliver</h3>
-        <p>Vetted local partners distribute aid on the ground. We track deliveries and publish outcomes so you can see the impact.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- IMPACT COUNTERS -->
-<section class="white-section reveal reveal--scale">
-  <div class="container">
-    <h2 style="text-align:center; margin-top:0;">Our Global Impact</h2>
-    <div class="counter-box" aria-label="Impact counters">
-      <div class="counter reveal-item">
-        <h2 id="c1" aria-label="Families supported">0</h2>
-        <p>Families Supported</p>
-      </div>
-      <div class="counter reveal-item">
-        <h2 id="c2" aria-label="Children educated">0</h2>
-        <p>Children Educated</p>
-      </div>
-      <div class="counter reveal-item">
-        <h2 id="c3" aria-label="Communities served">0</h2>
-        <p>Communities Served</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STORIES / GALLERY -->
-<section class="beige-section reveal reveal--bottom" id="stories">
-  <div class="container">
-    <h2 class="section-title">Faces of impact</h2>
-    <p class="lead">
-      Real stories from the ground. Replace the placeholders below with your own authorized photos in the <code>assets/</code> folder (see README).
-    </p>
-
-    <div class="grid-3" aria-label="Impact stories">
-      <article class="card reveal-item">
-        <div class="story-placeholder story-1" role="img" aria-label="Food relief distribution">
-          <span class="placeholder-icon" aria-hidden="true">🍲</span>
-          <span class="placeholder-label">Food relief</span>
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo-wrap">
+                <img src="ChatGPT Image Feb 17, 2026, 10_25_44 AM.png" alt="Foundation Logo" class="logo-img">
+            </a>
+            <nav>
+                <a href="#donate" class="nav-link">Donate</a>
+                <button class="nav-link" id="openLoginBtn">Member Login</button>
+                <button class="nav-link" id="themeToggleBtn">Theme</button>
+            </nav>
         </div>
-        <div class="content">
-          <span class="tag">Emergency Meals</span>
-          <h3>Hot meals when families need it most</h3>
-          <p>Rapid-response kits and community kitchens help stabilize households during sudden hardship. One kit covers three days of meals and is delivered within 24–48 hours.</p>
-          <div class="stats-row">
-            <span><strong>1</strong> kit = <strong>3</strong> days of meals</span>
-            <span>•</span>
-            <span>Delivered in <strong>24–48h</strong></span>
-          </div>
-        </div>
-      </article>
+    </header>
 
-      <article class="card reveal-item">
-        <div class="story-placeholder story-2" role="img" aria-label="Child nutrition support">
-          <span class="placeholder-icon" aria-hidden="true">🥗</span>
-          <span class="placeholder-label">Child nutrition</span>
-        </div>
-        <div class="content">
-          <span class="tag">Child Nutrition</span>
-          <h3>Nutrition support for growing kids</h3>
-          <p>We prioritize essential nutrition for children through locally sourced, culturally appropriate foods. Every ₹500 helps fund a week of supplements, with full tracking and reporting.</p>
-          <div class="stats-row">
-            <span><strong>₹500</strong> helps fund a week of supplements</span>
-            <span>•</span>
-            <span>Tracked & reported</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="card reveal-item">
-        <div class="story-placeholder story-3" role="img" aria-label="Community volunteers">
-          <span class="placeholder-icon" aria-hidden="true">🤝</span>
-          <span class="placeholder-label">Community partners</span>
-        </div>
-        <div class="content">
-          <span class="tag">Community Partners</span>
-          <h3>Local partners, real transparency</h3>
-          <p>We work with vetted community groups and publish what we deliver, where, and when. Receipts and distribution reports are auditable and available to donors.</p>
-          <div class="stats-row">
-            <span>Receipts & reports</span>
-            <span>•</span>
-            <span>Auditable distribution</span>
-          </div>
-        </div>
-      </article>
-    </div>
-
-    <div class="pill-row" aria-label="Highlights">
-      <div class="pill">Verified distribution</div>
-      <div class="pill">Instant receipts</div>
-      <div class="pill">Monthly giving option</div>
-    </div>
-  </div>
-</section>
-
-<!-- PROGRAMS -->
-<section class="white-section reveal reveal--bottom" id="programs">
-  <div class="container">
-    <h2 class="section-title">What we fund</h2>
-    <p class="lead">Clear programs, measurable outcomes, and transparent reporting.</p>
-    <div class="grid-3" aria-label="Programs">
-      <article class="card reveal-item">
-        <div class="content">
-          <span class="tag">Food</span>
-          <h3>Emergency food packs</h3>
-          <p>Staples, nutrition, and hygiene essentials delivered with local partners.</p>
-        </div>
-      </article>
-      <article class="card reveal-item">
-        <div class="content">
-          <span class="tag">Education</span>
-          <h3>School support</h3>
-          <p>Meals at school, supplies, and support to keep children learning consistently.</p>
-        </div>
-      </article>
-      <article class="card reveal-item">
-        <div class="content">
-          <span class="tag">Water</span>
-          <h3>Clean water access</h3>
-          <p>Water filters and safe storage solutions to reduce preventable illness.</p>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- DONATION -->
-<section id="donate" class="beige-section reveal reveal--bottom">
-  <div class="container">
-    <h2 style="text-align:center; margin-top:0;">Secure Donation</h2>
-
-    <div class="payment-card" role="region" aria-label="Donation form">
-      <form id="donationForm">
-        <div class="field">
-          <label for="amount">Donation amount (INR)</label>
-          <input type="number" id="amount" name="amount" placeholder="e.g. 500" min="1" step="1" inputmode="numeric" required>
-          <p class="help">You can download an instant receipt after donating.</p>
-        </div>
-
-        <div class="field" aria-label="Suggested donation amounts">
-          <div class="chip-group" id="amountChips">
-            <button class="chip" type="button" data-amount="250" aria-pressed="false">₹250</button>
-            <button class="chip" type="button" data-amount="500" aria-pressed="false">₹500</button>
-            <button class="chip" type="button" data-amount="1000" aria-pressed="false">₹1,000</button>
-            <button class="chip" type="button" data-amount="2500" aria-pressed="false">₹2,500</button>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Donation frequency</label>
-          <div class="segmented" role="group" aria-label="Donation frequency">
-            <input type="radio" id="freqOnce" name="donationFrequency" value="one-time" checked>
-            <label for="freqOnce">One-time</label>
-            <input type="radio" id="freqMonthly" name="donationFrequency" value="monthly">
-            <label for="freqMonthly">Monthly</label>
-          </div>
-          <p class="help">Monthly is a demo toggle (no real subscription is created).</p>
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label for="donorName">Full name (optional)</label>
-            <input id="donorName" name="donorName" autocomplete="name" placeholder="Your name">
-          </div>
-          <div class="field">
-            <label for="donorEmail">Email (optional)</label>
-            <input id="donorEmail" name="donorEmail" type="email" autocomplete="email" placeholder="name@example.com">
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="paymentMethod">Payment method</label>
-          <select id="paymentMethod" name="paymentMethod">
-            <option value="card">Card</option>
-            <option value="upi">UPI</option>
-          </select>
-        </div>
-
-        <div id="card-section" aria-label="Card details">
-          <div class="field">
-            <label for="cardNumber">Card number (demo)</label>
-            <input id="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" maxlength="23">
-          </div>
-          <div class="row">
-            <div class="field">
-              <label for="cardExpiry">Expiry (MM/YY)</label>
-              <input id="cardExpiry" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5">
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>BUILT ON TRUST</h1>
+                <p>Delivering Transparent Global Impact</p>
+                <a href="#donate" class="btn-primary" style="text-decoration:none;">Make a Donation</a>
             </div>
-            <div class="field">
-              <label for="cardCvv">CVV</label>
-              <input id="cardCvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4">
+        </section>
+
+        <section id="donate" class="beige-section reveal">
+            <div class="container">
+                <h2 style="text-align:center;">Secure Donation</h2>
+                <div class="payment-card">
+                    <form id="donationForm">
+                        <div class="field">
+                            <label for="amount">Donation Amount (INR)</label>
+                            <input type="number" id="amount" placeholder="e.g. 500" required>
+                            <div class="chip-group" id="amountChips">
+                                <button type="button" class="chip" data-amount="250">₹250</button>
+                                <button type="button" class="chip" data-amount="500">₹500</button>
+                                <button type="button" class="chip" data-amount="1000">₹1,000</button>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="donorName">Full Name</label>
+                            <input type="text" id="donorName" placeholder="Your Name">
+                        </div>
+
+                        <div class="field">
+                            <label for="paymentMethod">Payment Method</label>
+                            <select id="paymentMethod">
+                                <option value="card">Credit/Debit Card</option>
+                                <option value="upi">UPI / QR Code</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="width:100%;" id="donateBtn">Donate Now</button>
+                        <div id="donationNotice" class="notice" hidden></div>
+                        <button type="button" class="btn-secondary" id="downloadLastReceiptBtn" style="width:100%; margin-top:10px;" disabled>Download Receipt</button>
+                    </form>
+                </div>
             </div>
-          </div>
-          <p class="help">For a real payment flow, you would integrate a payment provider.</p>
+        </section>
+
+        <section id="profilePage" class="white-section reveal" style="display:none;">
+            <div class="container">
+                <h2>Member Dashboard</h2>
+                <p>Welcome, <span id="memberName">Donor</span>!</p>
+                <p>Total Contribution: <strong>₹<span id="totalDonation">0</span></strong></p>
+                <div id="donationHistory"></div>
+                <button class="btn-secondary" id="logoutBtn" style="margin-top:20px;">Logout</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h3>Member Login</h3>
+            <div class="field"><input type="email" id="loginEmail" placeholder="Email"></div>
+            <div class="field"><input type="password" id="loginPassword" placeholder="Password"></div>
+            <button class="btn-primary" style="width:100%;" id="loginBtn">Login</button>
+            <button class="nav-link" style="width:100%; margin-top:10px;" onclick="closeLogin()">Close</button>
         </div>
-
-        <div id="upi-section" style="display:none;" aria-label="UPI payment">
-          <div class="qr-box">
-            <p style="margin-top:0;"><strong>Scan to Pay</strong></p>
-            <img id="upiQr" alt="UPI QR code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=elitefoundation@upi">
-            <p style="margin-bottom: 10px;">
-              UPI ID: <code id="upiId">elitefoundation@upi</code>
-            </p>
-            <button class="btn-secondary" type="button" id="copyUpiBtn">Copy UPI ID</button>
-          </div>
-        </div>
-
-        <button class="btn-primary" id="donateBtn" type="submit">Donate Now</button>
-        <button class="btn-secondary" id="downloadLastReceiptBtn" type="button" style="margin-left:10px; margin-top:20px;" disabled>
-          Download last receipt
-        </button>
-
-        <div id="donationNotice" class="notice" hidden></div>
-
-        <div class="donor-feed" aria-label="Recent donors feed">
-          <h4>Recent donors (demo)</h4>
-          <div id="recentDonors"></div>
-          <div class="muted">Names are hidden for privacy.</div>
-        </div>
-      </form>
     </div>
 
-    <div class="breakdown" aria-label="Where your money goes">
-      <h3>Where your money goes</h3>
-      <div class="bar" aria-hidden="true">
-        <span class="programs"></span><span class="ops"></span><span class="fundraising"></span>
-      </div>
-      <div class="breakdown-grid">
-        <div class="breakdown-item">
-          <span><span class="dot" style="background: rgba(15,118,110,0.85);"></span>Programs</span>
-          <strong>70%</strong>
-        </div>
-        <div class="breakdown-item">
-          <span><span class="dot" style="background: rgba(46,76,115,0.9);"></span>Operations</span>
-          <strong>20%</strong>
-        </div>
-        <div class="breakdown-item">
-          <span><span class="dot" style="background: rgba(180,35,24,0.75);"></span>Fundraising</span>
-          <strong>10%</strong>
-        </div>
-      </div>
-      <p class="help" style="margin-top: 12px;">
-        Replace these demo percentages with your audited breakdown.
-      </p>
-    </div>
-  </div>
-</section>
+    <div class="confetti" id="confetti" aria-hidden="true"></div>
 
-<!-- FAQ -->
-<section class="white-section reveal reveal--bottom" id="faq">
-  <div class="container">
-    <h2 class="section-title">FAQ</h2>
-    <p class="lead">Quick answers to common questions (demo content).</p>
+    <script>
+        const $ = (id) => document.getElementById(id);
+        const STORAGE_KEY = "foundation_demo_v1";
+        let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { member: null, donations: [], totalDonated: 0, lastReceipt: null };
 
-    <div class="faq" aria-label="Frequently asked questions">
-      <div class="faq-item">
-        <button class="faq-q" type="button" aria-expanded="false">
-          Is this a real payment page?
-          <span aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" hidden>
-          This is a demo UI. No real payment is processed. Use a payment provider (Stripe/Razorpay/etc.) for production.
-        </div>
-      </div>
+        // Initialization
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("page-ready");
+            renderState();
+            setupObservers();
+        });
 
-      <div class="faq-item">
-        <button class="faq-q" type="button" aria-expanded="false">
-          Can I get a receipt?
-          <span aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" hidden>
-          Yes—after donating, use “Download last receipt” to generate a PDF on your device.
-        </div>
-      </div>
+        function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
-      <div class="faq-item">
-        <button class="faq-q" type="button" aria-expanded="false">
-          What does monthly mean here?
-          <span aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" hidden>
-          It’s a demo toggle that labels the donation as “monthly”. No subscription is created on this page.
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        function renderState() {
+            $("totalDonation").innerText = state.totalDonated.toLocaleString();
+            $("downloadLastReceiptBtn").disabled = !state.lastReceipt;
+            if (state.member) {
+                $("profilePage").style.display = "block";
+                $("memberName").innerText = state.member.name;
+                renderHistory();
+            }
+        }
 
-<!-- PROFILE PAGE -->
-<section id="profilePage" class="white-section">
-  <div class="container">
-    <h2 style="margin-top:0;">Member Dashboard</h2>
-    <p><strong>Name:</strong> <span id="memberName">Donor Member</span></p>
-    <p><strong>Total Donations:</strong> ₹<span id="totalDonation">0</span></p>
-    <div id="donationHistory" class="report-box" aria-label="Donation history">
-      <strong>Recent donations</strong>
-      <div id="donationHistoryList" style="margin-top:10px;"></div>
-    </div>
-    <button class="btn-primary" id="logoutBtn" type="button">Logout</button>
-  </div>
-</section>
+        // Donation Logic
+        $("donationForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const amount = parseInt($("amount").value);
+            const name = $("donorName").value || "Anonymous Donor";
+            
+            const receipt = {
+                id: `EGHF-${Date.now().toString(36).toUpperCase()}`,
+                amount,
+                name,
+                date: new Date().toLocaleDateString(),
+                timestamp: new Date().toISOString()
+            };
 
-<footer>
-  <div class="container">
-    © 2026 The Elite Global Humanity Foundation
-  </div>
-</footer>
+            state.donations.unshift(receipt);
+            state.totalDonated += amount;
+            state.lastReceipt = receipt;
+            saveState();
+            renderState();
 
-<!-- LOGIN -->
-<div class="modal" id="loginModal">
-<div class="modal-content">
-  <div class="modal-header">
-    <h3 id="loginTitle" style="margin:0;">Member Login</h3>
-    <button class="icon-btn" type="button" id="closeLoginBtn" aria-label="Close login dialog">✕</button>
-  </div>
-  <p class="help">Demo only. No credentials are verified or stored.</p>
-  <div class="field">
-    <label for="loginEmail">Email</label>
-    <input id="loginEmail" type="email" autocomplete="email" placeholder="name@example.com">
-  </div>
-  <div class="field">
-    <label for="loginPassword">Password</label>
-    <input id="loginPassword" placeholder="••••••••" type="password" autocomplete="current-password">
-  </div>
-  <button class="btn-primary" id="loginBtn" type="button">Login</button>
-</div>
-</div>
+            $("donationNotice").hidden = false;
+            $("donationNotice").className = "notice success";
+            $("donationNotice").innerText = "Success! Thank you for your support.";
+            launchConfetti();
+        });
 
-<div class="confetti" id="confetti" aria-hidden="true"></div>
+        // PDF Generation
+        $("downloadLastReceiptBtn").onclick = () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const r = state.lastReceipt;
+            
+            doc.setFontSize(18);
+            doc.text("Donation Receipt", 20, 20);
+            doc.setFontSize(12);
+            doc.text(`Foundation: The Elite Global Humanity Foundation`, 20, 40);
+            doc.text(`Receipt ID: ${r.id}`, 20, 50);
+            doc.text(`Donor: ${r.name}`, 20, 60);
+            doc.text(`Amount: INR ${r.amount.toLocaleString()}`, 20, 70);
+            doc.text(`Date: ${r.date}`, 20, 80);
+            doc.text("Status: Verified Donation", 20, 95);
+            doc.save(`Receipt_${r.id}.pdf`);
+        };
 
-<script>
-function $(id) { return document.getElementById(id); }
+        // UI Interactions
+        $("amountChips").onclick = (e) => {
+            if (e.target.dataset.amount) {
+                $("amount").value = e.target.dataset.amount;
+                document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false'));
+                e.target.setAttribute('aria-pressed', 'true');
+            }
+        };
 
-const STORAGE_KEY = "charity_demo_v1";
-const THEME_KEY = "charity_demo_theme_v1";
-const UPI_ID = "elitefoundation@upi";
+        $("themeToggleBtn").onclick = () => {
+            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+            document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+        };
 
-const state = loadState();
-initTheme();
-renderTotals();
-renderHistory();
-renderRecentDonors();
+        $("openLoginBtn").onclick = () => $("loginModal").style.display = "flex";
+        window.closeLogin = () => $("loginModal").style.display = "none";
 
-// Page enter: show body and header after first paint
-function initPageEnter() {
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() {
-      document.body.classList.add("page-ready");
-      var hero = document.querySelector("section.hero");
-      if (hero) hero.classList.add("animate-in");
-    });
-  });
-}
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initPageEnter);
-} else {
-  initPageEnter();
-}
+        $("loginBtn").onclick = () => {
+            const email = $("loginEmail").value;
+            if (email) {
+                state.member = { name: email.split('@')[0], email };
+                saveState();
+                renderState();
+                closeLogin();
+            }
+        };
 
-// Impact counters animate when visible
-setupCounters();
-setupReveals();
+        $("logoutBtn").onclick = () => {
+            state.member = null;
+            saveState();
+            location.reload();
+        };
 
-// Donation form interactions
-$("paymentMethod").addEventListener("change", (e) => togglePayment(e.target.value));
-$("donationForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  processDonation();
-});
-$("amountChips").addEventListener("click", (e) => {
-  const btn = e.target.closest("button[data-amount]");
-  if (!btn) return;
-  const amount = sanitizeMoney(btn.getAttribute("data-amount"));
-  if (amount === null) return;
-  $("amount").value = String(amount);
-  $("amount").dispatchEvent(new Event("input", { bubbles: true }));
-  $("amount").focus();
-});
-$("amount").addEventListener("input", () => syncAmountChips());
-$("copyUpiBtn").addEventListener("click", async () => {
-  await copyText(UPI_ID);
-  showNotice("success", "UPI ID copied to clipboard.");
-});
-$("downloadLastReceiptBtn").addEventListener("click", () => {
-  if (!state.lastReceipt) return;
-  generateReceipt(state.lastReceipt);
-});
+        // Effects
+        function setupObservers() {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("is-visible"); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll(".reveal").forEach(el => obs.observe(el));
+        }
 
-// Login modal interactions
-$("openLoginBtn").addEventListener("click", openLogin);
-$("closeLoginBtn").addEventListener("click", closeLogin);
-$("loginBtn").addEventListener("click", login);
-$("logoutBtn").addEventListener("click", logout);
-$("themeToggleBtn").addEventListener("click", toggleTheme);
-$("loginModal").addEventListener("click", (e) => {
-  if (e.target === $("loginModal")) closeLogin();
-});
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeLogin();
-});
+        function launchConfetti() {
+            const colors = ['#2E4C73', '#0F766E', '#F59E0B'];
+            for(let i=0; i<40; i++) {
+                const p = document.createElement("div");
+                p.className = "confetti-piece";
+                p.style.left = Math.random() * 100 + "vw";
+                p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+                p.style.animationDelay = Math.random() * 2 + "s";
+                $("confetti").appendChild(p);
+                setTimeout(() => p.remove(), 3000);
+            }
+        }
 
-// Initialize UPI QR + payment sections
-$("upiId").innerText = UPI_ID;
-$("upiQr").src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(UPI_ID)}`;
-togglePayment($("paymentMethod").value);
-syncAmountChips();
-updateThemeToggleButton();
-
-function loadState() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { member: null, donations: [], totalDonated: 0, lastReceipt: null };
-    const parsed = JSON.parse(raw);
-    return {
-      member: parsed.member ?? null,
-      donations: Array.isArray(parsed.donations) ? parsed.donations : [],
-      totalDonated: Number.isFinite(parsed.totalDonated) ? parsed.totalDonated : 0,
-      lastReceipt: parsed.lastReceipt ?? null
-    };
-  } catch {
-    return { member: null, donations: [], totalDonated: 0, lastReceipt: null };
-  }
-}
-
-function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-
-function togglePayment(val) {
-  $("card-section").style.display = val === "card" ? "block" : "none";
-  $("upi-section").style.display = val === "upi" ? "block" : "none";
-}
-
-function showNotice(kind, message) {
-  const el = $("donationNotice");
-  el.className = `notice ${kind === "error" ? "error" : "success"}`;
-  el.textContent = message;
-  el.hidden = false;
-}
-
-function clearNotice() {
-  $("donationNotice").hidden = true;
-  $("donationNotice").textContent = "";
-}
-
-function sanitizeMoney(amount) {
-  const n = Number(amount);
-  if (!Number.isFinite(n)) return null;
-  const i = Math.floor(n);
-  if (i <= 0) return null;
-  return i;
-}
-
-function getSelectedFrequency() {
-  const el = document.querySelector('input[name="donationFrequency"]:checked');
-  const v = el ? String(el.value) : "one-time";
-  return v === "monthly" ? "monthly" : "one-time";
-}
-
-function processDonation() {
-  clearNotice();
-
-  const amount = sanitizeMoney($("amount").value);
-  if (amount === null) {
-    showNotice("error", "Please enter a valid donation amount.");
-    $("amount").focus();
-    return;
-  }
-
-  const donorName = String($("donorName").value || "").trim();
-  const donorEmail = String($("donorEmail").value || "").trim();
-  const method = $("paymentMethod").value;
-  const frequency = getSelectedFrequency();
-
-  const receipt = {
-    receiptId: `EGHF-${Date.now().toString(36).toUpperCase()}`,
-    amount,
-    donorName: donorName || null,
-    donorEmail: donorEmail || null,
-    method,
-    frequency,
-    dateISO: new Date().toISOString()
-  };
-
-  state.totalDonated += amount;
-  state.donations.unshift(receipt);
-  state.lastReceipt = receipt;
-  saveState();
-
-  renderTotals();
-  renderHistory();
-  renderRecentDonors();
-
-  $("downloadLastReceiptBtn").disabled = false;
-  showNotice("success", "Donation recorded. You can download your receipt now.");
-  launchConfetti();
-}
-
-function renderTotals() {
-  $("totalDonation").innerText = (state.totalDonated || 0).toLocaleString();
-  $("downloadLastReceiptBtn").disabled = !state.lastReceipt;
-}
-
-function renderRecentDonors() {
-  const host = $("recentDonors");
-  if (!host) return;
-  const items = state.donations.slice(0, 4);
-  if (items.length === 0) {
-    host.innerHTML = `<div class="item">Be the first to donate.</div>`;
-    return;
-  }
-  host.innerHTML = items.map((d) => {
-    const when = new Date(d.dateISO).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    const freq = d.frequency === "monthly" ? "monthly" : "one-time";
-    return `<div class="item">₹${Number(d.amount).toLocaleString()} <span class="muted">• ${escapeHtml(freq)} • ${escapeHtml(when)}</span></div>`;
-  }).join("");
-}
-
-function renderHistory() {
-  const list = $("donationHistoryList");
-  if (!list) return;
-  const items = state.donations.slice(0, 5);
-  if (items.length === 0) {
-    list.innerHTML = "<div>No donations yet.</div>";
-    return;
-  }
-  list.innerHTML = items.map((d) => {
-    const date = new Date(d.dateISO).toLocaleString();
-    const name = d.donorName ? ` • ${escapeHtml(d.donorName)}` : "";
-    const method = d.method ? ` • ${escapeHtml(d.method.toUpperCase())}` : "";
-    const freq = d.frequency === "monthly" ? " • MONTHLY" : "";
-    return `<div style="margin-bottom:8px;">
-      <strong>₹${Number(d.amount).toLocaleString()}</strong>${name}${method}${freq}
-      <div style="font-size:13px; opacity:0.85;">${escapeHtml(d.receiptId)} • ${escapeHtml(date)}</div>
-    </div>`;
-  }).join("");
-}
-
-function generateReceipt(receipt) {
-  const jspdf = window.jspdf;
-  if (!jspdf || !jspdf.jsPDF) {
-    showNotice("error", "Receipt generator not loaded. Please refresh the page.");
-    return;
-  }
-  const { jsPDF } = jspdf;
-  const doc = new jsPDF();
-
-  const date = new Date(receipt.dateISO);
-  doc.setFontSize(16);
-  doc.text("The Elite Global Humanity Foundation", 20, 20);
-  doc.setFontSize(12);
-  doc.text("Official Donation Receipt (Demo)", 20, 30);
-  doc.text(`Receipt ID: ${receipt.receiptId}`, 20, 40);
-  doc.text(`Amount: ₹${Number(receipt.amount).toLocaleString()}`, 20, 50);
-  doc.text(`Frequency: ${receipt.frequency === "monthly" ? "MONTHLY" : "ONE-TIME"}`, 20, 60);
-  doc.text(`Method: ${String(receipt.method || "").toUpperCase()}`, 20, 70);
-  doc.text(`Date: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`, 20, 80);
-  if (receipt.donorName) doc.text(`Donor: ${receipt.donorName}`, 20, 95);
-  if (receipt.donorEmail) doc.text(`Email: ${receipt.donorEmail}`, 20, 105);
-  doc.text("Thank you for your contribution.", 20, 110);
-  doc.setFontSize(10);
-  doc.text("Note: This receipt was generated by a demo web page and does not represent a processed transaction.", 20, 125, { maxWidth: 170 });
-  doc.save(`Donation_Receipt_${receipt.receiptId}.pdf`);
-}
-
-function syncAmountChips() {
-  const value = sanitizeMoney($("amount").value);
-  const chips = $("amountChips").querySelectorAll("button[data-amount]");
-  chips.forEach((btn) => {
-    const a = sanitizeMoney(btn.getAttribute("data-amount"));
-    const pressed = value !== null && a === value;
-    btn.setAttribute("aria-pressed", pressed ? "true" : "false");
-  });
-}
-
-function prefersReducedMotion() {
-  return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-function launchConfetti() {
-  if (prefersReducedMotion()) return;
-  const host = $("confetti");
-  if (!host) return;
-  host.innerHTML = "";
-  const colors = ["#7AA2D6", "#2E4C73", "#0F766E", "#F59E0B", "#EF4444", "#A78BFA"];
-  const pieces = 36;
-  for (let i = 0; i < pieces; i++) {
-    const el = document.createElement("div");
-    el.className = "confetti-piece";
-    el.style.left = `${Math.random() * 100}vw`;
-    el.style.background = colors[Math.floor(Math.random() * colors.length)];
-    el.style.animationDelay = `${Math.random() * 180}ms`;
-    el.style.animationDuration = `${950 + Math.random() * 550}ms`;
-    el.style.transform = `translateY(-10px) rotate(${Math.random() * 180}deg)`;
-    host.appendChild(el);
-  }
-  const maxMs = 1700;
-  setTimeout(() => { host.innerHTML = ""; }, maxMs);
-}
-
-function initTheme() {
-  const saved = localStorage.getItem(THEME_KEY);
-  if (saved === "dark" || saved === "light") {
-    applyTheme(saved, false);
-    return;
-  }
-  const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  applyTheme(systemDark ? "dark" : "light", false);
-}
-
-function applyTheme(theme, persist = true) {
-  const t = theme === "dark" ? "dark" : "light";
-  if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
-  else document.documentElement.removeAttribute("data-theme");
-  if (persist) localStorage.setItem(THEME_KEY, t);
-  updateThemeToggleButton();
-}
-
-function toggleTheme() {
-  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-  applyTheme(isDark ? "light" : "dark", true);
-}
-
-function updateThemeToggleButton() {
-  const btn = $("themeToggleBtn");
-  if (!btn) return;
-  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-  btn.textContent = isDark ? "Light" : "Dark";
-  btn.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
-  btn.setAttribute("title", isDark ? "Switch to light mode" : "Switch to dark mode");
-}
-
-function setupReveals() {
-  const nodes = document.querySelectorAll("main > section:not(.hero), footer, #profilePage .container, .breakdown");
-  if (prefersReducedMotion()) {
-    nodes.forEach((n) => {
-      n.classList.add("is-visible");
-      n.querySelectorAll(".reveal-item").forEach((child) => child.classList.add("is-visible"));
-    });
-    return;
-  }
-  nodes.forEach((n) => {
-    if (!n.classList.contains("reveal")) n.classList.add("reveal");
-  });
-  if (!("IntersectionObserver" in window)) {
-    nodes.forEach((n) => {
-      n.classList.add("is-visible");
-      n.querySelectorAll(".reveal-item").forEach((child) => child.classList.add("is-visible"));
-    });
-    return;
-  }
-  const STAGGER_MS = 100;
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add("is-visible");
-      const items = e.target.querySelectorAll(".reveal-item");
-      items.forEach((el, i) => setTimeout(() => el.classList.add("is-visible"), i * STAGGER_MS));
-      obs.unobserve(e.target);
-    });
-  }, { threshold: 0.12, rootMargin: "0px 0px -80px 0px" });
-  nodes.forEach((n) => obs.observe(n));
-}
-
-// FAQ accordion
-document.querySelectorAll(".faq-q").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const item = btn.closest(".faq-item");
-    if (!item) return;
-    const answer = item.querySelector(".faq-a");
-    const expanded = btn.getAttribute("aria-expanded") === "true";
-    btn.setAttribute("aria-expanded", expanded ? "false" : "true");
-    if (answer) answer.hidden = expanded;
-    const icon = btn.querySelector("span[aria-hidden='true']");
-    if (icon) icon.textContent = expanded ? "+" : "−";
-  });
-});
-
-function openLogin() {
-  $("loginModal").style.display = "flex";
-  $("loginModal").setAttribute("role", "dialog");
-  $("loginModal").setAttribute("aria-modal", "true");
-  $("loginModal").setAttribute("aria-labelledby", "loginTitle");
-  $("loginEmail").focus();
-}
-
-function closeLogin() {
-  $("loginModal").style.display = "none";
-}
-
-function login() {
-  const email = String($("loginEmail").value || "").trim();
-  const nameFromEmail = email.includes("@") ? email.split("@")[0] : null;
-  state.member = { email: email || null, name: nameFromEmail ? nameFromEmail.split(".").join(" ") : "Donor Member" };
-  saveState();
-  $("memberName").innerText = state.member.name || "Donor Member";
-  $("loginModal").style.display = "none";
-  $("profilePage").style.display = "block";
-  $("profilePage").scrollIntoView({ behavior: "smooth" });
-}
-
-function logout() {
-  state.member = null;
-  saveState();
-  $("profilePage").style.display = "none";
-  showNotice("success", "Logged out.");
-}
-
-async function copyText(text) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    await navigator.clipboard.writeText(text);
-    return;
-  }
-  const el = document.createElement("textarea");
-  el.value = text;
-  el.setAttribute("readonly", "");
-  el.style.position = "absolute";
-  el.style.left = "-9999px";
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand("copy");
-  document.body.removeChild(el);
-}
-
-function setupCounters() {
-  const counters = [
-    { id: "c1", target: 12500 },
-    { id: "c2", target: 8400 },
-    { id: "c3", target: 320 }
-  ];
-
-  const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const run = () => counters.forEach((c) => animateCounter(c.id, c.target, prefersReducedMotion));
-
-  if (!("IntersectionObserver" in window)) {
-    run();
-    return;
-  }
-
-  let hasRun = false;
-  const obs = new IntersectionObserver((entries) => {
-    if (hasRun) return;
-    if (entries.some((e) => e.isIntersecting)) {
-      hasRun = true;
-      run();
-      obs.disconnect();
-    }
-  }, { threshold: 0.3 });
-
-  const first = $(counters[0].id);
-  if (first) obs.observe(first);
-}
-
-function animateCounter(id, target, prefersReducedMotion) {
-  const el = $(id);
-  if (!el) return;
-  if (prefersReducedMotion) {
-    el.innerText = Number(target).toLocaleString();
-    return;
-  }
-  let count = 0;
-  const steps = 60;
-  const inc = Math.max(1, Math.round(target / steps));
-  const interval = setInterval(() => {
-    count += inc;
-    if (count >= target) {
-      count = target;
-      clearInterval(interval);
-    }
-    el.innerText = Number(count).toLocaleString();
-  }, 18);
-}
-
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-</script>
-
+        function renderHistory() {
+            $("donationHistory").innerHTML = "<h3>Your History</h3>" + state.donations.map(d => 
+                `<p>₹${d.amount} on ${d.date} (${d.id})</p>`
+            ).join('');
+        }
+    </script>
 </body>
 </html>
