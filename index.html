@@ -22,6 +22,8 @@
   --shadow: 0 10px 30px rgba(0,0,0,0.10);
   --radius: 10px;
   --max: 1080px;
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-duration: 0.72s;
 }
 
 /* Theme */
@@ -43,6 +45,11 @@ body {
   background-color: var(--soft-grey);
   color: var(--primary-navy);
   line-height: 1.5;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.page-ready {
+  opacity: 1;
 }
 
 header {
@@ -55,6 +62,11 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
+  transform: translateY(-100%);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.page-ready header {
+  transform: translateY(0);
 }
 
 header nav {
@@ -122,9 +134,18 @@ html[data-theme="dark"] .nav-link:hover {
 }
 
 .hero .container { position: relative; z-index: 1; }
-.hero-content .hero-title { animation: fade-up 0.7s ease-out backwards; }
-.hero-content .hero-sub { animation: fade-up 0.7s ease-out 0.15s backwards; }
-.hero-content .hero-cta { animation: fade-up 0.7s ease-out 0.3s backwards; }
+.hero-content .hero-title,
+.hero-content .hero-sub,
+.hero-content .hero-cta { opacity: 0; transform: translateY(20px); }
+.hero.animate-in .hero-content .hero-title {
+  animation: fade-up 0.75s var(--ease-out-expo) 0.1s backwards;
+}
+.hero.animate-in .hero-content .hero-sub {
+  animation: fade-up 0.75s var(--ease-out-expo) 0.28s backwards;
+}
+.hero.animate-in .hero-content .hero-cta {
+  animation: fade-up 0.75s var(--ease-out-expo) 0.45s backwards;
+}
 
 .btn-primary {
   background: var(--accent-blue);
@@ -288,13 +309,41 @@ html[data-theme="dark"] .bar { background: rgba(255,255,255,0.10); }
 
 .dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; margin-right: 8px; }
 
-/* Subtle scroll-in animations */
+/* Scroll-in animations – smooth easing */
 .reveal {
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 520ms ease, transform 520ms ease;
+  transform: translateY(28px);
+  transition: opacity var(--reveal-duration) var(--ease-out-expo),
+              transform var(--reveal-duration) var(--ease-out-expo);
 }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+.reveal--left {
+  transform: translateX(-40px) translateY(0);
+}
+.reveal--left.is-visible { transform: translateX(0) translateY(0); }
+
+.reveal--right {
+  transform: translateX(40px) translateY(0);
+}
+.reveal--right.is-visible { transform: translateX(0) translateY(0); }
+
+.reveal--scale {
+  transform: scale(0.96) translateY(16px);
+  transform-origin: center top;
+}
+.reveal--scale.is-visible { transform: scale(1) translateY(0); }
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* Confetti */
 .confetti {
@@ -728,16 +777,6 @@ footer {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
-.card {
-  animation: fade-up 0.5s ease-out backwards;
-}
-.card:nth-child(1) { animation-delay: 0.1s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
-.card:nth-child(3) { animation-delay: 0.3s; }
-.counter { animation: fade-up 0.6s ease-out backwards; }
-.counter:nth-child(1) { animation-delay: 0.15s; }
-.counter:nth-child(2) { animation-delay: 0.25s; }
-.counter:nth-child(3) { animation-delay: 0.35s; }
 .card img,
 .story-placeholder {
   transition: transform 0.35s ease, box-shadow 0.35s ease;
@@ -754,11 +793,16 @@ html[data-theme="dark"] .card:hover .story-placeholder {
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
+  body, header { transition: none; }
+  .hero .hero-content .hero-title,
+  .hero .hero-content .hero-sub,
+  .hero .hero-content .hero-cta { opacity: 1; transform: none; animation: none; }
   .btn-primary, .btn-secondary { transition: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal--left, .reveal--right, .reveal--scale { transform: none; }
   .confetti-piece { animation: none; }
-  .card, .counter { animation: none; }
   .card img, .story-placeholder { transition: none; }
+  .reveal-item { opacity: 1; transform: none; transition: none; }
 }
 </style>
 </head>
@@ -802,22 +846,22 @@ html[data-theme="dark"] .card:hover .story-placeholder {
   </section>
 
 <!-- ABOUT -->
-<section class="white-section" id="about">
+<section class="white-section reveal reveal--left" id="about">
   <div class="container">
     <h2 class="section-title">About us</h2>
     <p class="lead">
       The Elite Global Humanity Foundation is a nonprofit built on trust. We believe every family deserves access to food, clean water, and the chance for their children to learn and grow.
     </p>
     <div class="about-blocks">
-      <div class="about-block">
+      <div class="about-block reveal-item">
         <h3>Our mission</h3>
         <p>We deliver transparent, measurable impact by funding emergency food packs, school support, and clean water access in partnership with vetted local organizations. Every donation is tracked; every rupee is accounted for.</p>
       </div>
-      <div class="about-block">
+      <div class="about-block reveal-item">
         <h3>Why transparency matters</h3>
         <p>Donors see exactly where their money goes. We publish distribution reports, receipt IDs, and program outcomes so you can trust that your contribution reaches those who need it most.</p>
       </div>
-      <div class="about-block">
+      <div class="about-block reveal-item">
         <h3>How you can help</h3>
         <p>Give once or become a monthly donor. Share our work. Ask questions. We’re here to show you the numbers and the stories behind them.</p>
       </div>
@@ -826,22 +870,22 @@ html[data-theme="dark"] .card:hover .story-placeholder {
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="beige-section" id="how-it-works">
+<section class="beige-section reveal reveal--right" id="how-it-works">
   <div class="container">
     <h2 class="section-title">How it works</h2>
     <p class="lead">From your click to their plate: a simple, accountable path.</p>
     <div class="steps">
-      <div class="step">
+      <div class="step reveal-item">
         <span class="step-num" aria-hidden="true">1</span>
         <h3>You give</h3>
         <p>Choose an amount and pay by card or UPI. You get an instant receipt and optional PDF download.</p>
       </div>
-      <div class="step">
+      <div class="step reveal-item">
         <span class="step-num" aria-hidden="true">2</span>
         <h3>We allocate</h3>
         <p>Funds go to our programs: emergency food, school support, and clean water. We don’t take a cut; overhead is kept low and reported openly.</p>
       </div>
-      <div class="step">
+      <div class="step reveal-item">
         <span class="step-num" aria-hidden="true">3</span>
         <h3>Partners deliver</h3>
         <p>Vetted local partners distribute aid on the ground. We track deliveries and publish outcomes so you can see the impact.</p>
@@ -851,19 +895,19 @@ html[data-theme="dark"] .card:hover .story-placeholder {
 </section>
 
 <!-- IMPACT COUNTERS -->
-<section class="white-section">
+<section class="white-section reveal reveal--scale">
   <div class="container">
     <h2 style="text-align:center; margin-top:0;">Our Global Impact</h2>
     <div class="counter-box" aria-label="Impact counters">
-      <div class="counter">
+      <div class="counter reveal-item">
         <h2 id="c1" aria-label="Families supported">0</h2>
         <p>Families Supported</p>
       </div>
-      <div class="counter">
+      <div class="counter reveal-item">
         <h2 id="c2" aria-label="Children educated">0</h2>
         <p>Children Educated</p>
       </div>
-      <div class="counter">
+      <div class="counter reveal-item">
         <h2 id="c3" aria-label="Communities served">0</h2>
         <p>Communities Served</p>
       </div>
@@ -880,7 +924,7 @@ html[data-theme="dark"] .card:hover .story-placeholder {
     </p>
 
     <div class="grid-3" aria-label="Impact stories">
-      <article class="card">
+      <article class="card reveal-item">
         <div class="story-placeholder story-1" role="img" aria-label="Food relief distribution">
           <span class="placeholder-icon" aria-hidden="true">🍲</span>
           <span class="placeholder-label">Food relief</span>
@@ -897,7 +941,7 @@ html[data-theme="dark"] .card:hover .story-placeholder {
         </div>
       </article>
 
-      <article class="card">
+      <article class="card reveal-item">
         <div class="story-placeholder story-2" role="img" aria-label="Child nutrition support">
           <span class="placeholder-icon" aria-hidden="true">🥗</span>
           <span class="placeholder-label">Child nutrition</span>
@@ -914,7 +958,7 @@ html[data-theme="dark"] .card:hover .story-placeholder {
         </div>
       </article>
 
-      <article class="card">
+      <article class="card reveal-item">
         <div class="story-placeholder story-3" role="img" aria-label="Community volunteers">
           <span class="placeholder-icon" aria-hidden="true">🤝</span>
           <span class="placeholder-label">Community partners</span>
@@ -946,21 +990,21 @@ html[data-theme="dark"] .card:hover .story-placeholder {
     <h2 class="section-title">What we fund</h2>
     <p class="lead">Clear programs, measurable outcomes, and transparent reporting.</p>
     <div class="grid-3" aria-label="Programs">
-      <article class="card">
+      <article class="card reveal-item">
         <div class="content">
           <span class="tag">Food</span>
           <h3>Emergency food packs</h3>
           <p>Staples, nutrition, and hygiene essentials delivered with local partners.</p>
         </div>
       </article>
-      <article class="card">
+      <article class="card reveal-item">
         <div class="content">
           <span class="tag">Education</span>
           <h3>School support</h3>
           <p>Meals at school, supplies, and support to keep children learning consistently.</p>
         </div>
       </article>
-      <article class="card">
+      <article class="card reveal-item">
         <div class="content">
           <span class="tag">Water</span>
           <h3>Clean water access</h3>
@@ -1187,6 +1231,22 @@ initTheme();
 renderTotals();
 renderHistory();
 renderRecentDonors();
+
+// Page enter: show body and header after first paint
+function initPageEnter() {
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      document.body.classList.add("page-ready");
+      var hero = document.querySelector("section.hero");
+      if (hero) hero.classList.add("animate-in");
+    });
+  });
+}
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initPageEnter);
+} else {
+  initPageEnter();
+}
 
 // Impact counters animate when visible
 setupCounters();
@@ -1462,24 +1522,36 @@ function updateThemeToggleButton() {
 }
 
 function setupReveals() {
-  const nodes = document.querySelectorAll("main > section, footer, #profilePage .container, .breakdown");
+  const nodes = document.querySelectorAll("main > section:not(.hero), footer, #profilePage .container, .breakdown");
   if (prefersReducedMotion()) {
-    nodes.forEach((n) => n.classList.add("is-visible"));
+    nodes.forEach((n) => {
+      n.classList.add("is-visible");
+      n.querySelectorAll(".reveal-item").forEach((child) => child.classList.add("is-visible"));
+    });
     return;
   }
-  nodes.forEach((n) => n.classList.add("reveal"));
+  nodes.forEach((n) => {
+    if (!n.classList.contains("reveal")) n.classList.add("reveal");
+  });
   if (!("IntersectionObserver" in window)) {
-    nodes.forEach((n) => n.classList.add("is-visible"));
+    nodes.forEach((n) => {
+      n.classList.add("is-visible");
+      n.querySelectorAll(".reveal-item").forEach((child) => child.classList.add("is-visible"));
+    });
     return;
   }
+  const STAGGER_MS = 85;
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add("is-visible");
-        obs.unobserve(e.target);
-      }
+      if (!e.isIntersecting) return;
+      e.target.classList.add("is-visible");
+      const items = e.target.querySelectorAll(".reveal-item");
+      items.forEach((el, i) => {
+        setTimeout(function() { el.classList.add("is-visible"); }, i * STAGGER_MS);
+      });
+      obs.unobserve(e.target);
     });
-  }, { threshold: 0.14 });
+  }, { threshold: 0.08, rootMargin: "0px 0px -50px 0px" });
   nodes.forEach((n) => obs.observe(n));
 }
 
