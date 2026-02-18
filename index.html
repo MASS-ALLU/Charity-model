@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Elite Global Humanity Foundation | Built on Trust</title>
+    <title>The Elite Global Humanity Foundation</title>
     
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -14,7 +14,6 @@
             --cream: #F5F5F0;
             --white: #FFFFFF;
             --success: #0F766E;
-            --grey: #64748b;
             --radius: 12px;
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
@@ -23,18 +22,16 @@
             --navy: #f1f5f9;
             --cream: #0f172a;
             --white: #1e293b;
-            --grey: #94a3b8;
         }
 
         body {
             margin: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background: var(--cream);
             color: var(--navy);
             transition: all 0.3s ease;
         }
 
-        /* Header */
         header {
             background: var(--white);
             padding: 1rem 5%;
@@ -48,219 +45,69 @@
         }
 
         .logo-box img {
-            height: 50px;
-            transition: filter 0.3s;
+            height: 55px;
+            width: auto;
+            transition: all 0.4s ease;
         }
-        
-        html[data-theme="dark"] .logo-box img { filter: brightness(0) invert(1); }
+
+        /* THE LOGO FIX: Instead of turning white, we add a glow */
+        html[data-theme="dark"] .logo-box img {
+            filter: brightness(1.2) drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+        }
 
         .nav-btns button {
             background: transparent;
-            border: 1px solid transparent;
+            border: 1px solid var(--navy);
             color: var(--navy);
-            font-weight: 600;
             padding: 8px 16px;
             cursor: pointer;
             border-radius: 6px;
+            font-weight: 600;
+            margin-left: 10px;
         }
 
-        /* Hero */
         .hero {
-            background: linear-gradient(rgba(28, 46, 74, 0.85), rgba(28, 46, 74, 0.85)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1470&auto=format&fit=crop');
+            background: linear-gradient(rgba(28, 46, 74, 0.8), rgba(28, 46, 74, 0.8)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1470&auto=format&fit=crop');
             background-size: cover;
-            background-position: center;
             color: white;
-            padding: 120px 20px;
+            padding: 100px 20px;
             text-align: center;
         }
 
-        /* Donation Section */
-        .donate-container {
-            max-width: 600px;
-            margin: -60px auto 60px;
+        .donate-card {
+            max-width: 500px;
+            margin: -50px auto 50px;
             background: var(--white);
             padding: 40px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
         }
 
-        .amount-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 15px 0;
-        }
-
-        .amount-btn {
-            padding: 12px;
-            border: 1px solid #e2e8f0;
-            background: var(--cream);
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            color: var(--navy);
-        }
-
-        .amount-btn.active {
-            background: var(--blue);
-            color: white;
-            border-color: var(--blue);
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0 20px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            background: var(--white);
-            color: var(--navy);
-            box-sizing: border-box;
-        }
-
-        .submit-btn {
+        .btn-pay {
             width: 100%;
             padding: 16px;
             background: var(--blue);
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-        }
-
-        .receipt-btn {
-            margin-top: 15px;
-            background: var(--success);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px;
-            font-size: 0.9rem;
-            color: var(--grey);
+            margin-top: 20px;
         }
 
         .hidden { display: none; }
-
-        @media (max-width: 480px) {
-            .amount-grid { grid-template-columns: 1fr; }
-        }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo-box">
-        <img src="logo.png" alt="EGHF Logo" onerror="this.src='https://via.placeholder.com/150x50?text=ELITE+FOUNDATION'">
+        <img src="logo.png" alt="EGHF Logo" onerror="this.style.display='none'">
     </div>
     <div class="nav-btns">
-        <button onclick="toggleDarkMode()">🌓 Mode</button>
-        <button onclick="alert('Demo Login: GitHub Repo version')">Login</button>
+        <button onclick="toggleMode()">🌓 Toggle Mode</button>
     </div>
 </header>
 
 <main>
     <section class="hero">
-        <h1 style="font-size: 2.5rem; margin-bottom: 10px;">BUILT ON TRUST</h1>
-        <p style="font-size: 1.2rem; opacity: 0.9;">Direct Impact. Complete Transparency. Global Reach.</p>
-    </section>
-
-    <div class="donate-container">
-        <h2 style="margin-top: 0;">Secure Donation</h2>
-        <form id="payForm">
-            <label>Choose Amount (INR)</label>
-            <div class="amount-grid">
-                <button type="button" class="amount-btn" onclick="setAmt(500, this)">₹500</button>
-                <button type="button" class="amount-btn active" onclick="setAmt(1000, this)">₹1000</button>
-                <button type="button" class="amount-btn" onclick="setAmt(5000, this)">₹5000</button>
-            </div>
-            <input type="number" id="finalAmt" value="1000" placeholder="Other Amount">
-
-            <label>Full Name</label>
-            <input type="text" id="userName" placeholder="Your Name">
-
-            <label>Payment Method</label>
-            <select id="method" onchange="checkUPI()">
-                <option value="card">Credit/Debit Card</option>
-                <option value="upi">UPI / QR Code</option>
-            </select>
-
-            <div id="qrCode" class="hidden" style="text-align:center; padding: 20px; border: 1px dashed #cbd5e1; border-radius: 8px; margin-bottom: 20px;">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=elitefoundation@upi" alt="QR">
-                <p style="font-size: 0.8rem; margin-top: 10px;">elitefoundation@upi</p>
-            </div>
-
-            <button type="submit" class="submit-btn">Complete Donation</button>
-            <button type="button" id="pdfBtn" class="submit-btn receipt-btn hidden" onclick="makePDF()">Download Official Receipt</button>
-        </form>
-    </div>
-</main>
-
-<footer>
-    <p>© 2026 The Elite Global Humanity Foundation. All Rights Reserved.</p>
-    <p>Empowering communities through transparency and action.</p>
-</footer>
-
-<script>
-    let currentReceipt = null;
-
-    function setAmt(val, btn) {
-        document.getElementById('finalAmt').value = val;
-        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    }
-
-    function checkUPI() {
-        const val = document.getElementById('method').value;
-        document.getElementById('qrCode').classList.toggle('hidden', val !== 'upi');
-    }
-
-    function toggleDarkMode() {
-        const h = document.documentElement;
-        const isDark = h.getAttribute('data-theme') === 'dark';
-        h.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    }
-
-    document.getElementById('payForm').onsubmit = function(e) {
-        e.preventDefault();
-        const name = document.getElementById('userName').value || "Valued Donor";
-        const amt = document.getElementById('finalAmt').value;
-
-        currentReceipt = {
-            id: "EGHF-" + Math.random().toString(36).substr(2, 7).toUpperCase(),
-            name: name,
-            amt: amt,
-            date: new Date().toLocaleDateString()
-        };
-
-        alert(`Thank you ${name}! Your contribution of ₹${amt} makes a difference.`);
-        document.getElementById('pdfBtn').classList.remove('hidden');
-    };
-
-    function makePDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        
-        doc.setFont("helvetica", "bold");
-        doc.text("OFFICIAL DONATION RECEIPT", 20, 30);
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        doc.text("The Elite Global Humanity Foundation", 20, 40);
-        doc.line(20, 45, 190, 45);
-
-        doc.text(`Receipt ID: ${currentReceipt.id}`, 20, 60);
-        doc.text(`Date: ${currentReceipt.date}`, 20, 70);
-        doc.text(`Donor Name: ${currentReceipt.name}`, 20, 80);
-        doc.text(`Total Amount: INR ${currentReceipt.amt}.00`, 20, 90);
-
-        doc.setFontSize(10);
-        doc.text("Status: Payment Verified (Demo Mode)", 20, 110);
-        doc.save(`Receipt_${currentReceipt.id}.pdf`);
-    }
-</script>
-
-</body>
-</html>
