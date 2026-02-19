@@ -32,6 +32,7 @@
             background: var(--cream);
             color: var(--navy);
             line-height: 1.6;
+            scroll-behavior: smooth;
         }
 
         /* --- NAVIGATION --- */
@@ -48,12 +49,14 @@
         }
 
         .logo-box img { height: 50px; transition: var(--transition); }
-        html[data-theme="dark"] .logo-box img { filter: invert(1) hue-rotate(180deg) brightness(1.5); }
+        html[data-theme="dark"] .logo-box img { 
+            filter: invert(1) hue-rotate(180deg) brightness(1.5); 
+        }
 
         .nav-links a { text-decoration: none; color: var(--navy); margin-left: 20px; font-weight: 600; font-size: 0.9rem; }
         .theme-btn { background: none; border: 1px solid var(--navy); color: var(--navy); padding: 5px 12px; border-radius: 20px; cursor: pointer; margin-left: 15px; }
 
-        /* --- HERO & DONATION --- */
+        /* --- HERO --- */
         .hero {
             background: linear-gradient(rgba(28, 46, 74, 0.85), rgba(28, 46, 74, 0.85)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1470&auto=format&fit=crop');
             background-size: cover;
@@ -63,6 +66,7 @@
             text-align: center;
         }
 
+        /* --- DONATION CARD --- */
         .donate-card {
             max-width: 500px;
             margin: -80px auto 60px;
@@ -70,18 +74,13 @@
             padding: 40px;
             border-radius: var(--radius);
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
         }
 
         .btn-main {
-            width: 100%;
-            padding: 18px;
-            background: var(--blue);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
+            width: 100%; padding: 18px; background: var(--blue); color: white;
+            border: none; border-radius: 8px; font-weight: 800; cursor: pointer;
             transition: var(--transition);
         }
         .btn-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
@@ -98,27 +97,52 @@
         }
         .stat-item h2 { font-size: 2.5rem; color: var(--gold); margin: 0; }
 
-        /* --- TIMELINE --- */
-        .transparency-section { padding: 80px 5%; max-width: 1000px; margin: 0 auto; }
-        .timeline { border-left: 3px solid var(--gold); padding-left: 30px; margin-top: 40px; position: relative; }
-        .timeline-item { margin-bottom: 40px; position: relative; }
-        .timeline-item::before { content: ""; position: absolute; left: -39px; top: 0; width: 15px; height: 15px; background: var(--gold); border-radius: 50%; }
+        /* --- GALLERY SECTION --- */
+        .gallery-section { padding: 80px 5%; text-align: center; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .gallery-item {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-radius: var(--radius);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .gallery-item div {
+            position: absolute; bottom: 0; width: 100%; padding: 15px;
+            background: rgba(0,0,0,0.6); color: white; font-size: 0.8rem;
+        }
 
-        /* --- HELPERS --- */
+        /* --- CONTACT SECTION --- */
+        .contact-section { padding: 80px 5%; max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .contact-form input, .contact-form textarea {
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; background: var(--white); color: var(--navy);
+        }
+
         .hidden { display: none; }
-        input { width: 100%; padding: 15px; margin: 10px 0 20px; border: 1px solid #ddd; border-radius: 8px; background: var(--white); color: var(--navy); }
+        input { width: 100%; padding: 15px; margin: 10px 0 20px; border: 1px solid #ddd; border-radius: 8px; background: var(--white); color: var(--navy); box-sizing: border-box; }
+        
+        footer { background: var(--navy); color: white; padding: 60px 5%; text-align: center; border-top: 5px solid var(--gold); }
+        
+        @media (max-width: 768px) { .contact-section { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo-box">
-        <img src="logo.png" alt="EGHF Logo" onerror="this.style.opacity='0'">
+        <img src="logo.png" alt="EGHF Logo" onerror="this.style.opacity='0.5'">
     </div>
     <div class="nav-links">
         <a href="#about">About</a>
         <a href="#impact">Impact</a>
-        <a href="#transparency">Transparency</a>
+        <a href="#contact">Contact</a>
         <button class="theme-btn" onclick="toggleTheme()">🌓 Theme</button>
     </div>
 </header>
@@ -126,88 +150,81 @@
 <main>
     <section class="hero">
         <h1 style="font-size: 3rem; margin: 0;">BUILT ON TRUST</h1>
-        <p style="font-size: 1.2rem; opacity: 0.9;">Global humanity served with 100% financial integrity.</p>
+        <p style="font-size: 1.2rem; opacity: 0.9;">Direct Humanitarian Action. 100% Transparency.</p>
     </section>
 
     <div class="donate-card" id="donate">
         <form id="payForm">
-            <label style="font-weight: 700;">Contribution Amount (INR)</label>
+            <label style="font-weight: 700;">Amount (INR)</label>
             <input type="number" id="userAmt" value="1000" min="100">
             
             <label style="font-weight: 700;">Full Legal Name</label>
-            <input type="text" id="userName" placeholder="John Doe" required>
+            <input type="text" id="userName" placeholder="Your Name" required>
             
             <button type="submit" class="btn-main">Proceed to Secure Donation</button>
         </form>
         
         <div id="receiptArea" class="hidden" style="text-align: center;">
             <div style="background: rgba(15, 118, 110, 0.1); color: var(--success); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                <strong>Payment Verified!</strong><br>Thank you for supporting our mission.
+                <strong>Verification Successful!</strong><br>Your contribution is fueling change.
             </div>
-            <button class="btn-main" style="background: var(--success);" onclick="generatePDF()">Download Tax-Deductible Receipt</button>
+            <button class="btn-main" style="background: var(--success);" onclick="generatePDF()">Download Official Receipt</button>
         </div>
     </div>
 
     <section class="stats-section" id="impact">
-        <div class="stat-item">
-            <h2>124k+</h2>
-            <p>Meals Delivered</p>
-        </div>
-        <div class="stat-item">
-            <h2>45</h2>
-            <p>Active Communities</p>
-        </div>
-        <div class="stat-item">
-            <h2>100%</h2>
-            <p>Transparency Score</p>
-        </div>
-        <div class="stat-item">
-            <h2>₹0</h2>
-            <p>Admin Fees Taken</p>
-        </div>
+        <div class="stat-item"><h2>124k+</h2><p>Meals Served</p></div>
+        <div class="stat-item"><h2>45+</h2><p>Schools Supported</p></div>
+        <div class="stat-item"><h2>100%</h2><p>Transparency</p></div>
+        <div class="stat-item"><h2>₹0</h2><p>Management Fees</p></div>
     </section>
 
-    
-    <section class="transparency-section" id="transparency">
-        <h2 style="text-align: center; font-size: 2rem;">How Your Funds Move</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <h3>1. Donation Received</h3>
-                <p>Your funds are instantly logged into our public ledger and verified for security.</p>
-            </div>
-            <div class="timeline-item">
-                <h3>2. Resource Allocation</h3>
-                <p>Field officers identify the highest-need areas within 48 hours of fund arrival.</p>
-            </div>
-            <div class="timeline-item">
-                <h3>3. Ground Impact</h3>
-                <p>100% of your donation is used to purchase supplies, medicine, or educational tools.</p>
-            </div>
-        </div>
-    </section>
-
-    <section style="background: var(--white); padding: 80px 5%; text-align: center;" id="about">
+    <section id="about" style="text-align:center; padding: 80px 5%; background: var(--white);">
         <h2>About the Foundation</h2>
         <p style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; opacity: 0.8;">
-            The Elite Global Humanity Foundation was founded on a singular principle: <strong>Trust through Verifiability.</strong> 
-            While traditional charities consume large portions of donations for marketing, we use a private endowment to cover our operational costs, 
-            ensuring that every rupee you give reaches the people who need it most.
+            The Elite Global Humanity Foundation bridges the gap between those who want to help and those who need it most. 
+            Through our 'Direct-to-Need' model, we ensure resources reach the most vulnerable communities without administrative leakage.
         </p>
+    </section>
+
+    <section class="gallery-section">
+        <h2>Field Impact Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=500')">
+                <div>Medical Aid - Remote Regions</div>
+            </div>
+            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=500')">
+                <div>Nutrition Program</div>
+            </div>
+            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=500')">
+                <div>Educational Empowerment</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div>
+            <h2>Get In Touch</h2>
+            <p>Have questions about our operations or want to volunteer? Send us a message.</p>
+            <p><strong>Email:</strong> support@elitehumanity.org</p>
+            <p><strong>Main Office:</strong> New Delhi, India</p>
+        </div>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!'); this.reset();">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Email Address" required>
+            <textarea rows="4" placeholder="Your Message"></textarea>
+            <button type="submit" class="btn-main">Send Message</button>
+        </form>
     </section>
 </main>
 
-<footer style="background: var(--navy); color: white; padding: 60px 5%; text-align: center; opacity: 0.95;">
+<footer>
     <p style="font-weight: 800; letter-spacing: 2px;">THE ELITE GLOBAL HUMANITY FOUNDATION</p>
-    <p style="font-size: 0.8rem; opacity: 0.6;">Registered NGO | All donations are 80G tax-exempt</p>
-    <div style="margin-top: 20px;">
-        <a href="#" style="color: white; margin: 0 10px;">Twitter</a>
-        <a href="#" style="color: white; margin: 0 10px;">LinkedIn</a>
-        <a href="#" style="color: white; margin: 0 10px;">Contact</a>
-    </div>
+    <p style="opacity: 0.6; font-size: 0.8rem;">A Registered Non-Profit Entity | 80G Tax Exempt</p>
 </footer>
 
 <script>
-    let localData = null;
+    let donationData = null;
 
     function toggleTheme() {
         const h = document.documentElement;
@@ -217,11 +234,11 @@
 
     document.getElementById('payForm').onsubmit = function(e) {
         e.preventDefault();
-        localData = {
-            id: "EGHF-" + Math.floor(Math.random() * 899999 + 100000),
+        donationData = {
+            id: "EGHF-" + Math.floor(Math.random() * 900000 + 100000),
             amt: document.getElementById('userAmt').value,
-            name: document.getElementById('userName').value || "Anonymous Donor",
-            date: new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'})
+            name: document.getElementById('userName').value || "Donor",
+            date: new Date().toLocaleDateString('en-IN')
         };
         this.classList.add('hidden');
         document.getElementById('receiptArea').classList.remove('hidden');
@@ -230,34 +247,20 @@
     function generatePDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        
         doc.setFillColor(28, 46, 74);
         doc.rect(0, 0, 210, 40, 'F');
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(22);
         doc.text("DONATION RECEIPT", 20, 25);
-        
         doc.setTextColor(0, 0, 0);
-        doc.setFontSize(10);
-        doc.text("The Elite Global Humanity Foundation", 20, 50);
-        doc.text("Official Tax-Exempt Document", 20, 55);
-        
-        doc.setLineWidth(0.5);
-        doc.line(20, 60, 190, 60);
-
         doc.setFontSize(12);
-        doc.text(`Receipt Reference: ${localData.id}`, 20, 75);
-        doc.text(`Date of Issue: ${localData.date}`, 20, 85);
-        doc.text(`Donor Name: ${localData.name}`, 20, 95);
-        doc.setFontSize(14);
-        doc.text(`Total Amount: INR ${Number(localData.amt).toLocaleString('en-IN')}.00`, 20, 110);
-        
+        doc.text(`Receipt ID: ${donationData.id}`, 20, 55);
+        doc.text(`Donor Name: ${donationData.name}`, 20, 65);
+        doc.text(`Total Amount: INR ${donationData.amt}.00`, 20, 75);
+        doc.text(`Date of Issue: ${donationData.date}`, 20, 85);
         doc.setFontSize(10);
-        doc.setTextColor(100);
-        doc.text("Note: This donation is eligible for tax deduction under Section 80G.", 20, 140);
-        doc.text("100% of these funds have been allocated to field programs.", 20, 145);
-
-        doc.save(`EGHF_Receipt_${localData.id}.pdf`);
+        doc.text("Verified Tax-Exempt Contribution under Section 80G.", 20, 110);
+        doc.save(`EGHF_Receipt_${donationData.id}.pdf`);
     }
 </script>
 
