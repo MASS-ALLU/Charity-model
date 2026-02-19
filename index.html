@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Elite Global Humanity Foundation</title>
     
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         :root {
@@ -25,15 +25,16 @@
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: var(--cream);
             color: var(--navy);
-            transition: 0.3s;
+            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
         }
 
         header {
             background: var(--white);
-            padding: 1rem 5%;
+            padding: 0.8rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -44,21 +45,21 @@
         }
 
         .logo-box img {
-            height: 55px;
+            height: 50px;
             width: auto;
             transition: filter 0.5s ease;
+            display: block;
         }
 
-        /* THE PRO FIX: This turns navy into a light, readable blue-white 
-           without making it a 'blob' */
         html[data-theme="dark"] .logo-box img {
-            filter: invert(1) hue-rotate(180deg) brightness(1.5);
+            filter: invert(1) hue-rotate(180deg) brightness(1.6) contrast(1.2);
         }
 
         .hero {
             background: linear-gradient(rgba(28, 46, 74, 0.8), rgba(28, 46, 74, 0.8)), 
                         url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1470&auto=format&fit=crop');
             background-size: cover;
+            background-position: center;
             color: white;
             padding: 80px 20px;
             text-align: center;
@@ -76,10 +77,12 @@
         input {
             width: 100%;
             padding: 12px;
-            margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 8px;
             box-sizing: border-box;
+            background: var(--white);
+            color: var(--navy);
+            margin-bottom: 15px;
         }
 
         .btn {
@@ -91,77 +94,138 @@
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
         }
 
-        .btn-theme {
-            background: transparent;
-            border: 1px solid var(--navy);
-            color: var(--navy);
-            width: auto;
-            padding: 8px 15px;
+        .btn-theme { background: transparent; border: 1px solid var(--navy); color: var(--navy); width: auto; padding: 6px 12px; font-size: 0.8rem; }
+
+        /* About Us Section Styles */
+        .about-section {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px;
+            text-align: center;
         }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .about-item {
+            padding: 20px;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .about-item h3 { color: var(--blue); margin-top: 0; }
 
         .hidden { display: none; }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo-box">
-        <img src="logo.png" alt="EGHF Logo">
+        <img src="logo.png" alt="EGHF Logo" onerror="this.style.opacity='0'">
     </div>
-    <button class="btn btn-theme" onclick="toggleTheme()">🌓 Theme</button>
+    <button class="btn btn-theme" onclick="toggleTheme()">🌓 Toggle Mode</button>
 </header>
 
 <main>
     <section class="hero">
-        <h1>BUILT ON TRUST</h1>
-        <p>Transparency is our foundation.</p>
+        <h1 style="margin:0; font-size: 2.2rem;">BUILT ON TRUST</h1>
+        <p style="margin-top:10px; font-weight: 300;">Transparent Impact. Global Humanity.</p>
     </section>
 
     <div class="donate-card">
         <form id="mainForm">
-            <label>Amount (INR)</label>
-            <input type="number" id="val" value="1000">
-            <label>Name</label>
-            <input type="text" id="nm" placeholder="Enter your name">
+            <label style="font-weight:600; font-size:0.9rem;">Amount (INR)</label>
+            <input type="number" id="val" value="1000" min="1" required>
+            
+            <label style="font-weight:600; font-size:0.9rem;">Donor Name</label>
+            <input type="text" id="nm" placeholder="Enter your full name">
+            
             <button type="submit" class="btn">Donate Now</button>
         </form>
-        <button id="pdf" class="btn hidden" style="background:var(--success);" onclick="download()">Download Receipt</button>
+        
+        <div id="successArea" class="hidden" style="text-align:center; margin-top:20px;">
+            <p style="color: var(--success); font-weight: bold;">✓ Donation Recorded Successfully</p>
+            <button class="btn" style="background:var(--success);" onclick="downloadReceipt()">Download Official Receipt</button>
+        </div>
     </div>
+
+    <section class="about-section">
+        <h2 style="font-size: 2rem;">About the Foundation</h2>
+        <p style="max-width: 700px; margin: 0 auto; opacity: 0.8;">The Elite Global Humanity Foundation is a non-profit organization dedicated to fostering sustainable change through direct action and financial integrity.</p>
+        
+        <div class="about-grid">
+            <div class="about-item">
+                <h3>Our Mission</h3>
+                <p>To provide immediate relief and long-term educational infrastructure to underserved communities globally.</p>
+            </div>
+            <div class="about-item">
+                <h3>Our Transparency</h3>
+                <p>We operate on a 'Built on Trust' model, ensuring 100% of public donations go directly to program costs.</p>
+            </div>
+            <div class="about-item">
+                <h3>Our Vision</h3>
+                <p>A world where geographical boundaries do not limit a human being's access to dignity, health, and education.</p>
+            </div>
+        </div>
+    </section>
 </main>
 
+<footer>
+    <p>The Elite Global Humanity Foundation</p>
+    <p>Registered Non-Profit Organization © 2026</p>
+</footer>
+
 <script>
-    let data = null;
+    let receiptData = null;
 
     function toggleTheme() {
         const root = document.documentElement;
-        const current = root.getAttribute('data-theme');
-        root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        root.setAttribute('data-theme', isDark ? 'light' : 'dark');
     }
 
     document.getElementById('mainForm').onsubmit = function(e) {
         e.preventDefault();
-        data = {
-            id: "ELITE-" + Math.floor(Math.random() * 90000),
+        receiptData = {
+            id: "EGHF-" + Math.floor(100000 + Math.random() * 900000),
             amt: document.getElementById('val').value,
-            user: document.getElementById('nm').value || "Donor",
-            date: new Date().toLocaleDateString()
+            user: document.getElementById('nm').value || "Anonymous Donor",
+            date: new Date().toLocaleDateString('en-IN')
         };
-        alert("Thank you for your donation!");
-        document.getElementById('pdf').classList.remove('hidden');
+        this.classList.add('hidden');
+        document.getElementById('successArea').classList.remove('hidden');
     }
 
-    function download() {
+    function downloadReceipt() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        doc.text("DONATION RECEIPT", 20, 20);
-        doc.text(`ID: ${data.id}`, 20, 40);
-        doc.text(`Name: ${data.user}`, 20, 50);
-        doc.text(`Amount: ₹${data.amt}`, 20, 60);
-        doc.text(`Date: ${data.date}`, 20, 70);
-        doc.save("Receipt.pdf");
+        doc.setFont("helvetica", "bold");
+        doc.text("DONATION RECEIPT", 20, 30);
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.text("The Elite Global Humanity Foundation", 20, 40);
+        doc.line(20, 45, 190, 45);
+        doc.text(`Receipt No: ${receiptData.id}`, 20, 60);
+        doc.text(`Donor: ${receiptData.user}`, 20, 70);
+        doc.text(`Amount: INR ${Number(receiptData.amt).toLocaleString('en-IN')}.00`, 20, 80);
+        doc.text(`Date: ${receiptData.date}`, 20, 90);
+        doc.save(`EGHF_Receipt_${receiptData.id}.pdf`);
     }
 </script>
 </body>
