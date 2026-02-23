@@ -1,267 +1,2787 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Elite Global Humanity Foundation | Built on Trust</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Elite Global Humanity Foundation</title>
+<meta name="description" content="The Elite Global Humanity Foundation delivers transparent global impact through clean water, health, and education. Donate, volunteer, and track impact.">
+<meta name="theme-color" content="#2c7a7b">
+<meta property="og:title" content="The Elite Global Humanity Foundation">
+<meta property="og:description" content="Clean water projects that change lives.">
+<meta property="og:type" content="website">
 
-    <style>
-        :root {
-            --navy: #1C2E4A;
-            --blue: #2E4C73;
-            --gold: #C5A059;
-            --cream: #F8F9FA;
-            --white: #FFFFFF;
-            --success: #0F766E;
-            --radius: 12px;
-            --transition: 0.3s ease;
-        }
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon.svg">
+<link rel="manifest" href="manifest.webmanifest">
 
-        html[data-theme="dark"] {
-            --navy: #F1F5F9;
-            --cream: #0B1120;
-            --white: #1E293B;
-            --blue: #38BDF8;
-        }
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "The Elite Global Humanity Foundation",
+  "logo": "assets/icon.svg"
+}
+</script>
 
-        body {
-            margin: 0;
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
-            background: var(--cream);
-            color: var(--navy);
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
+<style>
+:root{
+  --primary: #6366f1;      /* indigo-500 */
+  --primary-2: #4f46e5;    /* indigo-600 */
+  --accent: #10b981;       /* emerald-500 */
+  --accent-2: #059669;     /* emerald-600 */
 
-        /* --- NAVIGATION --- */
-        header {
-            background: var(--white);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-        }
+  --bg: #f8fafc;           /* slate-50 */
+  --bg-2: #f1f5f9;         /* slate-100 */
+  --surface: #ffffff;
+  --surface-2: rgba(255,255,255,0.72);
 
-        .logo-box img { height: 50px; transition: var(--transition); }
-        html[data-theme="dark"] .logo-box img { 
-            filter: invert(1) hue-rotate(180deg) brightness(1.5); 
-        }
+  --text: #0b1220;
+  --muted: #475569;
+  --border: rgba(15, 23, 42, 0.12);
 
-        .nav-links a { text-decoration: none; color: var(--navy); margin-left: 20px; font-weight: 600; font-size: 0.9rem; }
-        .theme-btn { background: none; border: 1px solid var(--navy); color: var(--navy); padding: 5px 12px; border-radius: 20px; cursor: pointer; margin-left: 15px; }
+  --shadow: 0 14px 42px rgba(2, 8, 23, 0.12);
+  --shadow-2: 0 10px 22px rgba(2, 8, 23, 0.10);
+  --ring: rgba(99, 102, 241, 0.26);
 
-        /* --- HERO --- */
-        .hero {
-            background: linear-gradient(rgba(28, 46, 74, 0.85), rgba(28, 46, 74, 0.85)), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1470&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 120px 20px;
-            text-align: center;
-        }
+  --radius: 18px;
+  --radius-sm: 12px;
+  --max: 1120px;
+}
+body.dark{
+  --bg:#070a13;
+  --bg-2:#0b1220;
+  --surface:#0b1220;
+  --surface-2: rgba(11,18,32,0.72);
+  --text:#eef2ff;
+  --muted:#b8c2d8;
+  --border: rgba(226, 232, 240, 0.14);
+  --shadow: 0 22px 64px rgba(0,0,0,0.55);
+  --shadow-2: 0 14px 34px rgba(0,0,0,0.45);
+  --ring: rgba(16, 185, 129, 0.22);
+}
 
-        /* --- DONATION CARD --- */
-        .donate-card {
-            max-width: 500px;
-            margin: -80px auto 60px;
-            background: var(--white);
-            padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 10;
-        }
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  background:
+    radial-gradient(820px 520px at 10% 0%, rgba(99,102,241,0.18), transparent 55%),
+    radial-gradient(760px 520px at 90% 10%, rgba(16,185,129,0.16), transparent 60%),
+    linear-gradient(180deg, var(--bg), var(--bg-2));
+  color:var(--text);
+  transition: background 220ms ease, color 220ms ease;
+  opacity:0;
+  animation: pageFadeIn 600ms ease forwards;
+}
+@keyframes pageFadeIn{
+  from{ opacity:0; transform: translateY(8px); }
+  to{ opacity:1; transform: translateY(0); }
+}
 
-        .btn-main {
-            width: 100%; padding: 18px; background: var(--blue); color: white;
-            border: none; border-radius: 8px; font-weight: 800; cursor: pointer;
-            transition: var(--transition);
-        }
-        .btn-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.page-loader{
+  position: fixed;
+  inset:0;
+  background: var(--bg);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  transition: opacity 400ms ease, visibility 400ms ease;
+}
+.page-loader.hidden{
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loader-spinner{
+  width: 48px;
+  height: 48px;
+  border: 3px solid color-mix(in srgb, var(--primary) 20%, transparent);
+  border-top-color: var(--primary);
+  border-radius: 999px;
+  animation: spin 800ms linear infinite;
+}
+@keyframes spin{
+  to{ transform: rotate(360deg); }
+}
+.loader-text{
+  font-weight: 900;
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+}
+a{ color:inherit; }
+img{ max-width:100%; display:block; }
+button, input, select, textarea{ font:inherit; }
 
-        /* --- IMPACT STATS --- */
-        .stats-section {
-            background: var(--navy);
-            color: var(--white);
-            padding: 60px 5%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            text-align: center;
-        }
-        .stat-item h2 { font-size: 2.5rem; color: var(--gold); margin: 0; }
+.container{ width:min(var(--max), calc(100% - 40px)); margin-inline:auto; }
+.skip-link{
+  position:absolute; left:-999px; top:8px;
+  background:var(--surface); color:var(--text);
+  border:1px solid var(--border);
+  padding:10px 12px; border-radius:999px; z-index:9999;
+}
+.skip-link:focus{ left:12px; outline:3px solid var(--ring); }
 
-        /* --- GALLERY SECTION --- */
-        .gallery-section { padding: 80px 5%; text-align: center; }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-        .gallery-item {
-            height: 250px;
-            background-size: cover;
-            background-position: center;
-            border-radius: var(--radius);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .gallery-item div {
-            position: absolute; bottom: 0; width: 100%; padding: 15px;
-            background: rgba(0,0,0,0.6); color: white; font-size: 0.8rem;
-        }
+header{
+  position:sticky; top:0; z-index:50;
+  backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--surface-2) 86%, transparent);
+  border-bottom:1px solid var(--border);
+}
+.header-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 0;
+}
+.brand{
+  display:flex; gap:12px; align-items:center; text-decoration:none;
+}
+.brand-mark{
+  width:44px; height:44px;
+  border-radius:14px;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  box-shadow: var(--shadow-2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:1000;
+  letter-spacing:0.6px;
+}
+.brand .name{ line-height:1.1; }
+.brand .name strong{
+  display:block;
+  font-size: clamp(16px, 1.8vw, 20px);
+  letter-spacing:-0.01em;
+  font-weight:1000;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.brand .name span{ display:none; }
 
-        /* --- CONTACT SECTION --- */
-        .contact-section { padding: 80px 5%; max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
-        .contact-form input, .contact-form textarea {
-            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; background: var(--white); color: var(--navy);
-        }
+nav{ display:flex; gap:10px; align-items:center; }
+nav a{
+  text-decoration:none;
+  padding:10px 12px;
+  border-radius:999px;
+  color:var(--muted);
+  font-weight:700;
+  font-size:14px;
+}
+nav a:hover{ background: color-mix(in srgb, var(--accent) 12%, transparent); color:var(--text); }
+nav a[aria-current="page"]{ color:var(--text); background: color-mix(in srgb, var(--accent) 18%, transparent); }
 
-        .hidden { display: none; }
-        input { width: 100%; padding: 15px; margin: 10px 0 20px; border: 1px solid #ddd; border-radius: 8px; background: var(--white); color: var(--navy); box-sizing: border-box; }
-        
-        footer { background: var(--navy); color: white; padding: 60px 5%; text-align: center; border-top: 5px solid var(--gold); }
-        
-        @media (max-width: 768px) { .contact-section { grid-template-columns: 1fr; } }
-    </style>
+.toolbar{ display:flex; gap:10px; align-items:center; }
+.meta-chip{
+  display:inline-flex; align-items:center; gap:8px;
+  height:40px; padding:0 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  font-weight:900;
+  color: var(--muted);
+  font-size:12px;
+  white-space:nowrap;
+}
+.meta-chip strong{ color: var(--text); }
+.meta-chip .dot{ opacity:0.6; }
+.user-chip{
+  display:inline-flex; align-items:center; gap:10px;
+  height:40px; padding:0 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  font-weight:900;
+}
+.avatar{
+  height:26px; width:26px; border-radius:999px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color:white;
+  font-size:12px;
+  letter-spacing:0.3px;
+}
+.user-chip .muted{ font-size:12px; font-weight:800; }
+.icon-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:40px; width:40px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  cursor:pointer;
+  transition: transform 160ms ease, background 160ms ease;
+}
+.icon-btn:active{ transform: translateY(1px); }
+.icon-btn:focus-visible{ outline:3px solid var(--ring); outline-offset:2px; }
+.primary-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:8px;
+  height:40px;
+  padding:0 14px;
+  border-radius:999px;
+  border:1px solid color-mix(in srgb, var(--primary) 26%, var(--border));
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color:white;
+  cursor:pointer;
+  font-weight:800;
+  text-decoration:none;
+  box-shadow: var(--shadow-2);
+}
+.primary-btn:hover{ filter:saturate(1.05) brightness(1.02); }
+.primary-btn:active{ transform: translateY(1px); }
+.primary-btn:focus-visible{ outline:3px solid var(--ring); outline-offset:2px; }
+
+.mobile-toggle{ display:none; }
+
+main{ padding-bottom: 40px; }
+section{
+  padding:76px 0;
+  content-visibility: auto;
+  contain-intrinsic-size: 820px;
+}
+.section-title{ font-size: clamp(22px, 2.1vw, 30px); margin:0 0 10px; letter-spacing:-0.02em; }
+.section-sub{ margin:0 auto 24px; max-width:70ch; color:var(--muted); }
+
+.hero{
+  padding:72px 0 44px;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap:24px;
+  align-items:center;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 90%, transparent);
+  border-radius:999px;
+  color:var(--muted);
+  font-weight:700;
+  font-size:13px;
+}
+.hero h1{
+  margin:14px 0 12px;
+  font-size: clamp(34px, 4vw, 52px);
+  letter-spacing:-0.04em;
+  line-height:1.05;
+}
+.hero p{
+  margin:0 0 18px;
+  color:var(--muted);
+  max-width: 62ch;
+  font-size: 16px;
+}
+.hero-actions{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.ghost-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:40px; padding:0 14px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  cursor:pointer;
+  font-weight:800;
+  text-decoration:none;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+.ghost-btn:hover{ background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.ghost-btn:active{ transform: translateY(1px); }
+.hero-card{
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+.hero-card .cover{
+  aspect-ratio: 4 / 3;
+  background:
+    linear-gradient(135deg, rgba(44,122,123,0.25), rgba(56,178,172,0.22)),
+    url('https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=60') center/cover;
+}
+.hero-card .body{ padding:16px; }
+.mini{
+  display:flex; gap:12px; justify-content:space-between; align-items:flex-end; flex-wrap:wrap;
+}
+.mini .kpi strong{ font-size:22px; display:block; }
+.mini .kpi span{ color:var(--muted); font-size:12px; font-weight:700; }
+.progress{
+  margin-top:14px;
+  height:10px;
+  border-radius:999px;
+  background: color-mix(in srgb, var(--primary) 10%, var(--border));
+  overflow:hidden;
+}
+.progress > div{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  transition: width 600ms ease;
+}
+
+.grid-3{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:14px;
+}
+.card{
+  text-align:left;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  border-radius: var(--radius);
+  padding:16px;
+  box-shadow: var(--shadow-2);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+.card:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
+}
+.card h3{ margin:0 0 6px; font-size:16px; letter-spacing:-0.01em; }
+.card p{ margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
+.pill{
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  padding:6px 10px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:12px;
+  color: color-mix(in srgb, var(--text) 75%, var(--primary));
+  margin-bottom:10px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap:18px;
+  align-items:stretch;
+}
+.stat-big{
+  border:1px solid var(--border);
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--surface) 92%, transparent),
+    color-mix(in srgb, var(--accent) 10%, transparent)
+  );
+  border-radius: var(--radius);
+  padding:20px;
+  box-shadow: var(--shadow);
+}
+.counter{
+  font-size: clamp(34px, 3.5vw, 56px);
+  letter-spacing:-0.04em;
+  font-weight: 900;
+  line-height:1;
+  margin: 0 0 10px;
+}
+.muted{ color:var(--muted); }
+.stat-list{
+  display:grid;
+  gap:12px;
+}
+.stat-item strong{ display:block; font-size:18px; }
+.stat-item span{ color:var(--muted); font-size:13px; font-weight:700; }
+
+.leader-list{
+  list-style:none;
+  padding:0;
+  margin:10px 0 0;
+}
+.leader-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:8px 0;
+  border-bottom:1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  font-size:13px;
+}
+.leader-item:last-child{ border-bottom:none; }
+.badge-pill{
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:0.2px;
+}
+.badge-pill.supporter{
+  background: color-mix(in srgb, var(--muted) 12%, transparent);
+  color: var(--muted);
+}
+.badge-pill.bronze{
+  background: linear-gradient(135deg, rgba(180,83,9,0.16), rgba(217,119,6,0.12));
+  border-color: color-mix(in srgb, #d97706 30%, var(--border));
+  color: #d97706;
+}
+.badge-pill.silver{
+  background: linear-gradient(135deg, rgba(107,114,128,0.16), rgba(156,163,175,0.12));
+  border-color: color-mix(in srgb, #9ca3af 30%, var(--border));
+  color: #6b7280;
+}
+.badge-pill.gold{
+  background: linear-gradient(135deg, rgba(217,119,6,0.20), rgba(245,158,11,0.16));
+  border-color: color-mix(in srgb, #f59e0b 35%, var(--border));
+  color: #d97706;
+}
+.badge-pill.platinum{
+  background: linear-gradient(135deg, rgba(99,102,241,0.20), rgba(139,92,246,0.16));
+  border-color: color-mix(in srgb, #8b5cf6 35%, var(--border));
+  color: #6366f1;
+}
+.badge-legend{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:8px;
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+.badge-legend-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+}
+.badge-legend-item .badge-pill{
+  margin:0;
+  flex-shrink:0;
+}
+
+.split{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:18px;
+  align-items:start;
+}
+form{
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  border-radius: var(--radius);
+  padding:16px;
+  box-shadow: var(--shadow-2);
+}
+label{ display:block; font-weight:800; font-size:12px; color:var(--muted); margin-top:12px; }
+input, select, textarea{
+  width:100%;
+  padding:12px 12px;
+  margin-top:6px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  color: var(--text);
+}
+input:focus, select:focus, textarea:focus{ outline:3px solid var(--ring); border-color: transparent; }
+.form-row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+}
+.form-actions{ margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.pay-grid{
+  margin-top:10px;
+  border:1px solid var(--border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  padding:12px;
+}
+.pay-tabs{
+  display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+}
+.seg{
+  display:inline-flex; align-items:center; gap:10px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  padding:8px 10px;
+  border-radius: 999px;
+  cursor:pointer;
+  font-weight:900;
+  color: var(--muted);
+}
+.seg input{ accent-color: var(--accent); }
+.seg.active{
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+.pay-box{ margin-top:10px; display:none; }
+.pay-box.show{ display:block; }
+.inline-row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.copy-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:36px;
+  padding:0 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  cursor:pointer;
+  font-weight:900;
+}
+.copy-btn:hover{ background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px dashed var(--border);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+}
+.card-logos{
+  display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+  color: var(--muted);
+  font-weight:900;
+  font-size:12px;
+}
+.logo-pill{
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+}
+.subtle-line{
+  margin-top:10px;
+  height:1px;
+  background: color-mix(in srgb, var(--border) 70%, transparent);
+}
+.hint{ font-size:12px; color:var(--muted); margin:10px 0 0; }
+.success{
+  margin:10px 0 0;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid color-mix(in srgb, var(--accent) 25%, var(--border));
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  font-weight:800;
+  display:none;
+}
+.success.show{ display:block; }
+
+.gallery{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap:12px;
+}
+.shot{
+  border-radius: var(--radius);
+  overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow: 0 16px 36px rgba(2,8,23,0.12);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+}
+.shot img{ width:100%; height:100%; object-fit:cover; }
+.shot.big{ grid-column: span 6; aspect-ratio: 16 / 10; }
+.shot.small{ grid-column: span 3; aspect-ratio: 1 / 1; }
+
+.accordion{
+  border:1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  overflow:hidden;
+}
+.accordion details{ border-bottom:1px solid var(--border); padding:14px 16px; }
+.accordion details:last-child{ border-bottom:none; }
+.accordion summary{
+  cursor:pointer;
+  font-weight:900;
+  letter-spacing:-0.01em;
+}
+.accordion p{ margin:10px 0 0; color:var(--muted); }
+
+#adminPanel { display:none; }
+#donorList{ padding:0; margin:10px 0 0; }
+#donorList li{
+  list-style:none;
+  margin:10px 0 0;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+}
+.row-between{ display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+.danger{
+  border:1px solid color-mix(in srgb, #ef4444 35%, var(--border));
+  background: color-mix(in srgb, #ef4444 10%, transparent);
+  color: color-mix(in srgb, var(--text) 70%, #ef4444);
+}
+
+footer{
+  border-top:1px solid var(--border);
+  padding:28px 0;
+  color:var(--muted);
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap:16px;
+  align-items:start;
+}
+.footer-grid strong{ color:var(--text); }
+.footer-links{ display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end; }
+.footer-links a{ color:var(--muted); text-decoration:none; font-weight:800; font-size:13px; }
+.footer-links a:hover{ color:var(--text); }
+
+.reveal{ opacity:0; transform: translateY(12px); transition: opacity 500ms ease, transform 500ms ease; }
+.reveal.show{ opacity:1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce){
+  *{ scroll-behavior:auto !important; }
+  body{ animation:none; opacity:1; }
+  .reveal{ transition:none; transform:none; opacity:1; }
+  .card{ transition:none; }
+  .progress > div{ transition:none; }
+  .loader-spinner{ animation:none; }
+  .page-loader{ transition:none; }
+}
+
+dialog{
+  border:none;
+  border-radius: var(--radius);
+  padding:0;
+  width:min(560px, calc(100% - 24px));
+  box-shadow: var(--shadow);
+  background: var(--surface);
+  color: var(--text);
+}
+dialog::backdrop{ background: rgba(2,8,23,0.55); }
+.modal-head{
+  padding:14px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.modal-body{ padding:16px; }
+.close-btn{ width:40px; height:40px; }
+
+.toast{
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  max-width: 360px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  display:none;
+}
+.toast.show{ display:block; }
+
+.live-feed{
+  position: fixed;
+  left: 14px;
+  bottom: 74px;
+  max-width: 320px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  transform: translateY(120%);
+  opacity: 0;
+  transition: transform 200ms ease, opacity 200ms ease;
+  font-size:13px;
+}
+.live-feed.show{
+  transform: translateY(0);
+  opacity: 1;
+}
+.live-feed strong{ display:block; }
+
+.ai-fab{
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  height: 52px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow);
+  font-weight: 1000;
+  letter-spacing: 0.2px;
+  transition: transform 180ms ease, filter 180ms ease;
+  z-index: 80;
+}
+.ai-fab:hover{ filter: saturate(1.05) brightness(1.02); }
+.ai-fab:active{ transform: translateY(1px); }
+.ai-fab:focus-visible{ outline:3px solid var(--ring); outline-offset:2px; }
+.ai-fab .dot{
+  height:10px; width:10px; border-radius:999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 0 6px rgba(255,255,255,0.12);
+}
+
+.ai-panel{
+  position: fixed;
+  right: 14px;
+  bottom: 74px;
+  width: min(380px, calc(100% - 28px));
+  max-height: min(560px, calc(100vh - 140px));
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: none;
+  z-index: 80;
+}
+.ai-panel.open{ display:block; }
+.ai-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 12px;
+  border-bottom:1px solid var(--border);
+}
+.ai-head strong{ display:flex; align-items:center; gap:10px; }
+.ai-head .tag{
+  font-size:11px;
+  font-weight:900;
+  color: color-mix(in srgb, var(--text) 72%, var(--primary));
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  padding:5px 8px;
+  border-radius:999px;
+}
+.ai-body{ padding:12px; display:grid; gap:10px; }
+.ai-msgs{
+  display:grid;
+  gap:10px;
+  overflow:auto;
+  padding-right:4px;
+  max-height: 320px;
+}
+.ai-bubble{
+  padding:10px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 94%, transparent);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.ai-bubble.user{
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 26%, var(--border));
+}
+.ai-actions{ display:flex; flex-wrap:wrap; gap:8px; }
+.ai-chip{
+  border:1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 94%, transparent);
+  border-radius:999px;
+  padding:8px 10px;
+  font-weight:900;
+  cursor:pointer;
+  font-size:12px;
+}
+.ai-chip:hover{ background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.ai-input{
+  display:flex; gap:8px; align-items:center;
+  border-top:1px solid var(--border);
+  padding:10px;
+}
+.ai-input input{ margin:0; }
+.ai-send{
+  height:42px;
+  padding:0 12px;
+  border-radius: 12px;
+  border:1px solid color-mix(in srgb, var(--primary) 26%, var(--border));
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color:white;
+  font-weight:1000;
+  cursor:pointer;
+}
+.ai-send:active{ transform: translateY(1px); }
+
+.backtop{
+  position: fixed;
+  right: 14px;
+  bottom: 74px;
+  height: 44px;
+  width: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: white;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-weight: 900;
+}
+.backtop.show{ display:flex; }
+.backtop:focus-visible{ outline:3px solid var(--ring); outline-offset:2px; }
+
+@media (max-width: 860px){
+  .hero-grid{ grid-template-columns: 1fr; }
+  .stats{ grid-template-columns: 1fr; }
+  .grid-3{ grid-template-columns: 1fr; }
+  .split{ grid-template-columns: 1fr; }
+  .shot.big{ grid-column: span 12; }
+  .shot.small{ grid-column: span 6; }
+  .footer-grid{ grid-template-columns: 1fr; }
+  .footer-links{ justify-content:flex-start; }
+  nav{
+    display:none;
+    position:absolute;
+    left:0; right:0;
+    top:64px;
+    padding:12px 0 14px;
+    background: color-mix(in srgb, var(--surface) 96%, transparent);
+    border-bottom:1px solid var(--border);
+  }
+  nav.open{ display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
+  nav a{ width:100%; }
+  .mobile-toggle{ display:inline-flex; }
+}
+</style>
 </head>
+
 <body>
 
+<div class="page-loader" id="pageLoader">
+  <div class="loader-spinner" aria-hidden="true"></div>
+  <div class="loader-text">The Elite Global Humanity Foundation</div>
+</div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
 <header>
-    <div class="logo-box">
-        <img src="logo.png" alt="EGHF Logo" onerror="this.style.opacity='0.5'">
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="The Elite Global Humanity Foundation home">
+      <div class="brand-mark" aria-hidden="true">EG</div>
+      <div class="name">
+        <strong>The Elite Global Humanity Foundation</strong>
+      </div>
+    </a>
+
+    <nav id="siteNav" aria-label="Primary navigation">
+    <a href="#about">About</a>
+      <a href="#programs">Programs</a>
+      <a href="#impact">Impact</a>
+      <a href="#events">Events</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+      <a href="#admin" id="adminLink">Admin</a>
+  </nav>
+
+    <div class="toolbar">
+      <button class="icon-btn mobile-toggle" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle dark mode">🌙</button>
+      <div class="meta-chip" aria-label="Reading time and current time">
+        <span><strong id="readTime">—</strong> min read</span>
+        <span class="dot">•</span>
+        <span id="clock">--:--</span>
+      </div>
+      <button class="ghost-btn" id="userBtn" type="button">Account</button>
+      <button class="ghost-btn" id="loginBtn" type="button">Admin</button>
+      <a class="primary-btn" href="#donate">Donate</a>
     </div>
-    <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#impact">Impact</a>
-        <a href="#contact">Contact</a>
-        <button class="theme-btn" onclick="toggleTheme()">🌓 Theme</button>
-    </div>
+  </div>
 </header>
 
-<main>
-    <section class="hero">
-        <h1 style="font-size: 3rem; margin: 0;">BUILT ON TRUST</h1>
-        <p style="font-size: 1.2rem; opacity: 0.9;">Direct Humanitarian Action. 100% Transparency.</p>
-    </section>
-
-    <div class="donate-card" id="donate">
-        <form id="payForm">
-            <label style="font-weight: 700;">Amount (INR)</label>
-            <input type="number" id="userAmt" value="1000" min="100">
-            
-            <label style="font-weight: 700;">Full Legal Name</label>
-            <input type="text" id="userName" placeholder="Your Name" required>
-            
-            <button type="submit" class="btn-main">Proceed to Secure Donation</button>
-        </form>
-        
-        <div id="receiptArea" class="hidden" style="text-align: center;">
-            <div style="background: rgba(15, 118, 110, 0.1); color: var(--success); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                <strong>Verification Successful!</strong><br>Your contribution is fueling change.
-            </div>
-            <button class="btn-main" style="background: var(--success);" onclick="generatePDF()">Download Official Receipt</button>
-        </div>
-    </div>
-
-    <section class="stats-section" id="impact">
-        <div class="stat-item"><h2>124k+</h2><p>Meals Served</p></div>
-        <div class="stat-item"><h2>45+</h2><p>Schools Supported</p></div>
-        <div class="stat-item"><h2>100%</h2><p>Transparency</p></div>
-        <div class="stat-item"><h2>₹0</h2><p>Management Fees</p></div>
-    </section>
-
-    <section id="about" style="text-align:center; padding: 80px 5%; background: var(--white);">
-        <h2>About the Foundation</h2>
-        <p style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; opacity: 0.8;">
-            The Elite Global Humanity Foundation bridges the gap between those who want to help and those who need it most. 
-            Through our 'Direct-to-Need' model, we ensure resources reach the most vulnerable communities without administrative leakage.
+<main id="main">
+  <section class="hero" id="top">
+    <div class="container hero-grid">
+      <div class="reveal show">
+        <div class="eyebrow">Making a difference, one community at a time</div>
+        <h1>Delivering transparent global impact.</h1>
+        <p>
+          The Elite Global Humanity Foundation is committed to clean water, health, and education—because sustainable change starts with basics done well.
         </p>
-    </section>
-
-    <section class="gallery-section">
-        <h2>Field Impact Gallery</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=500')">
-                <div>Medical Aid - Remote Regions</div>
-            </div>
-            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=500')">
-                <div>Nutrition Program</div>
-            </div>
-            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=500')">
-                <div>Educational Empowerment</div>
-            </div>
+        <div class="hero-actions">
+          <button class="primary-btn" type="button" id="openDonate">Donate in 20 seconds</button>
+          <a class="ghost-btn" href="#volunteer">Volunteer</a>
+          <a class="ghost-btn" href="#impact">See impact</a>
         </div>
-    </section>
+        <p class="hint">Join us in creating lasting change.</p>
+      </div>
 
-    <section class="contact-section" id="contact">
-        <div>
-            <h2>Get In Touch</h2>
-            <p>Have questions about our operations or want to volunteer? Send us a message.</p>
-            <p><strong>Email:</strong> support@elitehumanity.org</p>
-            <p><strong>Main Office:</strong> New Delhi, India</p>
+      <aside class="hero-card reveal show" aria-label="Impact snapshot">
+        <div class="cover" role="img" aria-label="Water project in action"></div>
+        <div class="body">
+          <div class="mini">
+            <div class="kpi">
+              <strong id="kpiPeople">0</strong>
+              <span>people reached</span>
+            </div>
+            <div class="kpi">
+              <strong id="kpiWells">0</strong>
+              <span>wells supported</span>
+            </div>
+            <div class="kpi">
+              <strong id="kpiSchools">0</strong>
+              <span>schools trained</span>
+            </div>
+          </div>
+          <div class="progress" aria-label="Goal progress">
+            <div id="goalBar"></div>
+          </div>
+          <p class="hint"><strong>Goal:</strong> <span id="goalText">Funding goal loading…</span></p>
         </div>
-        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!'); this.reset();">
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Email Address" required>
-            <textarea rows="4" placeholder="Your Message"></textarea>
-            <button type="submit" class="btn-main">Send Message</button>
+      </aside>
+    </div>
+</section>
+
+  <section id="about" class="reveal">
+    <div class="container">
+      <h2 class="section-title">About our mission</h2>
+      <p class="section-sub">We bring clean water closer, strengthen health outcomes, and support education through community-led programs.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="pill">✅ Transparency</div>
+          <h3>Track where funds go</h3>
+          <p>Clear reporting and measurable results, supported by strong governance.</p>
+        </div>
+        <div class="card">
+          <div class="pill">🛠️ Sustainability</div>
+          <h3>Local maintenance</h3>
+          <p>We train community members to maintain pumps and keep systems running year-round.</p>
+        </div>
+        <div class="card">
+          <div class="pill">🎓 Education</div>
+          <h3>Hygiene & safety</h3>
+          <p>Clean water works best with handwashing, safe storage, and school-based training.</p>
+        </div>
+      </div>
+    </div>
+</section>
+
+  <section id="programs" class="reveal">
+    <div class="container">
+      <h2 class="section-title">What we do</h2>
+      <p class="section-sub">Core programs built for long-term outcomes and community ownership.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="pill">⛲ Wells</div>
+          <h3>Water points & hand pumps</h3>
+          <p>New wells where they are needed most, with training and spare parts planning.</p>
+        </div>
+        <div class="card">
+          <div class="pill">🧪 Filtration</div>
+          <h3>Safe water at home</h3>
+          <p>Low-cost filters and education to reduce waterborne disease at household level.</p>
+        </div>
+        <div class="card">
+          <div class="pill">🏫 Schools</div>
+          <h3>School WASH</h3>
+          <p>Handwashing stations, toilets, and hygiene lessons so students stay healthy and in class.</p>
+        </div>
+      </div>
+    </div>
+</section>
+
+  <section id="impact" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Impact you can see</h2>
+      <p class="section-sub">Measurable outcomes, tracked over time.</p>
+
+      <div class="stats">
+        <div class="stat-big">
+          <p class="muted" style="margin:0 0 10px; font-weight:800;">People helped with water access</p>
+          <div class="counter" id="peopleCounter" aria-live="polite">0</div>
+          <p class="muted" style="margin:0;">Every 1 water point can serve a whole community for years.</p>
+        </div>
+
+        <div class="stat-list">
+          <div class="card stat-item">
+            <strong id="statHours">0</strong>
+            <span>hours saved per day (less walking for water)</span>
+          </div>
+          <div class="card stat-item">
+            <strong id="statKids">0</strong>
+            <span>students supported in school hygiene programs</span>
+          </div>
+          <div class="card stat-item">
+            <strong id="statVillages">0</strong>
+            <span>villages connected to clean water systems</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="donate" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Donate</h2>
+      <p class="section-sub">Your support helps fund clean water, health, and education programs.</p>
+
+      <div class="split">
+        <form id="donateForm">
+          <div class="row-between">
+            <strong>Donation details</strong>
+            <span class="pill">🔒 Secure</span>
+          </div>
+
+          <label for="donorName">Your name</label>
+          <input type="text" id="donorName" placeholder="Full name" required autocomplete="name">
+
+          <div class="form-row">
+            <div>
+              <label for="donorEmail">Email</label>
+              <input type="email" id="donorEmail" placeholder="you@example.com" required autocomplete="email">
+            </div>
+            <div>
+              <label for="donationAmount">Amount</label>
+    <select id="donationAmount" required>
+                <option value="">Select</option>
+      <option value="100">₹100</option>
+                <option value="250">₹250</option>
+      <option value="500">₹500</option>
+      <option value="1000">₹1000</option>
+                <option value="2000">₹2000</option>
+                <option value="custom">Custom amount</option>
+    </select>
+            </div>
+          </div>
+          <div id="customAmountWrap" style="display:none;">
+            <label for="customAmount">Custom amount (₹)</label>
+            <input id="customAmount" inputmode="numeric" placeholder="Enter amount" min="1">
+            <p class="hint">Minimum ₹1</p>
+          </div>
+
+          <label for="donationNote">Message (optional)</label>
+          <textarea id="donationNote" rows="3" placeholder="A short message…"></textarea>
+
+          <div class="pay-grid" aria-label="Payment method">
+            <div class="row-between">
+              <strong>Payment method</strong>
+              <span class="pill">Checkout</span>
+            </div>
+
+            <div class="pay-tabs" role="tablist" aria-label="Choose payment method">
+              <label class="seg active" id="tabUpi">
+                <input type="radio" name="payMethod" value="upi" checked>
+                UPI
+              </label>
+              <label class="seg" id="tabCard">
+                <input type="radio" name="payMethod" value="card">
+                Card
+              </label>
+            </div>
+
+            <div class="pay-box show" id="upiBox" role="tabpanel" aria-label="UPI payment">
+              <div class="inline-row" style="margin-top:10px;">
+                <span class="muted" style="font-weight:900;">Pay to UPI ID:</span>
+                <span class="kbd" id="upiIdText">mishal-put-paisa-in@fam</span>
+                <button class="copy-btn" type="button" id="copyUpi">Copy</button>
+              </div>
+              <div class="inline-row" style="margin-top:12px;">
+                <div class="card" style="box-shadow:none; padding:12px; border-radius:14px;">
+                  <strong style="display:block; margin-bottom:8px;">Scan QR to Pay</strong>
+                  <img id="upiQr" alt="UPI payment QR code" width="220" height="220" style="border-radius:14px; border:1px solid var(--border); background:white;">
+                  <div class="muted" style="margin-top:8px; font-size:12px;">UPI • Fast & secure</div>
+                </div>
+              </div>
+              <label for="upiNote">UPI app / note (optional)</label>
+              <input id="upiNote" placeholder="e.g., PhonePe / GPay / Paytm">
+              <p class="hint">You can also copy the UPI ID above and pay through any UPI app.</p>
+            </div>
+
+            <div class="pay-box" id="cardBox" role="tabpanel" aria-label="Card payment">
+              <div class="card-logos" style="margin-top:10px;">
+                <span class="logo-pill">VISA</span>
+                <span class="logo-pill">Mastercard</span>
+                <span class="logo-pill">RuPay</span>
+                <span class="logo-pill">AmEx</span>
+                <span class="logo-pill">+ all cards</span>
+              </div>
+              <div class="form-row" style="margin-top:10px;">
+                <div>
+                  <label for="cardName">Cardholder name</label>
+                  <input id="cardName" placeholder="Name on card">
+                </div>
+                <div>
+                  <label for="cardNumber">Card number</label>
+                  <input id="cardNumber" inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+              </div>
+              <div class="form-row">
+                <div>
+                  <label for="cardExp">Expiry</label>
+                  <input id="cardExp" inputmode="numeric" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div>
+                  <label for="cardCvv">CVV</label>
+                  <input id="cardCvv" inputmode="numeric" placeholder="***" maxlength="4">
+                </div>
+              </div>
+              <p class="hint">For privacy, only the last 4 digits are recorded in receipts.</p>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="primary-btn" type="submit">Proceed to payment</button>
+            <button class="ghost-btn" type="button" id="quickDonate500">Quick ₹500</button>
+          </div>
+
+          <p class="success" id="donationMessage"></p>
+          <div class="form-actions" id="receiptActions" style="display:none;">
+            <button class="ghost-btn" type="button" id="downloadReceipt">Download receipt (PDF)</button>
+            <button class="ghost-btn" type="button" id="viewReceipt">View receipt</button>
+          </div>
+          <p class="hint">Need help? Choose UPI or Card and complete payment.</p>
+  </form>
+
+        <div class="card">
+          <div class="row-between">
+            <strong>Where your donation goes</strong>
+            <span class="pill">📍 Project Wells</span>
+          </div>
+          <p class="muted" style="margin-top:10px;">
+            Your donation supports drilling, pump parts, training, and long-term maintenance.
+            <strong>Clean water saves time, improves health, and helps students stay in school.</strong>
+          </p>
+          <div class="progress" style="margin-top:14px;">
+            <div id="donationBar"></div>
+          </div>
+          <p class="hint"><strong>Progress:</strong> updated as donations come in.</p>
+          <div class="grid-3" style="margin-top:14px;">
+            <div class="card" style="box-shadow:none;">
+              <h3 style="margin:0 0 6px;">₹100</h3>
+              <p>helps provide water testing supplies.</p>
+            </div>
+            <div class="card" style="box-shadow:none;">
+              <h3 style="margin:0 0 6px;">₹500</h3>
+              <p>supports hygiene kits for students.</p>
+            </div>
+            <div class="card" style="box-shadow:none;">
+              <h3 style="margin:0 0 6px;">₹1000</h3>
+              <p>contributes to spare parts & repairs.</p>
+            </div>
+          </div>
+          <div class="subtle-line"></div>
+          <strong style="display:block; margin-top:12px;">Donor achievements</strong>
+          <p class="muted" id="badgeSummary" style="margin-top:6px; font-size:13px;">No donors yet. Be the first to give.</p>
+          <ul class="leader-list" id="leaderList"></ul>
+          <div class="badge-legend" id="badgeLegend" style="display:none;">
+            <div class="badge-legend-item">
+              <span class="badge-pill supporter">Supporter</span>
+              <span class="muted" style="font-size:11px;">₹1-499</span>
+            </div>
+            <div class="badge-legend-item">
+              <span class="badge-pill bronze">Bronze</span>
+              <span class="muted" style="font-size:11px;">₹500-999</span>
+            </div>
+            <div class="badge-legend-item">
+              <span class="badge-pill silver">Silver</span>
+              <span class="muted" style="font-size:11px;">₹1000-1999</span>
+            </div>
+            <div class="badge-legend-item">
+              <span class="badge-pill gold">Gold</span>
+              <span class="muted" style="font-size:11px;">₹2000-4999</span>
+            </div>
+            <div class="badge-legend-item" style="grid-column:span 2;">
+              <span class="badge-pill platinum">Platinum</span>
+              <span class="muted" style="font-size:11px;">₹5000+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+  <section id="volunteer" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Volunteer</h2>
+      <p class="section-sub">Join community initiatives and help create measurable impact.</p>
+      <div class="split">
+        <form id="volunteerForm">
+          <strong>Sign up</strong>
+          <label for="volName">Full name</label>
+          <input id="volName" required placeholder="Your name">
+
+          <div class="form-row">
+            <div>
+              <label for="volPhone">Phone</label>
+              <input id="volPhone" inputmode="tel" placeholder="Optional">
+            </div>
+            <div>
+              <label for="volRole">Interest</label>
+              <select id="volRole" required>
+                <option value="">Select</option>
+                <option>Fundraising</option>
+                <option>Social media</option>
+                <option>Event support</option>
+                <option>Teaching & awareness</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="primary-btn" type="submit">Join as volunteer</button>
+          </div>
+          <p class="success" id="volMessage"></p>
         </form>
-    </section>
-</main>
+
+        <div class="card">
+          <strong>What volunteers do</strong>
+          <p class="muted" style="margin-top:10px;">
+            Volunteers help run events, spread awareness, and raise funds. In a real NGO, they also support field teams with logistics and training.
+          </p>
+          <div class="grid-3" style="margin-top:12px;">
+            <div class="card" style="box-shadow:none;">
+              <div class="pill">📣</div>
+              <h3 style="margin:0 0 6px;">Awareness</h3>
+              <p>Talks, posters, and campaigns.</p>
+            </div>
+            <div class="card" style="box-shadow:none;">
+              <div class="pill">🎪</div>
+              <h3 style="margin:0 0 6px;">Events</h3>
+              <p>School drives and donation booths.</p>
+            </div>
+            <div class="card" style="box-shadow:none;">
+              <div class="pill">🤝</div>
+              <h3 style="margin:0 0 6px;">Community</h3>
+              <p>Support local partnerships.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+  <section id="events" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Upcoming events</h2>
+      <p class="section-sub">Community activities and fundraising drives.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="pill">📅 This week</div>
+          <h3>Water Walk Awareness</h3>
+          <p>Students walk with water jars to understand daily challenges and share stories.</p>
+        </div>
+        <div class="card">
+          <div class="pill">🎤 Next month</div>
+          <h3>Guest talk: Health & Hygiene</h3>
+          <p>Short talk on waterborne disease prevention and handwashing habits.</p>
+        </div>
+        <div class="card">
+          <div class="pill">🏃 Fundraiser</div>
+          <h3>Run for Water</h3>
+          <p>Community run + donation pledge. Track progress in the donate section.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Gallery</h2>
+      <p class="section-sub">Moments from community work, training, and outreach.</p>
+      <div class="gallery" aria-label="Water projects photo gallery">
+        <figure class="shot big">
+          <img loading="lazy" alt="Community water project" src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1400&q=60">
+        </figure>
+        <figure class="shot small">
+          <img loading="lazy" alt="Volunteer helping" src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=900&q=60">
+        </figure>
+        <figure class="shot small">
+          <img loading="lazy" alt="Children at school" src="https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=900&q=60">
+        </figure>
+        <figure class="shot small">
+          <img loading="lazy" alt="Smiling people" src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=900&q=60">
+        </figure>
+        <figure class="shot small">
+          <img loading="lazy" alt="Hands holding water" src="https://images.unsplash.com/photo-1520975958225-4f2041bd4be1?auto=format&fit=crop&w=900&q=60">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="reveal">
+    <div class="container">
+      <h2 class="section-title">FAQ</h2>
+      <p class="section-sub">Quick answers to common questions.</p>
+      <div class="accordion">
+        <details>
+          <summary>Is this website real?</summary>
+          <p>Yes. This website presents our mission, programs, and ways to support our work.</p>
+        </details>
+        <details>
+          <summary>How do you make sure projects last?</summary>
+          <p>By training local maintenance teams, planning spare parts, and doing periodic checkups and repairs.</p>
+        </details>
+        <details>
+          <summary>Why focus on clean water?</summary>
+          <p>Clean water reduces disease, saves time (especially for children), and helps students attend school regularly.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <p class="section-sub">Reach out for partnerships, volunteering, and community support.</p>
+
+      <div class="split">
+        <div class="card">
+          <strong>Get in touch</strong>
+          <div class="subtle-line"></div>
+          <p class="muted" style="margin:12px 0 0;">Email</p>
+          <div style="font-weight:900;">contact@elitehumanity.org</div>
+          <p class="muted" style="margin:12px 0 0;">Phone</p>
+          <div style="font-weight:900;">+91 8089483311</div>
+          <p class="muted" style="margin:12px 0 0;">Office</p>
+          <div style="font-weight:900;">India</div>
+          <p class="hint" style="margin-top:12px;">You can edit these details in the HTML anytime.</p>
+
+          <div class="subtle-line"></div>
+          <strong style="display:block; margin-top:12px;">Customer care</strong>
+          <p class="muted" style="margin-top:6px;">Support hours: <strong>Mon–Sat • 9:00 AM – 6:00 PM</strong></p>
+          <div class="inline-row" style="margin-top:10px;">
+            <button class="ghost-btn" type="button" id="careCall">Call</button>
+            <button class="ghost-btn" type="button" id="careEmail">Email</button>
+            <button class="ghost-btn" type="button" id="careChat">Live chat</button>
+          </div>
+          <p class="hint" style="margin-top:10px;">For urgent help, please call or email.</p>
+
+          <div class="subtle-line"></div>
+          <strong style="display:block; margin-top:12px;">Newsletter</strong>
+          <p class="muted" style="margin-top:6px;">Get updates on programs and events.</p>
+          <form id="newsletterForm" style="padding:0; border:none; background:transparent; box-shadow:none;">
+            <label for="newsEmail">Email</label>
+            <input id="newsEmail" type="email" required placeholder="you@example.com" autocomplete="email">
+            <div class="form-actions">
+              <button class="primary-btn" type="submit">Subscribe</button>
+            </div>
+            <p class="success" id="newsMessage"></p>
+          </form>
+        </div>
+
+        <form id="contactForm">
+          <strong>Send a message</strong>
+          <label for="cName">Name</label>
+          <input id="cName" required placeholder="Your name" autocomplete="name">
+          <label for="cEmail">Email</label>
+          <input id="cEmail" type="email" required placeholder="you@example.com" autocomplete="email">
+          <label for="cMsg">Message</label>
+          <textarea id="cMsg" rows="5" required placeholder="How can we help?"></textarea>
+          <div class="form-actions">
+            <button class="primary-btn" type="submit">Send message</button>
+          </div>
+          <p class="success" id="contactMessage"></p>
+          <p class="hint">We’ll reply as soon as possible.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="admin" class="reveal">
+    <div class="container">
+      <h2 class="section-title">Admin dashboard</h2>
+      <p class="section-sub">Manage donors and volunteers.</p>
+
+      <div class="row-between">
+        <button class="ghost-btn" type="button" id="adminBtn">Unlock admin</button>
+        <button class="ghost-btn danger" type="button" id="resetBtn">Reset data</button>
+      </div>
+
+  <div id="adminPanel">
+        <div class="split" style="margin-top:12px;">
+          <div class="card">
+            <div class="row-between">
+              <strong>Donor list</strong>
+              <span class="pill" id="donorCount">0 donors</span>
+            </div>
+            <ul id="donorList" aria-label="Donor list"></ul>
+          </div>
+
+          <div class="card">
+            <div class="row-between">
+              <strong>Volunteers</strong>
+              <span class="pill" id="volCount">0 volunteers</span>
+            </div>
+            <ul id="volList" aria-label="Volunteer list" style="padding:0; margin:10px 0 0;"></ul>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
 
 <footer>
-    <p style="font-weight: 800; letter-spacing: 2px;">THE ELITE GLOBAL HUMANITY FOUNDATION</p>
-    <p style="opacity: 0.6; font-size: 0.8rem;">A Registered Non-Profit Entity | 80G Tax Exempt</p>
+    <div class="container footer-grid">
+      <div>
+        <strong>The Elite Global Humanity Foundation</strong>
+        <div class="muted" style="margin-top:6px;">© 2026</div>
+        <div class="muted" style="margin-top:8px; font-size:13px;">
+          © 2026 The Elite Global Humanity Foundation. All rights reserved.
+        </div>
+      </div>
+      <div class="footer-links" aria-label="Footer links">
+        <a href="#top">Top</a>
+        <a href="#donate">Donate</a>
+        <a href="#volunteer">Volunteer</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
 </footer>
+</main>
+
+<button class="backtop" id="backTop" type="button" aria-label="Back to top">↑</button>
+
+<dialog id="donateModal" aria-label="Donation modal">
+  <div class="modal-head">
+    <strong>Fast donate</strong>
+    <button class="icon-btn close-btn" type="button" id="closeDonate" aria-label="Close">✕</button>
+  </div>
+  <div class="modal-body">
+    <p class="muted" style="margin-top:0;">Pick an amount and we’ll simulate a secure payment.</p>
+    <div class="form-actions" style="margin-top:0;">
+      <button class="ghost-btn" type="button" data-amt="100">₹100</button>
+      <button class="ghost-btn" type="button" data-amt="500">₹500</button>
+      <button class="ghost-btn" type="button" data-amt="1000">₹1000</button>
+      <button class="primary-btn" type="button" data-amt="2000">₹2000</button>
+    </div>
+    <p class="hint">This uses your name/email from the form if filled.</p>
+  </div>
+</dialog>
+
+<dialog id="loginModal" aria-label="Login modal">
+  <div class="modal-head">
+    <strong>Login</strong>
+    <button class="icon-btn close-btn" type="button" id="closeLogin" aria-label="Close">✕</button>
+  </div>
+  <div class="modal-body">
+    <p class="muted" style="margin-top:0;">Login to access the Admin dashboard.</p>
+    <form id="loginForm">
+      <label for="loginPass">Admin password</label>
+      <input id="loginPass" type="password" required placeholder="Enter password" autocomplete="current-password">
+      <div class="form-actions">
+        <button class="primary-btn" type="submit">Unlock admin</button>
+        <button class="ghost-btn" type="button" id="loginCancel">Cancel</button>
+      </div>
+      <p class="hint">Password: <strong>admin123</strong></p>
+    </form>
+  </div>
+</dialog>
+
+<dialog id="userModal" aria-label="Account modal">
+  <div class="modal-head">
+    <strong>Account</strong>
+    <button class="icon-btn close-btn" type="button" id="closeUser" aria-label="Close">✕</button>
+  </div>
+  <div class="modal-body">
+    <p class="muted" style="margin-top:0;">Create an account to save your details and speed up forms.</p>
+    <div class="split" style="grid-template-columns: 1fr 1fr; gap:12px;">
+      <form id="userLoginForm">
+        <strong>Log in</strong>
+        <label for="userLoginEmail">Email</label>
+        <input id="userLoginEmail" type="email" required placeholder="you@example.com" autocomplete="email">
+        <label for="userLoginPass">Password</label>
+        <input id="userLoginPass" type="password" required placeholder="Password" autocomplete="current-password">
+        <div class="form-actions">
+          <button class="primary-btn" type="submit">Log in</button>
+        </div>
+        <p class="hint">Your details stay on this device.</p>
+      </form>
+
+      <form id="userSignupForm">
+        <strong>Sign up</strong>
+        <label for="userName">Full name</label>
+        <input id="userName" required placeholder="Your name" autocomplete="name">
+        <label for="userEmail">Email</label>
+        <input id="userEmail" type="email" required placeholder="you@example.com" autocomplete="email">
+        <label for="userPass">Password</label>
+        <input id="userPass" type="password" required placeholder="Create a password" autocomplete="new-password">
+        <div class="form-actions">
+          <button class="ghost-btn" type="submit">Create account</button>
+        </div>
+        <p class="hint">Use a password you can remember.</p>
+      </form>
+    </div>
+
+    <div class="row-between" style="margin-top:12px;">
+      <div id="userStatus" class="muted">Not logged in.</div>
+      <button class="ghost-btn danger" id="logoutBtn" type="button">Logout</button>
+    </div>
+
+    <div id="myReceipts" class="card" style="margin-top:12px; display:none;">
+      <strong>My receipts</strong>
+      <p class="muted" style="margin-top:6px; font-size:13px;">Recent donations linked to your account.</p>
+      <ul id="myReceiptsList" style="list-style:none; padding:0; margin:10px 0 0;"></ul>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="live-feed" id="liveFeed" aria-live="polite"></div>
+<div class="ai-panel" id="aiPanel" aria-label="Smart Help">
+  <div class="ai-head">
+    <strong>Smart Help <span class="tag">Offline</span></strong>
+    <button class="icon-btn" id="aiClose" type="button" aria-label="Close help">✕</button>
+  </div>
+  <div class="ai-body">
+    <div class="ai-msgs" id="aiMsgs" aria-live="polite"></div>
+    <div class="ai-actions" id="aiActions" aria-label="Quick actions"></div>
+  </div>
+  <div class="ai-input">
+    <input id="aiInput" placeholder="Ask anything…" aria-label="Ask Smart Help">
+    <button class="ai-send" id="aiSend" type="button">Send</button>
+  </div>
+</div>
+<button class="ai-fab" id="aiFab" type="button" aria-label="Open Smart Help">
+  <span class="dot" aria-hidden="true"></span>
+  Help
+</button>
 
 <script>
-    let donationData = null;
+const STORAGE = {
+  theme: "hopehands_theme",
+  donors: "hopehands_donors",
+  volunteers: "hopehands_volunteers",
+  raised: "hopehands_raised",
+  users: "hopehands_users",
+  currentUser: "hopehands_current_user",
+  newsletter: "hopehands_newsletter",
+};
 
-    function toggleTheme() {
-        const h = document.documentElement;
-        const current = h.getAttribute('data-theme');
-        h.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+const UPI_ID = "mishal-put-paisa-in@fam";
+const SUPPORT_PHONE = "+91 8089483311";
+const SUPPORT_TEL = "tel:+918089483311";
+const ADMIN_PASSWORD = "admin123";
+const GOAL_POINTS = 12;
+const RUPEES_PER_POINT = 4500;
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+function formatInt(n){ return new Intl.NumberFormat().format(n); }
+function readJSON(key, fallback){
+  try{
+    const v = localStorage.getItem(key);
+    return v ? JSON.parse(v) : fallback;
+  }catch{ return fallback; }
+}
+function writeJSON(key, value){
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function toast(text){
+  const el = $("#toast");
+  el.textContent = text;
+  el.classList.add("show");
+  window.clearTimeout(toast._t);
+  toast._t = window.setTimeout(() => el.classList.remove("show"), 2400);
+}
+
+function setTheme(mode){
+  document.body.classList.toggle("dark", mode === "dark");
+  localStorage.setItem(STORAGE.theme, mode);
+  $("#themeBtn").textContent = mode === "dark" ? "☀️" : "🌙";
+}
+
+function toggleTheme(){
+  const isDark = document.body.classList.contains("dark");
+  setTheme(isDark ? "light" : "dark");
+}
+
+function getRaised(){
+  const raw = Number(localStorage.getItem(STORAGE.raised) || "0");
+  return Number.isFinite(raw) ? raw : 0;
+}
+function setRaised(val){
+  localStorage.setItem(STORAGE.raised, String(Math.max(0, Math.floor(val))));
+  renderProgress();
+}
+
+function renderProgress(){
+  const raised = getRaised();
+  const goal = GOAL_POINTS * RUPEES_PER_POINT;
+  const pct = goal <= 0 ? 0 : Math.min(100, Math.round((raised / goal) * 100));
+
+  $("#donationBar").style.width = `${pct}%`;
+  $("#goalBar").style.width = `${pct}%`;
+
+  const wells = Math.min(GOAL_POINTS, Math.floor(raised / RUPEES_PER_POINT));
+  $("#kpiWells").textContent = formatInt(wells);
+  $("#goalText").textContent = `Fund ${GOAL_POINTS} water points • Goal ₹${formatInt(goal)} • Raised ₹${formatInt(raised)} (${pct}%)`;
+}
+
+function seedKpis(){
+  const targetPeople = 5000;
+  const targetWells = 6;
+  const targetSchools = 18;
+
+  animateCount($("#kpiPeople"), 0, targetPeople, 900);
+  animateCount($("#kpiWells"), 0, targetWells, 700);
+  animateCount($("#kpiSchools"), 0, targetSchools, 800);
+}
+
+function animateCount(el, from, to, ms){
+  const start = performance.now();
+  const step = (t) => {
+    const p = Math.min(1, (t - start) / ms);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const val = Math.round(from + (to - from) * eased);
+    el.textContent = formatInt(val);
+    if(p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+function revealOnScroll(){
+  const items = $$(".reveal");
+  const io = new IntersectionObserver((entries) => {
+    for(const e of entries){
+      if(e.isIntersecting){
+        e.target.classList.add("show");
+        io.unobserve(e.target);
+      }
     }
+  }, { threshold: 0.14 });
+  items.forEach((n) => io.observe(n));
+}
 
-    document.getElementById('payForm').onsubmit = function(e) {
-        e.preventDefault();
-        donationData = {
-            id: "EGHF-" + Math.floor(Math.random() * 900000 + 100000),
-            amt: document.getElementById('userAmt').value,
-            name: document.getElementById('userName').value || "Donor",
-            date: new Date().toLocaleDateString('en-IN')
-        };
-        this.classList.add('hidden');
-        document.getElementById('receiptArea').classList.remove('hidden');
+function impactCounters(){
+  const root = $("#impact");
+  let hasAnimated = false;
+  let autoIncrementInterval = null;
+  
+  const io = new IntersectionObserver((entries) => {
+    for(const e of entries){
+      if(!e.isIntersecting || hasAnimated) continue;
+      hasAnimated = true;
+      animateCount($("#peopleCounter"), 0, 5000, 1100);
+      animateCount($("#statHours"), 0, 320, 900);
+      animateCount($("#statKids"), 0, 1250, 1000);
+      animateCount($("#statVillages"), 0, 28, 800);
+      
+      // Auto-increment counters slowly over time (only when visible and tab active)
+      const startAutoIncrement = () => {
+        if(autoIncrementInterval) return;
+        let peopleVal = 5000, hoursVal = 320, kidsVal = 1250, villagesVal = 28;
+        autoIncrementInterval = setInterval(() => {
+          if(document.hidden) return;
+          const elPeople = $("#peopleCounter");
+          const elHours = $("#statHours");
+          const elKids = $("#statKids");
+          const elVillages = $("#statVillages");
+          if(elPeople && Math.random() < 0.3){
+            peopleVal += Math.floor(Math.random() * 3) + 1;
+            elPeople.textContent = formatInt(peopleVal);
+          }
+          if(elHours && Math.random() < 0.25){
+            hoursVal += Math.floor(Math.random() * 2) + 1;
+            elHours.textContent = formatInt(hoursVal);
+          }
+          if(elKids && Math.random() < 0.3){
+            kidsVal += Math.floor(Math.random() * 3) + 1;
+            elKids.textContent = formatInt(kidsVal);
+          }
+          if(elVillages && Math.random() < 0.15){
+            villagesVal += 1;
+            elVillages.textContent = formatInt(villagesVal);
+          }
+        }, 12000);
+      };
+      setTimeout(startAutoIncrement, 2000);
+      io.disconnect();
+    }
+  }, { threshold: 0.25 });
+  io.observe(root);
+}
+
+function addDonor(donor){
+  const donors = readJSON(STORAGE.donors, []);
+  donors.unshift(donor);
+  writeJSON(STORAGE.donors, donors.slice(0, 200));
+  renderAdmin();
+}
+
+function addVolunteer(vol){
+  const vols = readJSON(STORAGE.volunteers, []);
+  vols.unshift(vol);
+  writeJSON(STORAGE.volunteers, vols.slice(0, 30));
+  renderAdmin();
+}
+
+function renderAdmin(){
+  const donors = readJSON(STORAGE.donors, []);
+  const vols = readJSON(STORAGE.volunteers, []);
+
+  $("#donorCount").textContent = `${donors.length} donors`;
+  $("#volCount").textContent = `${vols.length} volunteers`;
+
+  const donorList = $("#donorList");
+  donorList.innerHTML = "";
+  for(const d of donors){
+    const li = document.createElement("li");
+    const method = d.method ? ` • ${escapeHtml(d.method)}` : "";
+    const ref = d.ref ? ` • ${escapeHtml(d.ref)}` : "";
+    li.innerHTML = `<strong>${escapeHtml(d.name)}</strong> donated ₹${formatInt(d.amount)}<div class="muted" style="margin-top:4px; font-size:12px;">${escapeHtml(d.note || "No message")}${method}${ref} • ${new Date(d.ts).toLocaleString()}</div>`;
+    donorList.appendChild(li);
+  }
+
+  const volList = $("#volList");
+  volList.innerHTML = "";
+  for(const v of vols){
+    const li = document.createElement("li");
+    li.style.listStyle = "none";
+    li.style.marginTop = "10px";
+    li.style.padding = "12px";
+    li.style.borderRadius = "14px";
+    li.style.border = "1px solid var(--border)";
+  li.style.background = "color-mix(in srgb, var(--surface-2) 92%, transparent)";
+    li.innerHTML = `<strong>${escapeHtml(v.name)}</strong><div class="muted" style="margin-top:4px; font-size:12px;">${escapeHtml(v.role)}${v.phone ? ` • ${escapeHtml(v.phone)}` : ""} • ${new Date(v.ts).toLocaleString()}</div>`;
+    volList.appendChild(li);
+  }
+}
+
+function getDonors(){
+  return readJSON(STORAGE.donors, []);
+}
+
+function escapeHtml(str){
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function simulatePayment({ name, email, amount, note, method, ref }){
+  const msg = $("#donationMessage");
+  const receiptActions = $("#receiptActions");
+  msg.classList.add("show");
+  msg.textContent = "Processing secure payment…";
+
+  window.setTimeout(() => {
+    msg.textContent = "Donation successful. Thank you for helping!";
+    toast("Donation recorded.");
+
+    const receipt = {
+      org: "The Elite Global Humanity Foundation",
+      name,
+      email,
+      amount,
+      note,
+      method,
+      ref,
+      ts: Date.now(),
+      receiptNo: `EGHF-${Math.random().toString(36).slice(2, 6).toUpperCase()}-${Math.floor(Date.now()/1000)}`,
     };
+    addDonor(receipt);
+    setRaised(getRaised() + amount);
 
-    function generatePDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        doc.setFillColor(28, 46, 74);
-        doc.rect(0, 0, 210, 40, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(22);
-        doc.text("DONATION RECEIPT", 20, 25);
-        doc.setTextColor(0, 0, 0);
-        doc.setFontSize(12);
-        doc.text(`Receipt ID: ${donationData.id}`, 20, 55);
-        doc.text(`Donor Name: ${donationData.name}`, 20, 65);
-        doc.text(`Total Amount: INR ${donationData.amt}.00`, 20, 75);
-        doc.text(`Date of Issue: ${donationData.date}`, 20, 85);
-        doc.setFontSize(10);
-        doc.text("Verified Tax-Exempt Contribution under Section 80G.", 20, 110);
-        doc.save(`EGHF_Receipt_${donationData.id}.pdf`);
+    if(receiptActions) receiptActions.style.display = "flex";
+    window.__lastReceipt = receipt;
+    if(typeof renderAchievements === "function") renderAchievements();
+    if(typeof window.renderMyReceipts === "function") window.renderMyReceipts();
+    if(typeof showLiveFeed === "function") showLiveFeed(receipt);
+  }, 1100);
+}
+
+function digitsOnly(s){ return String(s || "").replace(/\D+/g, ""); }
+function detectCardType(num){
+  const n = digitsOnly(num);
+  if(n.startsWith("4")) return "Visa";
+  if(/^5[1-5]/.test(n)) return "Mastercard";
+  if(/^(34|37)/.test(n)) return "AmEx";
+  if(/^(60|65|81|82|508)/.test(n)) return "RuPay";
+  return "Card";
+}
+function maskCardInput(el){
+  const raw = digitsOnly(el.value).slice(0, 19);
+  const groups = raw.match(/.{1,4}/g) || [];
+  el.value = groups.join(" ");
+}
+function maskExpInput(el){
+  const raw = digitsOnly(el.value).slice(0, 4);
+  if(raw.length <= 2) el.value = raw;
+  else el.value = `${raw.slice(0,2)}/${raw.slice(2)}`;
+}
+
+function setupDonate(){
+  const form = $("#donateForm");
+  const quick = $("#quickDonate500");
+  const amountSel = $("#donationAmount");
+  const customWrap = $("#customAmountWrap");
+  const customInput = $("#customAmount");
+  const receiptActions = $("#receiptActions");
+  const downloadBtn = $("#downloadReceipt");
+  const viewBtn = $("#viewReceipt");
+
+  // Payment UI
+  $("#upiIdText").textContent = UPI_ID;
+  // Payment-style QR (offline): looks like a pay QR, opens link when scanned.
+  const qrTargetUrl = "https://youtu.be/dQw4w9WgXcQ?si=_vFFoXxWO5tEat-g";
+  const qr = $("#upiQr");
+  if(qr){
+    qr.src = makeQrDataUrl(qrTargetUrl, 220);
+  }
+  $("#copyUpi").addEventListener("click", async () => {
+    try{
+      await navigator.clipboard.writeText(UPI_ID);
+      toast("UPI ID copied.");
+    }catch{
+      toast("Copy failed. Select and copy manually.");
     }
+  });
+
+  const tabUpi = $("#tabUpi");
+  const tabCard = $("#tabCard");
+  const upiBox = $("#upiBox");
+  const cardBox = $("#cardBox");
+  const setPay = (method) => {
+    const isUpi = method === "upi";
+    tabUpi.classList.toggle("active", isUpi);
+    tabCard.classList.toggle("active", !isUpi);
+    upiBox.classList.toggle("show", isUpi);
+    cardBox.classList.toggle("show", !isUpi);
+  };
+  $$("input[name=\"payMethod\"]", form).forEach((r) => {
+    r.addEventListener("change", () => setPay(r.value));
+  });
+  setPay("upi");
+
+  const setCustomUI = () => {
+    const isCustom = amountSel.value === "custom";
+    customWrap.style.display = isCustom ? "block" : "none";
+    if(isCustom){
+      customInput.required = true;
+      customInput.focus();
+    }else{
+      customInput.required = false;
+      customInput.value = "";
+    }
+  };
+  amountSel.addEventListener("change", setCustomUI);
+  setCustomUI();
+
+  const openReceiptWindow = (receipt, autoPrint) => {
+    if(!receipt){ toast("No receipt available yet."); return; }
+    const date = new Date(receipt.ts).toLocaleString();
+    const safe = (s) => escapeHtml(s || "");
+    const html = `<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Receipt ${safe(receipt.receiptNo)}</title>
+<style>
+  body{font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:#f6fbfb; color:#0f172a;}
+  .wrap{max-width:760px; margin:24px auto; padding:0 14px;}
+  .card{background:white; border:1px solid rgba(15,23,42,0.12); border-radius:16px; padding:16px;}
+  .row{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+  h1{font-size:18px; margin:0;}
+  .muted{color:#475569; font-size:12px;}
+  table{width:100%; border-collapse:collapse; margin-top:14px;}
+  td{padding:10px 0; border-bottom:1px solid rgba(15,23,42,0.10);}
+  td:last-child{text-align:right; font-weight:800;}
+  .pill{display:inline-block; border:1px solid rgba(15,23,42,0.12); border-radius:999px; padding:6px 10px; font-weight:800; font-size:12px; background:#f4f9f9;}
+  @media print{ body{background:white;} .wrap{margin:0;} }
+</style></head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="row">
+        <div>
+          <h1>${safe(receipt.org)}</h1>
+          <div class="muted">Donation Receipt</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="pill">${safe(receipt.receiptNo)}</div>
+          <div class="muted" style="margin-top:6px;">${safe(date)}</div>
+        </div>
+      </div>
+      <table>
+        <tr><td>Donor</td><td>${safe(receipt.name)}</td></tr>
+        <tr><td>Email</td><td>${safe(receipt.email)}</td></tr>
+        <tr><td>Amount</td><td>₹${formatInt(receipt.amount)}</td></tr>
+        <tr><td>Payment method</td><td>${safe(receipt.method || "")}</td></tr>
+        <tr><td>Reference</td><td>${safe(receipt.ref || "")}</td></tr>
+        <tr><td>Message</td><td>${safe(receipt.note || "—")}</td></tr>
+      </table>
+      <p class="muted" style="margin:14px 0 0;">This receipt is generated for your records.</p>
+    </div>
+  </div>
+  <script>
+    ${autoPrint ? "window.onload = () => window.print();" : ""}
+  <\/script>
+</body></html>`;
+    const w = window.open("", "_blank");
+    if(!w){ toast("Popup blocked. Allow popups to download receipt."); return; }
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+  };
+
+  if(downloadBtn) downloadBtn.addEventListener("click", () => openReceiptWindow(window.__lastReceipt, true));
+  if(viewBtn) viewBtn.addEventListener("click", () => openReceiptWindow(window.__lastReceipt, false));
+  window.__openReceiptWindow = openReceiptWindow;
+
+  $("#cardNumber").addEventListener("input", (e) => maskCardInput(e.target));
+  $("#cardExp").addEventListener("input", (e) => maskExpInput(e.target));
+  $("#cardCvv").addEventListener("input", (e) => { e.target.value = digitsOnly(e.target.value).slice(0, 4); });
+
+  quick.addEventListener("click", () => {
+    $("#donationAmount").value = "500";
+    toast("Filled ₹500.");
+    $("#donorName").focus();
+  });
+
+  form.addEventListener("submit", (e) => {
+  e.preventDefault();
+    const name = $("#donorName").value.trim();
+    const email = $("#donorEmail").value.trim();
+    const selected = amountSel.value;
+    const amount = selected === "custom" ? Number(digitsOnly(customInput.value)) : Number(selected);
+    const note = $("#donationNote").value.trim();
+    const pay = (form.querySelector("input[name=\"payMethod\"]:checked") || {}).value || "upi";
+
+    if(!name || !email || !Number.isFinite(amount) || amount <= 0){
+      toast("Please fill name, email, and amount.");
+      return;
+    }
+
+    if(receiptActions) receiptActions.style.display = "none";
+    if(pay === "upi"){
+      const upiNote = $("#upiNote").value.trim();
+      simulatePayment({ name, email, amount, note, method: "UPI", ref: upiNote ? `UPI: ${upiNote}` : `UPI: ${UPI_ID}` });
+      form.reset();
+      setPay("upi");
+      setCustomUI();
+      return;
+    }
+
+    const cardName = $("#cardName").value.trim();
+    const cardNum = $("#cardNumber").value;
+    const exp = $("#cardExp").value.trim();
+    const cvv = $("#cardCvv").value.trim();
+    const digits = digitsOnly(cardNum);
+    if(!cardName || digits.length < 12 || exp.length < 4 || cvv.length < 3){
+      toast("Please fill card details.");
+      return;
+    }
+    const type = detectCardType(digits);
+    const last4 = digits.slice(-4);
+    simulatePayment({ name, email, amount, note, method: `${type} card`, ref: `•••• ${last4}` });
+    form.reset();
+    setPay("upi");
+    setCustomUI();
+  });
+
+  const modal = $("#donateModal");
+  const openBtn = $("#openDonate");
+  const closeBtn = $("#closeDonate");
+
+  openBtn.addEventListener("click", () => modal.showModal());
+  closeBtn.addEventListener("click", () => modal.close());
+  modal.addEventListener("click", (e) => {
+    const rect = modal.getBoundingClientRect();
+    const inDialog = rect.top <= e.clientY && e.clientY <= rect.bottom && rect.left <= e.clientX && e.clientX <= rect.right;
+    if(!inDialog) modal.close();
+  });
+
+  $$("#donateModal [data-amt]").forEach((b) => {
+    b.addEventListener("click", () => {
+      const amount = Number(b.getAttribute("data-amt"));
+      const name = ($("#donorName").value || "Guest").trim() || "Guest";
+      const email = ($("#donorEmail").value || "guest@example.com").trim() || "guest@example.com";
+      simulatePayment({ name, email, amount, note: "Fast donate", method: "UPI", ref: `UPI: ${UPI_ID}` });
+      modal.close();
+    });
+  });
+}
+
+// Tiny QR generator (offline). Creates a real scannable QR for basic URLs.
+function makeQrDataUrl(text, size){
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  const qr = qrEncode(text);
+  const n = qr.length;
+  const scale = Math.max(1, Math.floor(size / n));
+  const padding = 4 * scale;
+  canvas.width = n * scale + padding * 2;
+  canvas.height = n * scale + padding * 2;
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#0b1220";
+  for(let y=0; y<n; y++){
+    for(let x=0; x<n; x++){
+      if(qr[y][x]){
+        ctx.fillRect(padding + x*scale, padding + y*scale, scale, scale);
+      }
+    }
+  }
+  return canvas.toDataURL("image/png");
+}
+
+// Minimal QR encoding for byte-mode, version 4-L (33x33). Enough for short URLs.
+function qrEncode(text){
+  // Version 4, Error correction L.
+  const size = 33;
+  const m = Array.from({length:size}, () => Array(size).fill(null));
+  const r = Array.from({length:size}, () => Array(size).fill(false));
+
+  function set(x,y,v){ if(x>=0&&y>=0&&x<size&&y<size){ m[y][x]=v; r[y][x]=true; } }
+  function box(x,y,w,h,v){ for(let j=0;j<h;j++) for(let i=0;i<w;i++) set(x+i,y+j,v); }
+  function finder(x,y){
+    box(x,y,7,7,true); box(x+1,y+1,5,5,false); box(x+2,y+2,3,3,true);
+    box(x-1,y-1,9,9,false);
+    for(let i=0;i<8;i++){ set(x+7,y+i,false); set(x+i,y+7,false); }
+  }
+  finder(0,0); finder(size-7,0); finder(0,size-7);
+  // Timing
+  for(let i=8;i<size-8;i++){ set(i,6, i%2===0); set(6,i, i%2===0); }
+  // Dark module
+  set(8, size-8, true);
+
+  // Reserve format info areas
+  for(let i=0;i<9;i++){ r[8][i]=true; r[i][8]=true; r[8][size-1-i]=true; r[size-1-i][8]=true; }
+  r[6][8]=true; r[8][6]=true;
+
+  // Encode in byte mode.
+  const bytes = new TextEncoder().encode(text);
+  let bits = [];
+  const pushBits = (val, len) => { for(let i=len-1;i>=0;i--) bits.push((val>>i)&1); };
+  pushBits(0b0100, 4); // byte mode
+  pushBits(bytes.length, 8);
+  for(const b of bytes) pushBits(b, 8);
+  // Terminator and pad to byte
+  for(let i=0;i<4 && bits.length%8!==0; i++) bits.push(0);
+  while(bits.length%8!==0) bits.push(0);
+
+  // Version 4-L capacity (data): 80 codewords (bytes)
+  const dataBytes = [];
+  for(let i=0;i<bits.length;i+=8){
+    let v=0; for(let j=0;j<8;j++) v=(v<<1)|bits[i+j];
+    dataBytes.push(v);
+  }
+  const PAD0 = 0xEC, PAD1 = 0x11;
+  while(dataBytes.length < 80) dataBytes.push((dataBytes.length%2===0)?PAD0:PAD1);
+  dataBytes.length = 80;
+
+  // Error correction for v4-L: 20 EC codewords, 1 block.
+  const ec = rsCompute(dataBytes, 20);
+  const codewords = dataBytes.concat(ec);
+
+  // Place data (mask 0)
+  let bitIndex = 0;
+  const getBit = () => {
+    const cw = codewords[Math.floor(bitIndex/8)];
+    const b = (cw >> (7 - (bitIndex%8))) & 1;
+    bitIndex++;
+    return b;
+  };
+
+  let dirUp = true;
+  for(let x=size-1; x>0; x-=2){
+    if(x===6) x--;
+    for(let yi=0; yi<size; yi++){
+      const y = dirUp ? (size-1-yi) : yi;
+      for(let dx=0; dx<2; dx++){
+        const xx = x - dx;
+        if(r[y][xx]) continue;
+        const b = getBit();
+        // mask 0: (x + y) % 2 == 0
+        const masked = ((xx + y) % 2 === 0) ? (b ^ 1) : b;
+        m[y][xx] = masked === 1;
+      }
+    }
+    dirUp = !dirUp;
+  }
+
+  // Fill remaining nulls as light
+  for(let y=0;y<size;y++) for(let x=0;x<size;x++) if(m[y][x]===null) m[y][x]=false;
+
+  // Format info for (L, mask 0): 0b111011111000100
+  const fmt = "111011111000100";
+  const f = fmt.split("").map(c=>c==="1");
+  const fmtPos1 = [[0,8],[1,8],[2,8],[3,8],[4,8],[5,8],[7,8],[8,8],[8,7],[8,5],[8,4],[8,3],[8,2],[8,1],[8,0]];
+  const fmtPos2 = [[size-1,8],[size-2,8],[size-3,8],[size-4,8],[size-5,8],[size-6,8],[size-7,8],[8,size-8],[8,size-7],[8,size-6],[8,size-5],[8,size-4],[8,size-3],[8,size-2],[8,size-1]];
+  for(let i=0;i<15;i++){
+    const [x1,y1]=fmtPos1[i]; m[y1][x1]=f[i];
+    const [x2,y2]=fmtPos2[i]; m[y2][x2]=f[i];
+  }
+
+  return m;
+}
+
+// Reed-Solomon (GF(256)) for QR
+function rsCompute(data, ecLen){
+  const gfExp = new Uint8Array(512);
+  const gfLog = new Uint8Array(256);
+  let x = 1;
+  for(let i=0;i<255;i++){
+    gfExp[i]=x; gfLog[x]=i;
+    x <<= 1;
+    if(x & 0x100) x ^= 0x11D;
+  }
+  for(let i=255;i<512;i++) gfExp[i]=gfExp[i-255];
+  const gfMul = (a,b) => (a===0||b===0) ? 0 : gfExp[gfLog[a] + gfLog[b]];
+
+  // generator poly
+  let gen = [1];
+  for(let i=0;i<ecLen;i++){
+    const next = [1, gfExp[i]];
+    const out = Array(gen.length+1).fill(0);
+    for(let j=0;j<gen.length;j++){
+      out[j] ^= gfMul(gen[j], next[0]);
+      out[j+1] ^= gfMul(gen[j], next[1]);
+    }
+    gen = out;
+  }
+
+  const msg = data.slice();
+  msg.push(...Array(ecLen).fill(0));
+  for(let i=0;i<data.length;i++){
+    const coef = msg[i];
+    if(coef===0) continue;
+    for(let j=0;j<gen.length;j++){
+      msg[i+j] ^= gfMul(gen[j], coef);
+    }
+  }
+  return msg.slice(msg.length-ecLen);
+}
+
+function renderAchievements(){
+  const donors = getDonors();
+  const badgeEl = $("#badgeSummary");
+  const listEl = $("#leaderList");
+  const legendEl = $("#badgeLegend");
+  if(!badgeEl || !listEl) return;
+  if(!donors.length){
+    badgeEl.textContent = "No donors yet. Be the first to give.";
+    listEl.innerHTML = "";
+    if(legendEl) legendEl.style.display = "none";
+    return;
+  }
+  const totals = new Map();
+  donors.forEach((d) => {
+    if(!d.name || !Number.isFinite(d.amount)) return;
+    const key = d.name.trim();
+    totals.set(key, (totals.get(key) || 0) + d.amount);
+  });
+  const entries = Array.from(totals.entries()).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const totalAmt = entries.reduce((s,[,v])=>s+v,0);
+  badgeEl.textContent = `Top supporters: ₹${formatInt(totalAmt)} across ${entries.length} donors.`;
+  listEl.innerHTML = "";
+  const badgeFor = (amt) => {
+    if(amt >= 5000) return {name:"Platinum", class:"platinum"};
+    if(amt >= 2000) return {name:"Gold", class:"gold"};
+    if(amt >= 1000) return {name:"Silver", class:"silver"};
+    if(amt >= 500) return {name:"Bronze", class:"bronze"};
+    return {name:"Supporter", class:"supporter"};
+  };
+  entries.forEach(([name,amt]) => {
+    const li = document.createElement("li");
+    li.className = "leader-item";
+    const badge = badgeFor(amt);
+    li.innerHTML = `<span>${escapeHtml(name)}</span><span>₹${formatInt(amt)}</span><span class="badge-pill ${badge.class}">${badge.name}</span>`;
+    listEl.appendChild(li);
+  });
+  if(legendEl) legendEl.style.display = "grid";
+}
+
+function showLiveFeed(receipt){
+  const box = $("#liveFeed");
+  if(!box || !receipt) return;
+  const when = new Date(receipt.ts).toLocaleTimeString();
+  box.innerHTML = `<strong>₹${formatInt(receipt.amount)} received</strong><span class="muted" style="font-size:12px;">${escapeHtml(receipt.name || "Anonymous")} • ${escapeHtml(receipt.method || "")} • ${when}</span>`;
+  box.classList.add("show");
+  clearTimeout(showLiveFeed._t);
+  showLiveFeed._t = setTimeout(() => box.classList.remove("show"), 3000);
+}
+
+function setupVolunteer(){
+  const form = $("#volunteerForm");
+  const msg = $("#volMessage");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = $("#volName").value.trim();
+    const phone = $("#volPhone").value.trim();
+    const role = $("#volRole").value.trim();
+    if(!name || !role){
+      toast("Please fill name and interest.");
+      return;
+    }
+    addVolunteer({ name, phone, role, ts: Date.now() });
+    msg.classList.add("show");
+    msg.textContent = "You’re signed up. Thanks for volunteering!";
+    toast("Volunteer recorded.");
+    form.reset();
+    window.setTimeout(() => msg.classList.remove("show"), 2400);
+  });
+}
+
+function getUsers(){
+  return readJSON(STORAGE.users, []);
+}
+function setUsers(users){
+  writeJSON(STORAGE.users, users);
+}
+function getCurrentUser(){
+  return readJSON(STORAGE.currentUser, null);
+}
+function setCurrentUser(user){
+  writeJSON(STORAGE.currentUser, user);
+  renderUserUI();
+  autofillFromUser();
+}
+
+function initials(name){
+  const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+  if(parts.length === 0) return "U";
+  const a = parts[0]?.[0] || "U";
+  const b = parts.length > 1 ? (parts[parts.length - 1]?.[0] || "") : "";
+  return (a + b).toUpperCase();
+}
+
+function renderUserUI(){
+  const user = getCurrentUser();
+  const btn = $("#userBtn");
+  const status = $("#userStatus");
+  const logout = $("#logoutBtn");
+  if(!user){
+    btn.textContent = "Account";
+    status.textContent = "Not logged in.";
+    logout.style.display = "none";
+    return;
+  }
+  btn.innerHTML = `<span class="user-chip"><span class="avatar">${escapeHtml(initials(user.name))}</span> <span>${escapeHtml(user.name)}</span></span>`;
+  status.textContent = `Logged in as ${user.name} (${user.email})`;
+  logout.style.display = "inline-flex";
+}
+
+function autofillFromUser(){
+  const user = getCurrentUser();
+  if(!user) return;
+  if($("#donorName") && !$("#donorName").value) $("#donorName").value = user.name;
+  if($("#donorEmail") && !$("#donorEmail").value) $("#donorEmail").value = user.email;
+  if($("#volName") && !$("#volName").value) $("#volName").value = user.name;
+}
+
+function setupUserAuth(){
+  const modal = $("#userModal");
+  const open = () => {
+    modal.showModal();
+    renderUserUI();
+    autofillFromUser();
+  };
+  const close = () => modal.close();
+  $("#userBtn").addEventListener("click", open);
+  $("#closeUser").addEventListener("click", close);
+
+  modal.addEventListener("click", (e) => {
+    const rect = modal.getBoundingClientRect();
+    const inDialog = rect.top <= e.clientY && e.clientY <= rect.bottom && rect.left <= e.clientX && e.clientX <= rect.right;
+    if(!inDialog) modal.close();
+  });
+
+  $("#userSignupForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = $("#userName").value.trim();
+    const email = $("#userEmail").value.trim().toLowerCase();
+    const pass = $("#userPass").value;
+    if(!name || !email || !pass){ toast("Please fill all signup fields."); return; }
+    const users = getUsers();
+    if(users.some(u => u.email === email)){ toast("Account already exists. Log in instead."); return; }
+    users.push({ name, email, pass });
+    setUsers(users);
+    setCurrentUser({ name, email });
+    toast("Account created. You’re logged in.");
+    $("#userSignupForm").reset();
+    if(typeof window.renderMyReceipts === "function") window.renderMyReceipts();
+  });
+
+  $("#userLoginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = $("#userLoginEmail").value.trim().toLowerCase();
+    const pass = $("#userLoginPass").value;
+    const user = getUsers().find(u => u.email === email && u.pass === pass);
+    if(!user){ toast("Wrong email or password."); return; }
+    setCurrentUser({ name: user.name, email: user.email });
+    toast("Logged in.");
+    $("#userLoginForm").reset();
+    if(typeof window.renderMyReceipts === "function") window.renderMyReceipts();
+  });
+
+  $("#logoutBtn").addEventListener("click", () => {
+    writeJSON(STORAGE.currentUser, null);
+    renderUserUI();
+    toast("Logged out.");
+    if(typeof window.renderMyReceipts === "function") window.renderMyReceipts();
+  });
+}
+
+function setupAdmin(){
+  const AUTH_KEY = "hopehands_admin_unlocked";
+  const open = () => {
+    $("#adminPanel").style.display = "block";
+    toast("Admin unlocked.");
+    renderAdmin();
+    sessionStorage.setItem(AUTH_KEY, "1");
+  };
+  const unlock = (pass) => {
+    if(pass === ADMIN_PASSWORD) open();
+    else toast("Wrong password.");
+  };
+
+  const modal = $("#loginModal");
+  const loginForm = $("#loginForm");
+  const loginPass = $("#loginPass");
+  const openModal = () => {
+    loginForm.reset();
+    modal.showModal();
+    window.setTimeout(() => loginPass.focus(), 0);
+  };
+  const closeModal = () => modal.close();
+
+  $("#loginBtn").addEventListener("click", openModal);
+  $("#adminBtn").addEventListener("click", openModal);
+  $("#adminLink").addEventListener("click", (e) => { e.preventDefault(); openModal(); location.hash = "#admin"; });
+  $("#closeLogin").addEventListener("click", closeModal);
+  $("#loginCancel").addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (e) => {
+    const rect = modal.getBoundingClientRect();
+    const inDialog = rect.top <= e.clientY && e.clientY <= rect.bottom && rect.left <= e.clientX && e.clientX <= rect.right;
+    if(!inDialog) modal.close();
+  });
+
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const pass = loginPass.value;
+    unlock(pass);
+    modal.close();
+  });
+
+  if(sessionStorage.getItem(AUTH_KEY) === "1"){
+    open();
+  }
+
+  $("#resetBtn").addEventListener("click", () => {
+    const ok = confirm("Reset donors, volunteers, and progress on this device?");
+    if(!ok) return;
+    localStorage.removeItem(STORAGE.donors);
+    localStorage.removeItem(STORAGE.volunteers);
+    localStorage.removeItem(STORAGE.raised);
+    renderProgress();
+    renderAdmin();
+    toast("Demo data reset.");
+  });
+}
+
+function setupNav(){
+  const menuBtn = $("#menuBtn");
+  const nav = $("#siteNav");
+  const closeMenu = () => {
+    nav.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.setAttribute("aria-label", "Open menu");
+  };
+  const openMenu = () => {
+    nav.classList.add("open");
+    menuBtn.setAttribute("aria-expanded", "true");
+    menuBtn.setAttribute("aria-label", "Close menu");
+  };
+
+  menuBtn.addEventListener("click", () => {
+    const isOpen = nav.classList.contains("open");
+    isOpen ? closeMenu() : openMenu();
+  });
+  $$("#siteNav a").forEach((a) => a.addEventListener("click", closeMenu));
+  window.addEventListener("resize", () => { if(window.innerWidth > 860) closeMenu(); });
+}
+
+function calcReadTimeMinutes(){
+  const main = $("#main");
+  if(!main) return 1;
+  const text = main.innerText || "";
+  const words = (text.trim().match(/\S+/g) || []).length;
+  const wpm = 180;
+  return Math.max(1, Math.ceil(words / wpm));
+}
+
+function setupClockAndReadTime(){
+  const rt = $("#readTime");
+  const clock = $("#clock");
+  if(rt) rt.textContent = String(calcReadTimeMinutes());
+
+  const tick = () => {
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2, "0");
+    const mm = String(d.getMinutes()).padStart(2, "0");
+    if(clock) clock.textContent = `${hh}:${mm}`;
+  };
+  tick();
+  window.setInterval(tick, 1000);
+}
+
+function setupBackToTop(){
+  const btn = $("#backTop");
+  if(!btn) return;
+  const onScroll = () => {
+    btn.classList.toggle("show", window.scrollY > 700);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+}
+
+function setupContact(){
+  const contactForm = $("#contactForm");
+  const contactMsg = $("#contactMessage");
+  if(contactForm){
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      contactMsg.classList.add("show");
+      contactMsg.textContent = "Message sent. Thank you!";
+      toast("Message sent.");
+      contactForm.reset();
+      window.setTimeout(() => contactMsg.classList.remove("show"), 2400);
+    });
+  }
+
+  const newsForm = $("#newsletterForm");
+  const newsMsg = $("#newsMessage");
+  if(newsForm){
+    newsForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = $("#newsEmail").value.trim().toLowerCase();
+      if(!email){ toast("Enter an email."); return; }
+      const list = readJSON(STORAGE.newsletter, []);
+      if(!list.includes(email)){
+        list.unshift(email);
+        writeJSON(STORAGE.newsletter, list.slice(0, 50));
+      }
+      newsMsg.classList.add("show");
+      newsMsg.textContent = "Subscribed. Welcome!";
+      toast("Subscribed.");
+      newsForm.reset();
+      window.setTimeout(() => newsMsg.classList.remove("show"), 2400);
+    });
+  }
+
+  const callBtn = $("#careCall");
+  const emailBtn = $("#careEmail");
+  const chatBtn = $("#careChat");
+  if(callBtn) callBtn.addEventListener("click", () => {
+    toast(`Customer care: ${SUPPORT_PHONE}`);
+    window.location.href = SUPPORT_TEL;
+  });
+  if(emailBtn) emailBtn.addEventListener("click", () => {
+    window.location.href = "mailto:contact@elitehumanity.org?subject=Customer%20Care%20Support";
+  });
+  if(chatBtn) chatBtn.addEventListener("click", () => {
+    toast("Live chat is currently offline.");
+  });
+}
+
+function renderMyReceipts(){
+  const box = $("#myReceipts");
+  const list = $("#myReceiptsList");
+  if(!box || !list) return;
+  const user = getCurrentUser();
+  if(!user){
+    box.style.display = "none";
+    list.innerHTML = "";
+    return;
+  }
+  const donors = getDonors().filter(d => d.email === user.email).slice(0, 10);
+  if(!donors.length){
+    box.style.display = "none";
+    list.innerHTML = "";
+    return;
+  }
+  box.style.display = "block";
+  list.innerHTML = "";
+  const openReceipt = window.__openReceiptWindow || (() => {});
+  donors.forEach((d, idx) => {
+    const li = document.createElement("li");
+    li.style.padding = "8px 0";
+    li.style.borderBottom = "1px solid rgba(15,23,42,0.12)";
+    const date = new Date(d.ts).toLocaleDateString();
+    li.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <div>
+        <strong>₹${formatInt(d.amount)}</strong>
+        <div class="muted" style="font-size:12px;">${date} • ${escapeHtml(d.method || "")}</div>
+      </div>
+      <button class="ghost-btn" type="button" data-idx="${idx}">View</button>
+    </div>`;
+    list.appendChild(li);
+  });
+  list.querySelectorAll("button[data-idx]").forEach((btn, i) => {
+    btn.addEventListener("click", () => openReceipt(donors[i], false));
+  });
+}
+
+function init(){
+  const saved = localStorage.getItem(STORAGE.theme);
+  const preferDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  setTheme(saved || (preferDark ? "dark" : "light"));
+
+  $("#themeBtn").addEventListener("click", toggleTheme);
+  setupClockAndReadTime();
+  setupBackToTop();
+  setupNav();
+  revealOnScroll();
+  impactCounters();
+  setupDonate();
+  setupVolunteer();
+  setupUserAuth();
+  setupAdmin();
+  setupContact();
+
+  seedKpis();
+  renderProgress();
+  renderUserUI();
+  autofillFromUser();
+
+  // Offline support
+  if("serviceWorker" in navigator){
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  }
+
+  renderAchievements();
+  window.renderMyReceipts = renderMyReceipts;
+
+  setupSmartHelp();
+  setupRandomDonations();
+
+  // Hide page loader after everything is ready
+  const loader = $("#pageLoader");
+  if(loader){
+    const hideLoader = () => {
+      setTimeout(() => {
+        loader.classList.add("hidden");
+        setTimeout(() => loader.remove(), 400);
+      }, 300);
+    };
+    if(document.readyState === "complete"){
+      hideLoader();
+    }else{
+      window.addEventListener("load", hideLoader);
+    }
+  }
+}
+
+init();
+
+function setupRandomDonations(){
+  // Demo mode: random donation popups every 8-15 seconds (only when tab is visible)
+  let randomDonationInterval = null;
+  const demoNames = ["Anonymous Supporter", "Community Member", "Local Hero", "Kind Donor", "Generous Giver", "Friend of Foundation"];
+  const demoAmounts = [100, 100, 100, 250, 250, 500, 500, 1000];
+  
+  const generateRandomDonation = () => {
+    if(document.hidden) return;
+    const name = demoNames[Math.floor(Math.random() * demoNames.length)];
+    const amount = demoAmounts[Math.floor(Math.random() * demoAmounts.length)];
+    const methods = ["UPI", "Card"];
+    const method = methods[Math.floor(Math.random() * methods.length)];
+    
+    const fakeReceipt = {
+      name,
+      email: "demo@example.com",
+      amount,
+      method,
+      ref: method === "UPI" ? `UPI: ${UPI_ID}` : "•••• 1234",
+      ts: Date.now(),
+      receiptNo: `EGHF-DEMO-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+      note: "Demo donation",
+    };
+    
+    // Show in live feed
+    if(typeof showLiveFeed === "function") showLiveFeed(fakeReceipt);
+    
+    // Optionally add to donor list (uncomment if you want it in admin too)
+    // addDonor(fakeReceipt);
+    // setRaised(getRaised() + amount);
+    // renderAchievements();
+  };
+  
+  const startRandomDonations = () => {
+    if(randomDonationInterval) return;
+    const scheduleNext = () => {
+      const delay = 8000 + Math.random() * 7000;
+      randomDonationInterval = setTimeout(() => {
+        generateRandomDonation();
+        scheduleNext();
+      }, delay);
+    };
+    scheduleNext();
+  };
+  
+  // Start after 5 seconds, only if tab is visible
+  setTimeout(() => {
+    if(!document.hidden) startRandomDonations();
+  }, 5000);
+  
+  // Pause/resume based on visibility
+  document.addEventListener("visibilitychange", () => {
+    if(document.hidden){
+      if(randomDonationInterval){
+        clearTimeout(randomDonationInterval);
+        randomDonationInterval = null;
+      }
+    }else{
+      if(!randomDonationInterval) startRandomDonations();
+    }
+  });
+}
+
+function setupSmartHelp(){
+  const panel = $("#aiPanel");
+  const fab = $("#aiFab");
+  const close = $("#aiClose");
+  const msgs = $("#aiMsgs");
+  const actions = $("#aiActions");
+  const input = $("#aiInput");
+  const send = $("#aiSend");
+
+  if(!panel || !fab || !close || !msgs || !actions || !input || !send) return;
+
+  let typingEl = null;
+
+  const quick = [
+    { id:"donate", label:"Donate help", text:"How do I donate?", intent:"donate" },
+    { id:"upi", label:"UPI QR", text:"Show UPI payment steps", intent:"upi" },
+    { id:"receipt", label:"Receipt", text:"How do I download receipt?", intent:"receipt" },
+    { id:"vol", label:"Volunteer", text:"How do I volunteer?", intent:"volunteer" },
+    { id:"care", label:"Customer care", text:"Customer care number", intent:"care" },
+  ];
+
+  function addBubble(text, who="bot"){
+    if(typingEl && who === "bot"){
+      typingEl.remove();
+      typingEl = null;
+    }
+    const div = document.createElement("div");
+    div.className = `ai-bubble ${who === "user" ? "user" : ""}`.trim();
+    div.innerHTML = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function showTyping(){
+    if(typingEl) return;
+    typingEl = document.createElement("div");
+    typingEl.className = "ai-bubble";
+    typingEl.innerHTML = `<span class="muted" style="font-size:12px;">Assistant is typing…</span>`;
+    msgs.appendChild(typingEl);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function setQuickActions(){
+    actions.innerHTML = "";
+    quick.forEach((q) => {
+      const b = document.createElement("button");
+      b.className = "ai-chip";
+      b.type = "button";
+      b.textContent = q.label;
+      b.addEventListener("click", () => handle(q.text));
+      actions.appendChild(b);
+    });
+  }
+
+  function open(){
+    panel.classList.add("open");
+    if(!msgs.childElementCount){
+      addBubble(
+        `Hi! I’m Smart Help. I can guide you to donate, volunteer, download receipts, or contact support.<br><span class="muted" style="font-size:12px;">Tip: try “UPI”, “card”, “receipt”, “custom amount”.</span>`
+      );
+      setQuickActions();
+    }
+    setTimeout(() => input.focus(), 0);
+  }
+  function closePanel(){ panel.classList.remove("open"); }
+
+  function go(hash){
+    closePanel();
+    location.hash = hash;
+    const el = document.querySelector(hash);
+    if(el) el.scrollIntoView({ behavior: "smooth", block:"start" });
+  }
+
+  function replyFor(intent){
+    if(intent === "donate"){
+      return `To donate: open the <strong>Donate</strong> section, enter your details, choose <strong>UPI</strong> or <strong>Card</strong>, then click <strong>Proceed to payment</strong>.<br><button class="ai-chip" onclick="location.hash='#donate'">Go to Donate</button>`;
+    }
+    if(intent === "upi"){
+      return `UPI payment: you can scan the QR or copy the UPI ID <strong>${escapeHtml(UPI_ID)}</strong>. After payment, your donation is recorded and you can download a receipt.`;
+    }
+    if(intent === "receipt"){
+      return `After a successful donation, click <strong>Download receipt (PDF)</strong>. If you’re logged in, open <strong>Account → My receipts</strong> to view older receipts.`;
+    }
+    if(intent === "volunteer"){
+      return `To volunteer: go to the <strong>Volunteer</strong> section, choose your interest, and submit the form.<br><button class="ai-chip" onclick="location.hash='#volunteer'">Go to Volunteer</button>`;
+    }
+    if(intent === "care"){
+      return `Customer care: <strong>${escapeHtml(SUPPORT_PHONE)}</strong><br>You can also email: <strong>contact@elitehumanity.org</strong>.`;
+    }
+    return null;
+  }
+
+  function detectIntent(t){
+    const s = t.toLowerCase();
+    if(s.includes("donat") || s.includes("payment") || s.includes("pay")) return "donate";
+    if(s.includes("upi") || s.includes("qr") || s.includes("scan")) return "upi";
+    if(s.includes("receipt") || s.includes("reciept") || s.includes("pdf")) return "receipt";
+    if(s.includes("volun")) return "volunteer";
+    if(s.includes("help") || s.includes("support") || s.includes("care") || s.includes("call")) return "care";
+    if(s.includes("admin")) return "admin";
+    return "unknown";
+  }
+
+  function handle(text){
+    const q = (text || "").trim();
+    if(!q) return;
+    addBubble(escapeHtml(q), "user");
+    input.value = "";
+
+    showTyping();
+
+    setTimeout(() => {
+      const intent = detectIntent(q);
+      if(intent === "admin"){
+        addBubble(`Admin access is in the top bar under <strong>Admin</strong>. Use the password to unlock the dashboard.`);
+        return;
+      }
+      const r = replyFor(intent);
+      if(r){
+        addBubble(r);
+        return;
+      }
+
+      // Lightweight offline Q&A / routing, a bit smarter on wording.
+      addBubble(
+        `I can help with donations, UPI/card payments, receipts, volunteering, or customer care.<br>
+        Try one of these:<div class="ai-actions" style="margin-top:8px;">
+        <button class="ai-chip" type="button" onclick="location.hash='#donate'">Go to Donate</button>
+        <button class="ai-chip" type="button" onclick="location.hash='#volunteer'">Go to Volunteer</button>
+        <button class="ai-chip" type="button" onclick="location.hash='#contact'">Contact customer care</button>
+        </div>`
+      );
+    }, 380);
+  }
+
+  fab.addEventListener("click", open);
+  close.addEventListener("click", closePanel);
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape") closePanel();
+  });
+  send.addEventListener("click", () => handle(input.value));
+  input.addEventListener("keydown", (e) => {
+    if(e.key === "Enter") handle(input.value);
+  });
+}
 </script>
 
 </body>
